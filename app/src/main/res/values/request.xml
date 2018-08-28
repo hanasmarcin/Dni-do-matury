@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="request_code_new_task">2</integer>
+    <integer name="request_code_set_task_as_done">3</integer>
+    <integer name="request_code_set_task_as_not_done">4</integer>
+</resources>
