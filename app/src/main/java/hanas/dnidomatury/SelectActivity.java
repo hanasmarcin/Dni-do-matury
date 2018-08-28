@@ -46,7 +46,7 @@ public class SelectActivity extends AppCompatActivity {
         FullListMaturaAdapter adapter = new FullListMaturaAdapter(this, listOfMatura.getListOfMatura());
         recyclerView.setAdapter(adapter);
 
-        //ustawianie alarmu
+        /*//ustawianie alarmu
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -57,7 +57,7 @@ public class SelectActivity extends AppCompatActivity {
         calendar.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
         calendar.set(Calendar.HOUR_OF_DAY, 21);
         calendar.set(Calendar.MINUTE, 22);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis()+60000, AlarmManager.INTERVAL_DAY, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES / 15, alarmIntent);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "channel1")
                 .setSmallIcon(R.drawable.ic_add)
                 .setContentTitle("My notification")
@@ -73,7 +73,7 @@ public class SelectActivity extends AppCompatActivity {
         notificationManager.notify(132, mBuilder.build());
 
 
-
+*/
     }
 
     @Override
@@ -108,7 +108,7 @@ public class SelectActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void createNotificationChannel() {
+    /*private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -122,6 +122,6 @@ public class SelectActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
+    }*/
 
 }

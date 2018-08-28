@@ -30,6 +30,23 @@
             android:name=".AddTaskActivity"
             android:label="@string/activity_add_task_name"
             android:theme="@style/AppTheme.UserDialog" />
+
+        <receiver android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".AlarmNotificationReceiver"/>
+
+        <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
+
     </application>
 
 </manifest>
