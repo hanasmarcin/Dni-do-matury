@@ -22,8 +22,6 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import BroadcastReceiver.AlarmReceiver;
-
 public class SelectActivity extends AppCompatActivity {
 
     ListOfMatura listOfMatura = new ListOfMatura();

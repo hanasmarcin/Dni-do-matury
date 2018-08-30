@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -51,19 +53,26 @@ public class MainActivity extends AppCompatActivity {
 
         //zaczynamy powiadomienia
 
-        startAlarm(true,true);
+        startAlarm(true, true);
 
     }
 
     private void startAlarm(boolean isNotification, boolean isRepeat) {
-        AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, MyService.class));
+        }
+        else {*/
+            startService(new Intent(this, MyService.class));
+        //}
+        /*AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent myIntent;
         PendingIntent pendingIntent;
 
         // SET TIME HERE
         Calendar calendar= Calendar.getInstance();
-        //calendar.set(Calendar.HOUR_OF_DAY,22);
-        //calendar.set(Calendar.MINUTE,40);
+        calendar.set(Calendar.HOUR_OF_DAY,8);
+        calendar.set(Calendar.MINUTE,0);
 
 
         myIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
@@ -73,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
         if(!isRepeat)
             manager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),pendingIntent);
         else
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES/30,pendingIntent);
+
+           manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+2000, AlarmManager.INTERVAL_FIFTEEN_MINUTES/30 ,pendingIntent);
+    */
     }
 
 
