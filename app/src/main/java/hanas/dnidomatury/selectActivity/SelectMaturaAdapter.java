@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.selectActivity;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,16 +14,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.matura.ListOfMatura;
 import hanas.dnidomatury.matura.Matura;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperAdapter;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
 
-public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAdapter.FullListMaturaViewHolder> {
+public class SelectMaturaAdapter extends RecyclerView.Adapter<SelectMaturaAdapter.FullListMaturaViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private Context context;
     private List<Matura> fullMaturaList;
 
-    public FullListMaturaAdapter(Context context, List<Matura> fullMaturaList) {
+    public SelectMaturaAdapter(Context context, List<Matura> fullMaturaList) {
         this.context = context;
         this.fullMaturaList = fullMaturaList;
     }
@@ -46,10 +52,10 @@ public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAd
         fullListMaturaViewHolder.everyListPoziom.setText(mMatura.getType() + " " + mMatura.getLevel());
         //fullListMaturaViewHolder.everyListCardView.setCardBackgroundColor(mMatura.isSelected() ? Color.WHITE : ContextCompat.getColor(context, R.color.veryLightGrey));
 
-        if(primaryColorID!=0) fullListMaturaViewHolder.primaryColorField.setBackgroundColor(mMatura.isSelected() ? ContextCompat.getColor(context, primaryColorID) : Color.WHITE);
-        if(darkColorID!=0) fullListMaturaViewHolder.everyListEditButton.setTextColor(mMatura.isSelected() ? ContextCompat.getColor(context, darkColorID) : Color.GRAY);
+        if(primaryColorID!=0) fullListMaturaViewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(context, primaryColorID));
+        if(darkColorID!=0) fullListMaturaViewHolder.everyListEditButton.setTextColor(ContextCompat.getColor(context, darkColorID));
 
-        fullListMaturaViewHolder.everyListCardView.setOnClickListener(new View.OnClickListener() {
+        /*fullListMaturaViewHolder.everyListCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Wybrales " + mMatura.getName() , Toast.LENGTH_SHORT).show();
@@ -60,7 +66,7 @@ public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAd
 
                // fullListMaturaViewHolder.everyListCardView.setCardBackgroundColor(mMatura.isSelected() ? Color.WHITE : ContextCompat.getColor(context, R.color.veryLightGrey));
             }
-        });
+        });*/
 
         fullListMaturaViewHolder.everyListEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +81,19 @@ public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAd
         return fullMaturaList.size();
     }
 
-    public class FullListMaturaViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public void onItemDismiss(int position) {
+        fullMaturaList.remove(position);
+        notifyItemRemoved(position);;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(fullMaturaList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public class FullListMaturaViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         TextView everyListTitle;
         TextView everyListPoziom;
@@ -92,5 +110,16 @@ public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAd
             everyListPoziom = itemView.findViewById(R.id.every_list_poziom);
             everyListEditButton = itemView.findViewById(R.id.button_edit_full_list);
         }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(Color.WHITE);
+        }
     }
+
 }

@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import java.util.Calendar;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.SelectActivity;
+import hanas.dnidomatury.selectActivity.SelectActivity;
 import hanas.dnidomatury.settingsActivity.SettingsActivity;
 import hanas.dnidomatury.matura.ListOfMatura;
 
@@ -24,7 +24,6 @@ public class MaturaListActivity extends AppCompatActivity {
     //ListOfMatura listOfMatura = new ListOfMatura();
     static int mainToSelectRequestCode=21;
     static public int mainToMaturaRequestCode=15;
-    private ItemTouchHelper mItemTouchHelper;
 
     static public int getMainToSelectRequestCode() {
         return mainToSelectRequestCode;
@@ -42,14 +41,11 @@ public class MaturaListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Calendar date=Calendar.getInstance();
-        ListOfMatura.readFromFile(this);
-        ListOfMatura.deleteNotSelected();
+        ListOfMatura.readFromFile(this, true);
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
-        MaturaListActivity.CustomLayoutManager layoutManager = new MaturaListActivity.CustomLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
         recyclerView.setAdapter(adapter);
@@ -62,36 +58,15 @@ public class MaturaListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ListOfMatura.readFromFile(this);
-        ListOfMatura.deleteNotSelected();
-
+        ListOfMatura.readFromFile(this, true);
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
-        MaturaListActivity.CustomLayoutManager layoutManager = new MaturaListActivity.CustomLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
         MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
         recyclerView.setAdapter(adapter);
-    }
 
-
-    public class CustomLayoutManager extends GridLayoutManager {
-
-        public CustomLayoutManager(Context context) {
-            super(context, 2);
-        }
-
-        @Override
-        public boolean supportsPredictiveItemAnimations(){
-            return true;
-        }
-
-        @Override
-        public boolean canScrollVertically() {
-            return false;
-        }
     }
 
     @Override
@@ -127,8 +102,7 @@ public class MaturaListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == mainToSelectRequestCode || requestCode == mainToMaturaRequestCode){
             if (resultCode == RESULT_OK){
-                ListOfMatura.readFromFile(this);
-                ListOfMatura.deleteNotSelected();
+                ListOfMatura.readFromFile(this, true);
 
                 RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
                 recyclerView.setHasFixedSize(true);

@@ -2,20 +2,21 @@ package hanas.dnidomatury.matura;
 
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 public class Matura {
 
+    private int maturaID;
     private String name;
     private String level;
     private String type;
     private Calendar date;
-    private boolean isSelected;
     private String primaryColor;
     private String darkColor;
-    private int maturaID;
     private int tasksCounter;
 
     public int getTasksCounter() {
@@ -26,19 +27,24 @@ public class Matura {
         this.tasksCounter = tasksCounter;
     }
 
-    public Matura(String name, String level, String type, Calendar date, boolean isSelected, String primaryColor, String darkColor, int maturaID) {
+    public Matura(int maturaID, String name, String level, String type, String dateText, String primaryColor, String darkColor) {
         this.maturaID = maturaID;
         this.name = name;
         this.level = level;
         this.type = type;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+            Date date = sdf.parse(dateText);
+            this.date = Calendar.getInstance();
+            this.date.setTime(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.date = date;
-        this.isSelected = isSelected;
         this.primaryColor = primaryColor;
         this.darkColor = darkColor;
         this.tasksCounter = 0;
     }
-
-    public int getMaturaID() { return maturaID; }
 
     public int getPrimaryColorID(Context context) {
         return context.getResources().getIdentifier(this.primaryColor, "color", context.getPackageName());
@@ -64,15 +70,9 @@ public class Matura {
         return date;
     }
 
-    public boolean isSelected() {
-        return isSelected;
-    }
+    public int getMaturaID() { return maturaID; }
 
     public void setDate(Calendar date) {
         this.date = date;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 }

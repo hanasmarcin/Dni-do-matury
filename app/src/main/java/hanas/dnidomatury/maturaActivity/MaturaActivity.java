@@ -48,7 +48,7 @@ public class MaturaActivity extends AppCompatActivity {
         if (bundle!=null) {
             selectedMaturaID = bundle.getInt("selectedMaturaID");
             todoList = new ListOfTasks(selectedMaturaID, false);
-            ListOfMatura.readFromFile(this);
+            ListOfMatura.readFromFile(this, true);
             todoList.readFromFile(this);
             selectedMatura = ListOfMatura.getListOfMatura().get(selectedMaturaID);
 
@@ -78,6 +78,7 @@ public class MaturaActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
 
         }
+
     }
 
 

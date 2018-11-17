@@ -24,7 +24,7 @@ public  class SettingsData {
     public Calendar firstNotifDate;
     public Frequency notifFrequency;
 
-    public SettingsData() {
+    public SettingsData(){
         firstNotifDate = Calendar.getInstance();
         firstNotifDate.set(Calendar.HOUR_OF_DAY, 8);
         firstNotifDate.set(Calendar.MINUTE, 0);
@@ -32,6 +32,11 @@ public  class SettingsData {
             firstNotifDate.setTimeInMillis(firstNotifDate.getTimeInMillis() + 86400000);
         }
         notifFrequency = Frequency.NEVER;
+    }
+
+    public SettingsData (Calendar firstNotifDate, Frequency notifFrequency) {
+        this.firstNotifDate = firstNotifDate;
+        this.notifFrequency = notifFrequency;
     }
 
     public void saveToFile(Context context) {

@@ -33,15 +33,12 @@ public class ListOfMatura {
         listOfMatura.add(mMatura);
     }
 
-    public static void deleteNotSelected() {
-
-        int i=0;
-        while (i<listOfMatura.size()) {
-            Matura tmpMatura = listOfMatura.get(i);
-            if (!tmpMatura.isSelected()) listOfMatura.remove(i);
-            else i++;
+    public static Matura findMatura(String name, String level, String type) {
+        for (Matura matura : listOfMatura) {
+            if (matura.getName().equals(name) && matura.getLevel().equals(level) && matura.getType().equals(level))
+                return matura;
         }
-
+        return null;
     }
 
 
@@ -71,18 +68,23 @@ public class ListOfMatura {
     }
 
 
-    public static void readFromFile(Context context) {
+    public static List<Matura> readFromFile(Context context, boolean isSelected) {
         try {
             FileInputStream fileInputStream;
             InputStream inputStream;
             InputStreamReader isr;
 
-            if (fileExists(context, "maturalist")) {
-                fileInputStream = context.openFileInput("maturalist");
-                isr = new InputStreamReader(fileInputStream, "utf-8");
+            if(isSelected) {
+                if (fileExists(context, "maturalist")) {
+                    fileInputStream = context.openFileInput("maturalist");
+                    isr = new InputStreamReader(fileInputStream, "utf-8");
+                } else {
+                    inputStream = context.getResources().openRawResource(R.raw.maturalist);
+                    isr = new InputStreamReader(inputStream, "utf-8");
+                }
             }
             else {
-                inputStream  = context.getResources().openRawResource(R.raw.maturalist);
+                inputStream = context.getResources().openRawResource(R.raw.everymatura);
                 isr = new InputStreamReader(inputStream, "utf-8");
             }
 
@@ -93,9 +95,11 @@ public class ListOfMatura {
             reader.close();
             isr.close();
             listOfMatura = GithubTypeConverters.stringToSomeObjectList(listInString);
+            return listOfMatura;
             }
         catch(IOException ex){
             ex.printStackTrace();
+            return null;
         }
     }
 }

@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectActivity"
+            android:name=".selectActivity.SelectActivity"
             android:label="@string/select_activity_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -39,7 +39,7 @@
             android:label="Ustawienia powiadomień"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddMaturaActivity"
+            android:name=".selectActivity.AddMaturaActivity"
             android:label="Dodaj maturę ustną"
             android:theme="@style/AppTheme.UserDialog" />
 

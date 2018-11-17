@@ -3,6 +3,7 @@ package hanas.dnidomatury.maturaListActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -22,6 +23,8 @@ import hanas.dnidomatury.maturaActivity.MaturaActivity;
 import hanas.dnidomatury.matura.MaturaTimer;
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.matura.Matura;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperAdapter;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
 
 public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaViewHolder> {
 
@@ -61,9 +64,8 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MaturaActivity.class);
-                intent.putExtra("selectedMaturaID", mMatura.getMaturaID());
+                intent.putExtra("selectedMaturaID", maturaViewHolder.getAdapterPosition());
                 ((Activity)view.getContext()).startActivityForResult(intent, MaturaListActivity.getMainToMaturaRequestCode());
-
             }
         });
     }
@@ -73,8 +75,8 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
         return maturaList.size();
     }
 
-    public class MaturaViewHolder extends RecyclerView.ViewHolder
-            implements View.OnCreateContextMenuListener{
+
+    public class MaturaViewHolder extends RecyclerView.ViewHolder {
 
         CardView mCardView;
         LinearLayout darkColorField;
@@ -86,7 +88,7 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
         TextView maturaLevelTypeTextView;
         TextView tasksCounter;
 
-        @Override
+        /*@Override
         public void onCreateContextMenu(ContextMenu menu, View v,
                                         ContextMenu.ContextMenuInfo menuInfo) {
 
@@ -96,7 +98,7 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
                 deleteMenuItem.setOnMenuItemClickListener(onEditMenu);
                 editMenuItem.setOnMenuItemClickListener(onEditMenu);
 
-        }
+        }*/
 
         public MaturaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,11 +113,12 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
             maturaLevelTypeTextView = itemView.findViewById(R.id.poziom_typ_list);
             tasksCounter = itemView.findViewById(R.id.matura_task_counter);
 
-            itemView.setOnCreateContextMenuListener(this);
+            //itemView.setOnCreateContextMenuListener(this);
         }
+    }
 
 
-        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
+        /*private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
@@ -136,9 +139,7 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
                 }
                 return true;
             }
-        };
-
-    }
+        };*/
 
 
 }

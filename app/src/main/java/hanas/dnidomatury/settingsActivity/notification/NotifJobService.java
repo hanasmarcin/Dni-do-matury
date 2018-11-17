@@ -30,17 +30,24 @@ public class NotifJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
+        SettingsData data = SettingsData.readFromFile(this);
+
         Intent myIntent = new Intent(this, MaturaListActivity.class);
         //PendingIntent pendingIntent = PendingIntent.getActivity(this,0, myIntent, FLAG_ONE_SHOT);
-        SettingsData data = new SettingsData();
+        while (data.firstNotifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
+            data.firstNotifDate.setTimeInMillis(data.firstNotifDate.getTimeInMillis() + SettingsActivity.minimumLatency(data.notifFrequency));
+
+        data.saveToFile(this);
+        long minimumLatency = data.firstNotifDate.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 
         jobScheduler =
                 (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(new JobInfo.Builder(123,
                 new ComponentName(this, NotifJobService.class))
-                .setMinimumLatency(SettingsActivity.minimumLatency(data.notifFrequency))
+                .setMinimumLatency(minimumLatency)
                 .setPersisted(true)
                 .build());
+
 
         inboxStyleNotification();
 
@@ -59,15 +66,17 @@ public class NotifJobService extends JobService {
     private void inboxStyleNotification() {
         int NOTIFICATION_ID = 1;
         ListOfMatura listOfMatura = new ListOfMatura();
-        ListOfMatura.readFromFile(this);
+        ListOfMatura.readFromFile(this, true);
         Notification.InboxStyle inboxNotifStyle = new Notification.InboxStyle();
-        long daysInMillisToFirstMatura = new MaturaTimer().getMillisDiff(Calendar.getInstance(), listOfMatura.getListOfMatura().get(0).getDate());
+        long daysInMillisToFirstMatura = new MaturaTimer().getMillisDiff(Calendar.getInstance(), ListOfMatura.getListOfMatura().get(0).getDate());
         long daysToFirstMatura = TimeUnit.MILLISECONDS.toDays(daysInMillisToFirstMatura);
-        for (int i=0; i < listOfMatura.getListOfMatura().size(); i++){
-            if(!listOfMatura.getListOfMatura().get(i).isSelected()) continue;
-            long daysInMillis = new MaturaTimer().getMillisDiff(Calendar.getInstance(), listOfMatura.getListOfMatura().get(i).getDate());
+        for (int i=0; i < ListOfMatura.getListOfMatura().size(); i++){
+            //if(!listOfMatura.getListOfMatura().get(i).isSelected()) continue;
+            long daysInMillis = new MaturaTimer().getMillisDiff(Calendar.getInstance(), ListOfMatura.getListOfMatura().get(i).getDate());
             long days = TimeUnit.MILLISECONDS.toDays(daysInMillis);
-            inboxNotifStyle.addLine(listOfMatura.getListOfMatura().get(i).getName()+" "+listOfMatura.getListOfMatura().get(i).getLevel() + " - " + days + " dni");
+            if (ListOfMatura.getListOfMatura().get(i).getTasksCounter()==0)
+                inboxNotifStyle.addLine(ListOfMatura.getListOfMatura().get(i).getName()+" "+ListOfMatura.getListOfMatura().get(i).getLevel() + " - " + days + " dni");
+            else inboxNotifStyle.addLine(ListOfMatura.getListOfMatura().get(i).getName()+" "+ListOfMatura.getListOfMatura().get(i).getLevel() + " - " + days + " dni, " + listOfMatura.getListOfMatura().get(i).getTasksCounter() + " zadania");
         }
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);

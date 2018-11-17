@@ -1,6 +1,7 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.selectActivity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,11 +9,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.Calendar;
+
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.settingsActivity.SettingsActivity;
 
 public class AddMaturaActivity extends AppCompatActivity {
 
@@ -47,7 +51,10 @@ public class AddMaturaActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent();
-                    intent.putExtra("taskDateText", taskDate.getText().toString());
+                    intent.putExtra("maturaName", spinner.getSelectedItem().toString());
+                    intent.putExtra("maturaType", "ustna");
+                    intent.putExtra("maturaLevel", spinner2.getSelectedItem().toString());
+                    intent.putExtra("maturaDateText", taskDate.getText().toString());
                     setResult(RESULT_OK, intent);
                     finish();
 
@@ -68,6 +75,8 @@ public class AddMaturaActivity extends AppCompatActivity {
                     int mYear = c.get(Calendar.YEAR);
                     int mMonth = c.get(Calendar.MONTH);
                     int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    int mHourOfDay = c.get(Calendar.HOUR_OF_DAY);
+                    int mMinute = c.get(Calendar.MINUTE);
 
 
                     DatePickerDialog datePickerDialog = new DatePickerDialog(AddMaturaActivity.this, new DatePickerDialog.OnDateSetListener() {
@@ -82,6 +91,16 @@ public class AddMaturaActivity extends AppCompatActivity {
                             }, mYear, mMonth, mDay);
 
                     datePickerDialog.setTitle("Wybierz datę zadania");
+
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(AddMaturaActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                            taskDate.setText(taskDate.getText()+" "+i+":"+i1);
+
+                        }
+                    }, mHourOfDay, mMinute, true);
+
+                    timePickerDialog.show();
                     datePickerDialog.show();
                 }
 
