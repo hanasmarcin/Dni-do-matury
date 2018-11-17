@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.maturaListActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,36 +7,43 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAdapter.SelectedMaturaViewHolder> {
+import hanas.dnidomatury.maturaActivity.MaturaActivity;
+import hanas.dnidomatury.matura.MaturaTimer;
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.matura.Matura;
+
+public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaViewHolder> {
 
     private Context context;
     private List<Matura> maturaList;
     private MaturaTimer maturaTimer = new MaturaTimer();
 
-    public SelectedMaturaAdapter(Context context, List<Matura> maturaList) {
+    public MaturaAdapter(Context context, List<Matura> maturaList) {
         this.context = context;
         this.maturaList = maturaList;
     }
 
     @NonNull
     @Override
-    public SelectedMaturaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MaturaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.activity_main_card, viewGroup, false );
-        return new SelectedMaturaViewHolder(view);
+        View view = inflater.inflate(R.layout.card_matura, viewGroup, false );
+        return new MaturaViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SelectedMaturaViewHolder maturaViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final MaturaViewHolder maturaViewHolder, final int i) {
 
         final Matura mMatura = maturaList.get(i);
         int darkColorID = mMatura.getDarkColorID(context);
@@ -47,6 +54,7 @@ public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAd
         maturaViewHolder.tasksCounter.setText(""+mMatura.getTasksCounter());
         if(darkColorID!=0) maturaViewHolder.darkColorField.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
         if (primaryColorID!=0) maturaViewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(context, primaryColorID));
+
         maturaTimer.startMaturaTimer(context, mMatura, maturaViewHolder.daysTextView, maturaViewHolder.hoursTextVIew);
 
         maturaViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +62,7 @@ public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAd
             public void onClick(View view) {
                 Intent intent = new Intent(context, MaturaActivity.class);
                 intent.putExtra("selectedMaturaID", mMatura.getMaturaID());
-                ((Activity)view.getContext()).startActivityForResult(intent, MainActivity.getMainToMaturaRequestCode());
+                ((Activity)view.getContext()).startActivityForResult(intent, MaturaListActivity.getMainToMaturaRequestCode());
 
             }
         });
@@ -65,7 +73,8 @@ public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAd
         return maturaList.size();
     }
 
-    public class SelectedMaturaViewHolder extends RecyclerView.ViewHolder {
+    public class MaturaViewHolder extends RecyclerView.ViewHolder
+            implements View.OnCreateContextMenuListener{
 
         CardView mCardView;
         LinearLayout darkColorField;
@@ -77,7 +86,19 @@ public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAd
         TextView maturaLevelTypeTextView;
         TextView tasksCounter;
 
-        public SelectedMaturaViewHolder(@NonNull View itemView) {
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v,
+                                        ContextMenu.ContextMenuInfo menuInfo) {
+
+                MenuItem deleteMenuItem = menu.add(Menu.NONE, 1, 1, "Usuń");
+                MenuItem editMenuItem = menu.add(Menu.NONE, 2, 2, "Edytuj");
+
+                deleteMenuItem.setOnMenuItemClickListener(onEditMenu);
+                editMenuItem.setOnMenuItemClickListener(onEditMenu);
+
+        }
+
+        public MaturaViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mCardView = itemView.findViewById(R.id.cardView);
@@ -89,6 +110,35 @@ public class SelectedMaturaAdapter extends RecyclerView.Adapter<SelectedMaturaAd
             maturaNameTextView = itemView.findViewById(R.id.matura_list);
             maturaLevelTypeTextView = itemView.findViewById(R.id.poziom_typ_list);
             tasksCounter = itemView.findViewById(R.id.matura_task_counter);
+
+            itemView.setOnCreateContextMenuListener(this);
         }
+
+
+        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case 1: {
+                        //long tmpID = getItemCount();
+                        //Toast.makeText(context, "ID "+tmpID, Toast.LENGTH_SHORT).show();
+                        //
+                        maturaList.remove(getAdapterPosition());
+                        notifyItemRemoved(getAdapterPosition());
+                        //notifyDataSetChanged();
+                        break;
+                    }
+                    case 2:{
+
+                        break;
+                    }
+
+                }
+                return true;
+            }
+        };
+
     }
+
+
 }

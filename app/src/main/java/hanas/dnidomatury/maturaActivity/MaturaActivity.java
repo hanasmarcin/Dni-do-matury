@@ -1,18 +1,13 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.maturaActivity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,11 +18,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import hanas.dnidomatury.matura.MaturaTimer;
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.matura.ListOfMatura;
+import hanas.dnidomatury.matura.Matura;
+import hanas.dnidomatury.matura.task.ListOfTasks;
+import hanas.dnidomatury.matura.task.Task;
 
 
 public class MaturaActivity extends AppCompatActivity {
 
-    ListOfMatura listOfMatura = new ListOfMatura();
     ListOfTasks todoList;
     Matura selectedMatura;
     int selectedMaturaID;
@@ -48,9 +48,9 @@ public class MaturaActivity extends AppCompatActivity {
         if (bundle!=null) {
             selectedMaturaID = bundle.getInt("selectedMaturaID");
             todoList = new ListOfTasks(selectedMaturaID, false);
-            listOfMatura.readFromFile(this);
+            ListOfMatura.readFromFile(this);
             todoList.readFromFile(this);
-            selectedMatura = listOfMatura.getListOfMatura().get(selectedMaturaID);
+            selectedMatura = ListOfMatura.getListOfMatura().get(selectedMaturaID);
 
             final int primaryColorID = selectedMatura.getPrimaryColorID(this);
             final int darkColorID = selectedMatura.getDarkColorID(this);
@@ -65,14 +65,12 @@ public class MaturaActivity extends AppCompatActivity {
 
             TextView daysTimer = findViewById(R.id.days_timer_matura_activity);
             TextView hmsTimer = findViewById(R.id.hms_timer_matura_activity);
+
             new MaturaTimer().startMaturaTimer(this, selectedMatura, daysTimer, hmsTimer);
 
             recyclerView = findViewById(R.id.tasks_recycler_view);
             recyclerView.setHasFixedSize(true);
             CustomLayoutManager layoutManager = new CustomLayoutManager(this);
-            CustomLayoutManager doneLayoutManager = new CustomLayoutManager(this);
-            //layoutManager.setReverseLayout(true);
-            //layoutManager.setStackFromEnd(true);
             recyclerView.setLayoutManager(layoutManager);
 
             adapter = new TaskAdapter(this, selectedMatura, todoList);
@@ -105,8 +103,16 @@ public class MaturaActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         todoList.saveToFile(this);
-        listOfMatura.saveToFile(this);
+        ListOfMatura.saveToFile(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        todoList.saveToFile(this);
+        ListOfMatura.saveToFile(this);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,11 +154,13 @@ public class MaturaActivity extends AppCompatActivity {
                     String taskName = bundle.getString("taskName");
                     String taskDateText = bundle.getString("taskDateText");
                     Toast.makeText(this, taskName, Toast.LENGTH_SHORT).show();
-                    final Task newTask = new Task(1, taskName, taskDateText, false);
+                    //final Task newTask = new Task(1, taskName, taskDateText, false);
+                    final Task newTask = new Task(taskName, taskDateText, false, false);
                     todoList.addTask(1, newTask);
                     selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()+1);
                     adapter.incrementDoneHeaderID();
                     adapter.notifyDataSetChanged();
+                    todoList.sort();
                     nested.scrollTo(0, 0);
 
                 }
@@ -166,12 +174,14 @@ public class MaturaActivity extends AppCompatActivity {
                     String taskDateText = bundle.getString("taskDateText");
                     int taskID = bundle.getInt("taskID");
                     Toast.makeText(this, taskName, Toast.LENGTH_SHORT).show();
-                    final Task newTask = new Task(taskID, taskName, taskDateText, false);
+                    //final Task newTask = new Task(taskID, taskName, taskDateText, false);
+                    final Task newTask = new Task(taskName, taskDateText, false, false);
                     newTask.setDone(todoList.getTask(taskID).isDone());
-                    todoList.deleteTask(taskID);
+                    todoList.deleteTask(todoList.getTask(taskID));
                     todoList.addTask(taskID, newTask);
                     adapter.notifyItemInserted(taskID);
                     adapter.notifyDataSetChanged();
+                    todoList.sort();
                     nested.scrollTo(0, 0);
 
                 }

@@ -1,28 +1,30 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.maturaListActivity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.SelectActivity;
+import hanas.dnidomatury.settingsActivity.SettingsActivity;
+import hanas.dnidomatury.matura.ListOfMatura;
 
-    ListOfMatura listOfMatura = new ListOfMatura();
+public class MaturaListActivity extends AppCompatActivity {
+
+    //ListOfMatura listOfMatura = new ListOfMatura();
     static int mainToSelectRequestCode=21;
     static public int mainToMaturaRequestCode=15;
+    private ItemTouchHelper mItemTouchHelper;
 
     static public int getMainToSelectRequestCode() {
         return mainToSelectRequestCode;
@@ -40,66 +42,56 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Calendar date=Calendar.getInstance();
-        listOfMatura.readFromFile(this);
-        //listOfMatura.saveToFile(this);
-        listOfMatura.deleteNotSelected();
+        ListOfMatura.readFromFile(this);
+        ListOfMatura.deleteNotSelected();
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        MaturaListActivity.CustomLayoutManager layoutManager = new MaturaListActivity.CustomLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        SelectedMaturaAdapter adapter = new SelectedMaturaAdapter(this, listOfMatura.getListOfMatura());
+
+        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
         recyclerView.setAdapter(adapter);
 
         //zaczynamy powiadomienia
-
-        startAlarm(true, true);
-
-    }
-
-    private void startAlarm(boolean isNotification, boolean isRepeat) {
-
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(new Intent(this, MyService.class));
-        }
-        else {*/
-            startService(new Intent(this, MyService.class));
-        //}
-        /*AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent;
-        PendingIntent pendingIntent;
-
-        // SET TIME HERE
-        Calendar calendar= Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,8);
-        calendar.set(Calendar.MINUTE,0);
-
-
-        myIntent = new Intent(MainActivity.this, AlarmNotificationReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this,0,myIntent,0);
-
-
-        if(!isRepeat)
-            manager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(),pendingIntent);
-        else
-
-           manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+2000, AlarmManager.INTERVAL_FIFTEEN_MINUTES/30 ,pendingIntent);
-    */
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) firstNotif();
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        listOfMatura.readFromFile(this);
-        listOfMatura.deleteNotSelected();
+        ListOfMatura.readFromFile(this);
+        ListOfMatura.deleteNotSelected();
+
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        MaturaListActivity.CustomLayoutManager layoutManager = new MaturaListActivity.CustomLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-        SelectedMaturaAdapter adapter = new SelectedMaturaAdapter(this, listOfMatura.getListOfMatura());
+
+        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
         recyclerView.setAdapter(adapter);
+    }
+
+
+    public class CustomLayoutManager extends GridLayoutManager {
+
+        public CustomLayoutManager(Context context) {
+            super(context, 2);
+        }
+
+        @Override
+        public boolean supportsPredictiveItemAnimations(){
+            return true;
+        }
+
+        @Override
+        public boolean canScrollVertically() {
+            return false;
+        }
     }
 
     @Override
@@ -122,6 +114,11 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, mainToSelectRequestCode);
             return true;
         }
+        else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, mainToSelectRequestCode);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -130,16 +127,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == mainToSelectRequestCode || requestCode == mainToMaturaRequestCode){
             if (resultCode == RESULT_OK){
-                listOfMatura.readFromFile(this);
-                listOfMatura.deleteNotSelected();
+                ListOfMatura.readFromFile(this);
+                ListOfMatura.deleteNotSelected();
 
                 RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-                SelectedMaturaAdapter adapter = new SelectedMaturaAdapter(this, listOfMatura.getListOfMatura());
+                MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
                 recyclerView.setAdapter(adapter);
-
             }
         }
     }

@@ -1,16 +1,17 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.converters;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GithubTypeConverters {
+import hanas.dnidomatury.matura.Matura;
 
-    static Gson gson = new Gson();
+public class  GithubTypeConverters {
+
+    private static final Gson gson = new Gson();
 
     public static List<Matura> stringToSomeObjectList(String data) {
         if (data == null) {

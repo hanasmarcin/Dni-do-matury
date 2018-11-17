@@ -1,12 +1,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="hanas.dnidomatury.MainActivity">
+    tools:context="hanas.dnidomatury.maturaListActivity.MaturaListActivity">
     <item
         android:id="@+id/action_edit"
         android:enabled="true"
-        android:icon="@drawable/ic_edit"
+        android:icon="@drawable/ic_pick"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Wybierz matury"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_notification_settings"
+        android:orderInCategory="100"
+        android:title="Ustawienia powiadomień"
         app:showAsAction="always" />
 </menu>

@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.matura;
 
 import android.content.Context;
 

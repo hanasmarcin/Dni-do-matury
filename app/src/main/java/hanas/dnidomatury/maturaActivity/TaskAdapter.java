@@ -1,35 +1,29 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.maturaActivity;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.matura.Matura;
+import hanas.dnidomatury.matura.task.ListOfTasks;
+import hanas.dnidomatury.matura.task.Task;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -50,6 +44,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.context = context;
         this.selectedMatura = selectedMatura;
         this.toDoList = toDoList;
+        toDoList.sort();
 
         for (int i=1; i<toDoList.sizeOfList(); i++){
             if (toDoList.getTask(i).isDoneHeader()){
@@ -62,7 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.todo_task_card, viewGroup, false );
+        View view = inflater.inflate(R.layout.card_todo_task, viewGroup, false );
         return new TaskViewHolder(view, toDoList.sizeOfList()-1);
     }
 
@@ -95,7 +90,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             final int darkColorID = selectedMatura.getDarkColorID(context);
             taskViewHolder.stateImage.setImageResource(task.isDone() ? R.drawable.ic_clear : R.drawable.ic_confirm);
             taskViewHolder.taskName.setText(task.getTaskName());
-            taskViewHolder.taskDate.setText(task.taskDateText);
+            taskViewHolder.taskDate.setText(task.getTaskDateText());
             if (task.isDone()) {
                 //TaskViewHolder.backgroundForIcon.setBackgroundColor(Color.GRAY);
                 taskViewHolder.stateImage.setColorFilter(Color.GRAY);
@@ -115,21 +110,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 @Override
                 public void onClick(View view) {
                     task.setDone(!task.isDone());
-                    if (task.isDone){
-                        toDoList.deleteTask(task.getTaskID());
+                    if (task.isDone()){
+                        toDoList.deleteTask(task);
                         decrementDoneHeaderID();
                         selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
                         toDoList.addTask(doneHeaderID+1, task);
                     }
                     else{
-                        toDoList.deleteTask(task.getTaskID());
+                        toDoList.deleteTask(task);
                         incrementDoneHeaderID();
                         selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()+1);
                         toDoList.addTask(1, task);
                     }
                     notifyDataSetChanged();
+                    toDoList.sort();
                 }
             });
+
+
         }
     }
 
@@ -154,6 +152,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskDate;
         TextView taskHeader;
         ConstraintLayout layoutToHide;
+        ImageView upButton;
+        ImageView downButton;
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v,
@@ -181,7 +181,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             backgroundForIcon = itemView.findViewById(R.id.background_for_icon);
             taskHeader = itemView.findViewById(R.id.todo_task_header);
             layoutToHide = itemView.findViewById(R.id.task_to_hide);
-
             itemView.setOnCreateContextMenuListener(this);
 
         }
@@ -203,10 +202,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                             selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
                         }
 
-                        toDoList.deleteTask(taskIDHolder);
+                        toDoList.deleteTask(toDoList.getTask(taskIDHolder));
 
                         notifyItemRemoved(taskIDHolder);
                         notifyDataSetChanged();
+                        toDoList.sort();
                         break;
                     }
                     case 2:{

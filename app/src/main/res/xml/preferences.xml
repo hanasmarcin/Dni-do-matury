@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Powiadomienia">
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/list_preference_entries"
+            android:entries="@array/list_preference_entry_values"
+            android:entryValues="@array/list_preference_entry_values"
+            android:key="multi_select_list_preference_1"
+            android:title="Wybierz dni powiadomień" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/list_preference_entries"
+            android:entryValues="@array/list_preference_entry_values"
+            android:key="list_preference_1"
+            android:title="Wybierz godzinę powiadomień" />
+    </PreferenceCategory>
+</PreferenceScreen>

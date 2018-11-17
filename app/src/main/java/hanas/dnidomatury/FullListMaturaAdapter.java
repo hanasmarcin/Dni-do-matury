@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import hanas.dnidomatury.matura.Matura;
+
 public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAdapter.FullListMaturaViewHolder> {
 
     private Context context;
@@ -30,7 +32,7 @@ public class FullListMaturaAdapter extends RecyclerView.Adapter<FullListMaturaAd
     @Override
     public FullListMaturaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.activity_select_card, viewGroup, false );
+        View view = inflater.inflate(R.layout.card_select, viewGroup, false );
         return new FullListMaturaViewHolder(view);
     }
 

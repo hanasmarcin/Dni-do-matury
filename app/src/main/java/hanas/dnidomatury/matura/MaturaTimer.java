@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.matura;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -8,9 +8,11 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
- final public class MaturaTimer {
+import hanas.dnidomatury.matura.Matura;
 
-    private long getMillisDiff(Calendar startDate, Calendar endDate){
+final public class MaturaTimer {
+
+    public long getMillisDiff(Calendar startDate, Calendar endDate){
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
 

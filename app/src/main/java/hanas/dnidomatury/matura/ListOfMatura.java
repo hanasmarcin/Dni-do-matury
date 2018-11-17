@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.matura;
 
 import android.content.Context;
 
@@ -13,26 +13,27 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import hanas.dnidomatury.converters.GithubTypeConverters;
+import hanas.dnidomatury.R;
+
 public class ListOfMatura {
 
     private static List<Matura> listOfMatura;
     private static String listInString;
-    private static GithubTypeConverters converter = new GithubTypeConverters();
 
-
-    public ListOfMatura() {
-        this.listOfMatura = new ArrayList<>();
+    static {
+        listOfMatura = new ArrayList<>();
     }
 
-    public List<Matura> getListOfMatura() {
+    public static List<Matura> getListOfMatura() {
         return listOfMatura;
     }
 
-    public void addMatura(Matura mMatura) {
+    public static void addMatura(Matura mMatura) {
         listOfMatura.add(mMatura);
     }
 
-    public void deleteNotSelected() {
+    public static void deleteNotSelected() {
 
         int i=0;
         while (i<listOfMatura.size()) {
@@ -47,7 +48,7 @@ public class ListOfMatura {
 
     public static void saveToFile(Context context) {
 
-        listInString = converter.someObjectListToString(listOfMatura);
+        listInString = GithubTypeConverters.someObjectListToString(listOfMatura);
 
         try {
             FileOutputStream fOut = context.openFileOutput("maturalist", context.MODE_PRIVATE);
@@ -91,7 +92,7 @@ public class ListOfMatura {
             listInString = reader.readLine();
             reader.close();
             isr.close();
-            listOfMatura = converter.stringToSomeObjectList(listInString);
+            listOfMatura = GithubTypeConverters.stringToSomeObjectList(listInString);
             }
         catch(IOException ex){
             ex.printStackTrace();

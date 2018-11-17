@@ -1,4 +1,4 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.maturaActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
+import java.util.Date;
+
+import hanas.dnidomatury.R;
+import hanas.dnidomatury.matura.task.Task;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        final EditText taskName = (EditText) findViewById(R.id.add_task_name);
+        final EditText taskName = findViewById(R.id.add_task_name);
         final TextView taskDate = findViewById(R.id.add_task_date);
         Button addTaskButton = findViewById(R.id.button_add_task);
         Button addDateButton = findViewById(R.id.button_add_date_to_task);
@@ -35,7 +36,7 @@ public class AddTaskActivity extends AppCompatActivity {
             taskName.setText(bundle.getString("taskName"));
             taskDate.setText(bundle.getString("taskDate"));
             addDateButton.setText("Edytuj datę");
-            addTaskButton.setText("Edytuj zadanie");
+            addTaskButton.setText("Zatwierdź");
             setTitle("Edytuj zadanie");
         }
         else taskID = 1;
@@ -64,6 +65,8 @@ public class AddTaskActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     final Calendar c = Calendar.getInstance();
+                    c.setTime(Task.taskDateTextToDate((String)taskDate.getText()));
+
                     int mYear = c.get(Calendar.YEAR);
                     int mMonth = c.get(Calendar.MONTH);
                     int mDay = c.get(Calendar.DAY_OF_MONTH);

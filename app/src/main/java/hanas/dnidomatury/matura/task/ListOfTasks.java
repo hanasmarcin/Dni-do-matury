@@ -1,7 +1,6 @@
-package hanas.dnidomatury;
+package hanas.dnidomatury.matura.task;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,15 +11,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import hanas.dnidomatury.converters.GithubTypeConvertersTask;
 
 public class ListOfTasks {
 
-    private static List<Task> listOfTasks;
-    private static String listInString;
-    private static GithubTypeConvertersTask converter = new GithubTypeConvertersTask();
-    protected static String fileTitle;
-
+    private  List<Task> listOfTasks;
+    private String listInString;
+    private String fileTitle;
 
     public ListOfTasks(int maturaID, boolean isDone) {
         this.listOfTasks = new ArrayList<>();
@@ -32,6 +32,10 @@ public class ListOfTasks {
         return listOfTasks;
     }*/
 
+    public void sort() {
+        Collections.sort(listOfTasks);
+    }
+
     public Task getTask(int taskID) {
         return listOfTasks.get(taskID);
     }
@@ -41,26 +45,25 @@ public class ListOfTasks {
         else {
             listOfTasks.add(taskID, task);
             for(int i=taskID+1; i<sizeOfList(); i++){
-                listOfTasks.get(i).setTaskID(i);
+                //listOfTasks.get(i).setTaskID(i);
             }
         }
-        task.setTaskID(taskID);
+        //task.setTaskID(taskID);
     }
 
-    public void deleteTask(int taskID) {
-        listOfTasks.remove(taskID);
-        for(int i=taskID; i<sizeOfList(); i++){
-            listOfTasks.get(i).setTaskID(i);
-        }
+    public void deleteTask(Task task) {
+        int taskID = listOfTasks.indexOf(task);
+        listOfTasks.remove(task);
     }
+
 
     public int sizeOfList() {
         return listOfTasks.size();
     }
 
-    public static void saveToFile(Context context) {
+    public void saveToFile(Context context) {
 
-        listInString = converter.someObjectListToString(listOfTasks);
+        listInString = GithubTypeConvertersTask.someObjectListToString(listOfTasks);
 
         try {
             FileOutputStream fOut = context.openFileOutput(fileTitle, context.MODE_PRIVATE);
@@ -97,11 +100,13 @@ public class ListOfTasks {
                 listInString = reader.readLine();
                 reader.close();
                 isr.close();
-                listOfTasks = converter.stringToSomeObjectList(listInString);
+                listOfTasks = GithubTypeConvertersTask.stringToSomeObjectList(listInString);
             }
             else {
-                addTask(0, new Task(0, "", "", false));
-                addTask(1, new Task(1, "","", true));
+                //addTask(0, new Task(0, "", "", false));
+                //addTask(1, new Task(1, "","", true));
+                addTask(0, new Task("", "", false, true));
+                addTask(1, new Task("","", true,false));
             }
 
         }
