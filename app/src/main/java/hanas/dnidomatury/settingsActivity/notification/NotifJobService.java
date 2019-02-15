@@ -13,8 +13,10 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import hanas.dnidomatury.matura.Matura;
 import hanas.dnidomatury.maturaListActivity.MaturaListActivity;
 import hanas.dnidomatury.matura.ListOfMatura;
 import hanas.dnidomatury.matura.MaturaTimer;
@@ -65,18 +67,15 @@ public class NotifJobService extends JobService {
 
     private void inboxStyleNotification() {
         int NOTIFICATION_ID = 1;
-        ListOfMatura listOfMatura = new ListOfMatura();
-        ListOfMatura.readFromFile(this, true);
+        List<Matura> listOfMatura = ListOfMatura.readFromFile(this, true);
         Notification.InboxStyle inboxNotifStyle = new Notification.InboxStyle();
-        long daysInMillisToFirstMatura = new MaturaTimer().getMillisDiff(Calendar.getInstance(), ListOfMatura.getListOfMatura().get(0).getDate());
+        long daysInMillisToFirstMatura = new MaturaTimer().getMillisDiff(Calendar.getInstance(), listOfMatura.get(0).getDate());
         long daysToFirstMatura = TimeUnit.MILLISECONDS.toDays(daysInMillisToFirstMatura);
-        for (int i=0; i < ListOfMatura.getListOfMatura().size(); i++){
+        for (int i=0; i < listOfMatura.size(); i++){
             //if(!listOfMatura.getListOfMatura().get(i).isSelected()) continue;
-            long daysInMillis = new MaturaTimer().getMillisDiff(Calendar.getInstance(), ListOfMatura.getListOfMatura().get(i).getDate());
+            long daysInMillis = new MaturaTimer().getMillisDiff(Calendar.getInstance(), listOfMatura.get(i).getDate());
             long days = TimeUnit.MILLISECONDS.toDays(daysInMillis);
-            if (ListOfMatura.getListOfMatura().get(i).getTasksCounter()==0)
-                inboxNotifStyle.addLine(ListOfMatura.getListOfMatura().get(i).getName()+" "+ListOfMatura.getListOfMatura().get(i).getLevel() + " - " + days + " dni");
-            else inboxNotifStyle.addLine(ListOfMatura.getListOfMatura().get(i).getName()+" "+ListOfMatura.getListOfMatura().get(i).getLevel() + " - " + days + " dni, " + listOfMatura.getListOfMatura().get(i).getTasksCounter() + " zadania");
+            inboxNotifStyle.addLine(listOfMatura.get(i).getName()+" "+listOfMatura.get(i).getLevel() + " - " + days + " dni");
         }
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);

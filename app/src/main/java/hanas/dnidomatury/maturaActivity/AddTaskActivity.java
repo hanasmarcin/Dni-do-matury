@@ -64,8 +64,7 @@ public class AddTaskActivity extends AppCompatActivity {
             addDateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final Calendar c = Calendar.getInstance();
-                    c.setTime(Task.taskDateTextToDate((String)taskDate.getText()));
+                    final Calendar c = Task.TaskDateTextToDate((String)taskDate.getText());
 
                     int mYear = c.get(Calendar.YEAR);
                     int mMonth = c.get(Calendar.MONTH);

@@ -16,15 +16,28 @@ import java.util.List;
 
 import hanas.dnidomatury.converters.GithubTypeConvertersTask;
 
+import static hanas.dnidomatury.matura.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.matura.task.Task.TaskHeader.NOT;
+import static hanas.dnidomatury.matura.task.Task.TaskHeader.TODO;
+
 public class ListOfTasks {
 
     private  List<Task> listOfTasks;
     private String listInString;
     private String fileTitle;
+    private long tasksCounter;
 
-    public ListOfTasks(int maturaID, boolean isDone) {
+    public long getTasksCounter() { return this.tasksCounter; }
+
+    public void incrementTasksCounter() { this.tasksCounter++; }
+
+    public void decrementTasksCounter() { this.tasksCounter--; }
+
+
+    public ListOfTasks(String maturaName, String maturaType, String maturaLevel) {
         this.listOfTasks = new ArrayList<>();
-        this.fileTitle = new String("matura_" +  maturaID + "_todo_list_isDone_" + isDone);
+        this.fileTitle = new String(maturaName +"_"+ maturaLevel +"_"+ maturaType + "_todo_list");
+        this.tasksCounter = 0;
 
     }
 
@@ -54,6 +67,10 @@ public class ListOfTasks {
     public void deleteTask(Task task) {
         int taskID = listOfTasks.indexOf(task);
         listOfTasks.remove(task);
+    }
+
+    public void swapTasks(int fromPosition, int toPosition) {
+        Collections.swap(listOfTasks, fromPosition, toPosition);
     }
 
 
@@ -105,14 +122,20 @@ public class ListOfTasks {
             else {
                 //addTask(0, new Task(0, "", "", false));
                 //addTask(1, new Task(1, "","", true));
-                addTask(0, new Task("", "", false, true));
-                addTask(1, new Task("","", true,false));
+                addTask(0, new Task("", "", TODO));
+                addTask(1, new Task("","", DONE));
             }
 
         }
         catch(IOException ex){
             ex.printStackTrace();
         }
+
+
+        for (Task task : listOfTasks) {
+            if (!task.equals(listOfTasks.get(0)) && task.getHeader() == NOT && !task.isDone()) this.tasksCounter++;
+        }
+
         return listOfTasks;
     }
 }

@@ -6,61 +6,61 @@
     <color name="veryLightGrey">#eeeeee</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="maturaBlue">#1976d2</color>
-    <color name="maturaBlueDark">#004ba0</color>
-    <color name="maturaBlueLight">#63a4ff</color>
+    <color name="Blue">#1976d2</color>
+    <color name="BlueDark">#004ba0</color>
+    <color name="BlueLight">#63a4ff</color>
 
-    <color name="maturaGreen">#388e3c</color>
-    <color name="maturaGreenDark">#00600f</color>
-    <color name="maturaGreenLight">#6abf69</color>
+    <color name="Green">#388e3c</color>
+    <color name="GreenDark">#00600f</color>
+    <color name="GreenLight">#6abf69</color>
 
-    <color name="maturaRed">#d32f2f</color>
-    <color name="maturaRedDark">#9a0007</color>
-    <color name="maturaRedLight">#ff6659</color>
+    <color name="Red">#d32f2f</color>
+    <color name="RedDark">#9a0007</color>
+    <color name="RedLight">#ff6659</color>
 
-    <color name="maturaAmber">#ffa000</color>
-    <color name="maturaAmberDark">#c67100</color>
-    <color name="maturaAmberLight">#fffd61</color>
+    <color name="Amber">#ffa000</color>
+    <color name="AmberDark">#c67100</color>
+    <color name="AmberLight">#fffd61</color>
 
-    <color name="maturaOrange">#f57c00</color>
-    <color name="maturaOrangeDark">#bb4d00</color>
-    <color name="maturaOrangeLight">#ffad42</color>
+    <color name="Orange">#f57c00</color>
+    <color name="OrangeDark">#bb4d00</color>
+    <color name="OrangeLight">#ffad42</color>
 
-    <color name="maturaDeepOrange">#ff7043</color>
-    <color name="maturaDeepOrangeDark">#c63f17</color>
-    <color name="maturaDeepOrangeLight">#ffa270</color>
+    <color name="DeepOrange">#ff7043</color>
+    <color name="DeepOrangeDark">#c63f17</color>
+    <color name="DeepOrangeLight">#ffa270</color>
 
-    <color name="maturaCyan">#26c6da</color>
-    <color name="maturaCyanDark">#0095a8</color>
-    <color name="maturaCyanLight">#6ff9ff</color>
+    <color name="Cyan">#26c6da</color>
+    <color name="CyanDark">#0095a8</color>
+    <color name="CyanLight">#6ff9ff</color>
 
-    <color name="maturaPurple">#ab47bc</color>
-    <color name="maturaPurpleDark">#790e8b</color>
-    <color name="maturaPurpleLight">#df78ef</color>
+    <color name="Purple">#ab47bc</color>
+    <color name="PurpleDark">#790e8b</color>
+    <color name="PurpleLight">#df78ef</color>
 
-    <color name="maturaIndigo">#5c6bc0</color>
-    <color name="maturaIndigoDark">#26418f</color>
-    <color name="maturaIndigoLight">#8e99f3</color>
+    <color name="Indigo">#5c6bc0</color>
+    <color name="IndigoDark">#26418f</color>
+    <color name="IndigoLight">#8e99f3</color>
 
-    <color name="maturaPink">#ec407a</color>
-    <color name="maturaPinkDark">#b4004e</color>
-    <color name="maturaPinkLight">#ff77a9</color>
+    <color name="Pink">#ec407a</color>
+    <color name="PinkDark">#b4004e</color>
+    <color name="PinkLight">#ff77a9</color>
 
-    <color name="maturaLime">#d4e157</color>
-    <color name="maturaLimeDark">#a0af22</color>
-    <color name="maturaLimeLight">#ffff89</color>
+    <color name="Lime">#d4e157</color>
+    <color name="LimeDark">#a0af22</color>
+    <color name="LimeLight">#ffff89</color>
 
-    <color name="maturaTeal">#26a69a</color>
-    <color name="maturaTealDark">#00766c</color>
-    <color name="maturaTealLight">#64d8cb</color>
+    <color name="Teal">#26a69a</color>
+    <color name="TealDark">#00766c</color>
+    <color name="TealLight">#64d8cb</color>
 
-    <color name="maturaLightGreen">#9ccc65</color>
-    <color name="maturaLightGreenDark">#6b9b37</color>
-    <color name="maturaLightGreenLight">#cfff95</color>
+    <color name="LightGreen">#9ccc65</color>
+    <color name="LightGreenDark">#6b9b37</color>
+    <color name="LightGreenLight">#cfff95</color>
 
-    <color name="maturaDeepPurple">#7e57c2</color>
-    <color name="maturaDeepPurpleDark">#4d2c91</color>
-    <color name="maturaDeepPurpleLight">#b085f5</color>
+    <color name="DeepPurple">#7e57c2</color>
+    <color name="DeepPurpleDark">#4d2c91</color>
+    <color name="DeepPurpleLight">#b085f5</color>
 
 
 </resources>

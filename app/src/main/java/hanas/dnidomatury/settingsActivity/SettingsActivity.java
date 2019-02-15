@@ -134,19 +134,15 @@ public class SettingsActivity extends AppCompatActivity {
                 switch(radioGroup.getCheckedRadioButtonId()) {
                     case R.id.radioButton4:
                         data.notifFrequency = Frequency.NEVER;
-                        Toast.makeText(SettingsActivity.this, "d", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButton:
                         data.notifFrequency = Frequency.DAILY;
-                        Toast.makeText(SettingsActivity.this, "a", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButton2:
                         data.notifFrequency = Frequency.WEEKLY;
-                        Toast.makeText(SettingsActivity.this, "b", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.radioButton3:
                         data.notifFrequency = Frequency.MONTHLY;
-                        Toast.makeText(SettingsActivity.this, "c", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

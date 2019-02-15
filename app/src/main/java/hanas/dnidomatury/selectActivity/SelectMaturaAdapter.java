@@ -55,6 +55,8 @@ public class SelectMaturaAdapter extends RecyclerView.Adapter<SelectMaturaAdapte
         if(primaryColorID!=0) fullListMaturaViewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(context, primaryColorID));
         if(darkColorID!=0) fullListMaturaViewHolder.everyListEditButton.setTextColor(ContextCompat.getColor(context, darkColorID));
 
+        if(mMatura.getType().contains("ustn")) fullListMaturaViewHolder.everyListEditButton.setVisibility(View.VISIBLE);
+        else fullListMaturaViewHolder.everyListEditButton.setVisibility(View.GONE);
         /*fullListMaturaViewHolder.everyListCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +86,7 @@ public class SelectMaturaAdapter extends RecyclerView.Adapter<SelectMaturaAdapte
     @Override
     public void onItemDismiss(int position) {
         fullMaturaList.remove(position);
-        notifyItemRemoved(position);;
+        notifyItemRemoved(position);
     }
 
     @Override

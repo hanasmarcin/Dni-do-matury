@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ticktock"
+                    android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="ticktock"
+                    android:text="- już po maturze!"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse" />
 
         </LinearLayout>

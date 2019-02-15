@@ -13,51 +13,30 @@
     app:cardElevation="4dp">
 
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="5dp"
-            app:backgroundTint="#e0e0e0"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/matura_task_counter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="6dp"
-            android:text="2"
-            app:layout_anchor="@id/fab"
-            app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/fab"
-            app:layout_constraintEnd_toEndOf="@+id/fab"
-            app:layout_constraintHorizontal_bias="0.47"
-            app:layout_constraintStart_toStartOf="@+id/fab"
-            app:layout_constraintTop_toTopOf="@+id/fab" />
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:id="@+id/dark_color_field"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/primary_color_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/matura_list"
@@ -70,34 +49,30 @@
                     android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/poziom_typ_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/poziom_typ_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
-                        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
-
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/primary_color_field"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
                 android:gravity="top|center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/dni_counter_list"
@@ -108,6 +83,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
+                    android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -132,19 +108,17 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/holo_orange_light"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_weight="1"
                 android:background="#e0e0e0"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/godziny_list"
@@ -156,15 +130,39 @@
                     android:layout_marginTop="8dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/minuty_list"
-                    app:layout_constraintStart_toEndOf="@+id/textView4"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="Już po maturze!"
 
             </LinearLayout>
 
-        </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                app:backgroundTint="#e0e0e0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/matura_task_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="6dp"
+                android:text="2"
+                app:layout_anchor="@id/fab"
+                app:layout_anchorGravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/fab"
+                app:layout_constraintEnd_toEndOf="@+id/fab"
+                app:layout_constraintHorizontal_bias="0.47"
+                app:layout_constraintStart_toStartOf="@+id/fab"
+                app:layout_constraintTop_toTopOf="@+id/fab" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
 

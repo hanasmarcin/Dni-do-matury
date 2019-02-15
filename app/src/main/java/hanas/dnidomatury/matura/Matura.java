@@ -10,25 +10,28 @@ import java.util.TimeZone;
 
 public class Matura {
 
-    private int maturaID;
+    //private int maturaID;
     private String name;
     private String level;
     private String type;
     private Calendar date;
     private String primaryColor;
     private String darkColor;
-    private int tasksCounter;
+    private long tasksCounter = 0;
 
-    public int getTasksCounter() {
+    public long getTasksCounter() {
         return tasksCounter;
     }
 
-    public void setTasksCounter(int tasksCounter) {
+    public void setTasksCounter(long tasksCounter) {
         this.tasksCounter = tasksCounter;
     }
 
-    public Matura(int maturaID, String name, String level, String type, String dateText, String primaryColor, String darkColor) {
-        this.maturaID = maturaID;
+    /*public void setTasksCounter(int tasksCounter) {
+        this.tasksCounter = tasksCounter;
+    }*/
+
+    public Matura(String name, String level, String type, String dateText, String primaryColor, String darkColor) {
         this.name = name;
         this.level = level;
         this.type = type;
@@ -43,7 +46,7 @@ public class Matura {
         this.date = date;
         this.primaryColor = primaryColor;
         this.darkColor = darkColor;
-        this.tasksCounter = 0;
+        //this.tasksCounter = 0;
     }
 
     public int getPrimaryColorID(Context context) {
@@ -69,8 +72,6 @@ public class Matura {
     public Calendar getDate() {
         return date;
     }
-
-    public int getMaturaID() { return maturaID; }
 
     public void setDate(Calendar date) {
         this.date = date;

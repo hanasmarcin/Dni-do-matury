@@ -12,34 +12,46 @@ import hanas.dnidomatury.matura.Matura;
 
 final public class MaturaTimer {
 
+    private long difSeconds;
+    private long difMinutes;
+    private long difHours;
+    private long difDays;
+    private CountDownTimer timer;
+
+    public CountDownTimer getTimer() {
+        return timer;
+    }
+
     public long getMillisDiff(Calendar startDate, Calendar endDate){
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
 
+
     public void startMaturaTimer(final Context context, final Matura matura, final TextView daysTimer, final TextView hmsTimer){
 
         final long millisDiff = getMillisDiff(Calendar.getInstance(), matura.getDate());
-        new CountDownTimer(millisDiff, 1000) {
+        timer = new CountDownTimer(millisDiff, 1000) {
 
             //nadpisywanie funkcji mowiacej, co ma robic program gdy odliczy sie countDownInterval
             public void onTick(long timeUntilFinished) {
 
                 //zamiana czasu w ms na s/m/h/d i wyliczanie odpowiednich wartosci
-                long difSeconds = TimeUnit.MILLISECONDS.toSeconds(timeUntilFinished)%60;
-                long difMinutes = TimeUnit.MILLISECONDS.toMinutes(timeUntilFinished)%60;
-                long difHours = TimeUnit.MILLISECONDS.toHours(timeUntilFinished)%24;
-                long difDays = TimeUnit.MILLISECONDS.toDays(timeUntilFinished);
+                difSeconds = TimeUnit.MILLISECONDS.toSeconds(timeUntilFinished)%60;
+                difMinutes = TimeUnit.MILLISECONDS.toMinutes(timeUntilFinished)%60;
+                difHours = TimeUnit.MILLISECONDS.toHours(timeUntilFinished)%24;
+                difDays = TimeUnit.MILLISECONDS.toDays(timeUntilFinished);
+                if(!daysTimer.getText().equals(""+difDays)) daysTimer.setText("" + difDays);
+                hmsTimer.setText(difHours + "h " + difMinutes + "min " + difSeconds + "s");
 
                 //zmiana wartosci pol teksowych
-                daysTimer.setText("" + difDays);
-                hmsTimer.setText(difHours + "h " + difMinutes + "min " + difSeconds + "s");
             }
 
             //nadpisywanie funkcji mowiacej, co ma robic program gdy odliczanie sie skonczy
             public void onFinish() {
-                Toast.makeText(context, "aaa", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "aaa", Toast.LENGTH_SHORT).show();
             }
 
-        }.start();
+        };
+        timer.start();
     }
 }

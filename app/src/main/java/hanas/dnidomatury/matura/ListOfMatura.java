@@ -1,6 +1,7 @@
 package hanas.dnidomatury.matura;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,24 +19,25 @@ import hanas.dnidomatury.R;
 
 public class ListOfMatura {
 
-    private static List<Matura> listOfMatura;
+    //private static List<Matura> listOfMatura;
     private static String listInString;
 
     static {
-        listOfMatura = new ArrayList<>();
+        //listOfMatura = new ArrayList<>();
     }
 
-    public static List<Matura> getListOfMatura() {
+    /*public static List<Matura> getListOfMatura() {
         return listOfMatura;
     }
 
     public static void addMatura(Matura mMatura) {
         listOfMatura.add(mMatura);
-    }
+    }*/
 
-    public static Matura findMatura(String name, String level, String type) {
-        for (Matura matura : listOfMatura) {
-            if (matura.getName().equals(name) && matura.getLevel().equals(level) && matura.getType().equals(level))
+    public static Matura findMatura(String name, String level, String type, Context context, boolean isSelected) {
+        for (Matura matura : readFromFile(context, isSelected)) {
+            //Toast.makeText(context, matura.getName()+name+matura.getLevel()+level+matura.getType()+type, Toast.LENGTH_SHORT).show();
+            if (matura.getName().equals(name) && matura.getLevel().equals(level) && matura.getType().equals(type))
                 return matura;
         }
         return null;
@@ -43,7 +45,7 @@ public class ListOfMatura {
 
 
 
-    public static void saveToFile(Context context) {
+    public static void saveToFile(Context context, List<Matura> listOfMatura) {
 
         listInString = GithubTypeConverters.someObjectListToString(listOfMatura);
 
@@ -94,8 +96,7 @@ public class ListOfMatura {
             listInString = reader.readLine();
             reader.close();
             isr.close();
-            listOfMatura = GithubTypeConverters.stringToSomeObjectList(listInString);
-            return listOfMatura;
+            return GithubTypeConverters.stringToSomeObjectList(listInString);
             }
         catch(IOException ex){
             ex.printStackTrace();

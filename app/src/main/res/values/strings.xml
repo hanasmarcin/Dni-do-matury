@@ -78,17 +78,67 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="title_activity_notif_settings">Ustawienia</string>
 
-    <string-array name="przedmiot_array">
+    <string-array name="typ_matury">
+        <item>pisemna</item>
+        <item>ustna</item>
+    </string-array>
+
+    <string-array name="przedmiot_ustny">
         <item>Język polski</item>
         <item>Język angielski</item>
+        <item>Język francuski</item>
+        <item>Język hiszpański</item>
         <item>Język niemiecki</item>
         <item>Język rosyjski</item>
-        <item>Język francuski</item>
         <item>Język włoski</item>
     </string-array>
-    <string-array name="poziom_array">
-        <item>podstawowy</item>
-        <item>rozszerzpony</item>
+
+    <string-array name="poziom_ustny_dj">
+        <item>podstawowa</item>
+        <item>dwujęzyczna</item>
     </string-array>
+
+    <string-array name="poziom_ustny_bez_dj">
+        <item>podstawowa</item>
+    </string-array>
+
+    <string-array name="przedmiot_pisemny">
+        <item>Biologia</item>
+        <item>Chemia</item>
+        <item>Filozofia</item>
+        <item>Fizyka</item>
+        <item>Geografia</item>
+        <item>Historia</item>
+        <item>Historia muzyki</item>
+        <item>Historia sztuki</item>
+        <item>Informatyka</item>
+        <item>Język łaciński i kultura antyczna</item>
+        <item>Język angielski</item>
+        <item>Język francuski</item>
+        <item>Język hiszpański</item>
+        <item>Język kaszubski</item>
+        <item>Język łemkowski</item>
+        <item>Język mniejszości narodowej</item>
+        <item>Język niemiecki</item>
+        <item>Język polski</item>
+        <item>Język rosyjski</item>
+        <item>Język włoski</item>
+        <item>Matematyka</item>
+        <item>Wiedza o społeczeństwie</item>
+        <item>Wiedza o tańcu</item>
+    </string-array>
+
+    <string-array name="poziom_pisemny_dj">
+        <item>podstawowa</item>
+        <item>rozszerzona</item>
+        <item>dwujęzyczna</item>
+    </string-array>
+
+    <string-array name="poziom_pisemny_bez_dj">
+        <item>podstawowa</item>
+        <item>rozszerzona</item>
+    </string-array>
+    <string name="title_activity_matura_swipe">MaturaSwipeActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

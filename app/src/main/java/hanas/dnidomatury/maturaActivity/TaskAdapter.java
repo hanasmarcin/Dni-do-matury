@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
@@ -20,10 +21,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
+
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.matura.Matura;
 import hanas.dnidomatury.matura.task.ListOfTasks;
 import hanas.dnidomatury.matura.task.Task;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperAdapter;
+import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
+
+import static hanas.dnidomatury.matura.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.matura.task.Task.TaskHeader.NOT;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -31,6 +39,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     private ListOfTasks toDoList;
     private Matura selectedMatura;
     private int doneHeaderID;
+    //Task task;
 
     public void incrementDoneHeaderID(){
         this.doneHeaderID++;
@@ -44,10 +53,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.context = context;
         this.selectedMatura = selectedMatura;
         this.toDoList = toDoList;
+        //this.task = new Task("", "", NOT);
         toDoList.sort();
 
         for (int i=1; i<toDoList.sizeOfList(); i++){
-            if (toDoList.getTask(i).isDoneHeader()){
+            if (toDoList.getTask(i).getHeader() == DONE){
                 this.doneHeaderID=i;
     }
 }
@@ -63,7 +73,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final TaskViewHolder taskViewHolder, final int taskID) {
-
+        final Task task;
         if(taskID == 0){
             taskViewHolder.setTaskIDHolder(taskID);
             taskViewHolder.layoutToHide.setVisibility(View.GONE);
@@ -71,7 +81,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.mCardView.setCardElevation(0);
             taskViewHolder.taskHeader.setVisibility(View.VISIBLE);
             taskViewHolder.taskHeader.setText("Do zrobienia");
-            taskViewHolder.mCardView.setClickable(false);
+            taskViewHolder.mCardView.setEnabled(false);
         }
         else if(taskID == doneHeaderID){
             taskViewHolder.setTaskIDHolder(taskID);
@@ -80,12 +90,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.mCardView.setCardElevation(0);
             taskViewHolder.taskHeader.setVisibility(View.VISIBLE);
             taskViewHolder.taskHeader.setText("Zrobione");
-            taskViewHolder.mCardView.setClickable(false);
+            taskViewHolder.mCardView.setEnabled(false);
         }
         else{
             taskViewHolder.taskHeader.setVisibility(View.GONE);
             taskViewHolder.setTaskIDHolder(taskID);
-            final Task task = toDoList.getTask(taskID);
+            task = toDoList.getTask(taskID);
             final int primaryColorID = selectedMatura.getPrimaryColorID(context);
             final int darkColorID = selectedMatura.getDarkColorID(context);
             taskViewHolder.stateImage.setImageResource(task.isDone() ? R.drawable.ic_clear : R.drawable.ic_confirm);
@@ -109,17 +119,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //Toast.makeText(context, task.getTaskName(), Toast.LENGTH_SHORT).show();
                     task.setDone(!task.isDone());
                     if (task.isDone()){
                         toDoList.deleteTask(task);
                         decrementDoneHeaderID();
-                        selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
+                        toDoList.decrementTasksCounter();
+                        //Toast.makeText(context, "counter "+toDoList.getTasksCounter(), Toast.LENGTH_SHORT).show();
+                        //selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
                         toDoList.addTask(doneHeaderID+1, task);
                     }
                     else{
                         toDoList.deleteTask(task);
                         incrementDoneHeaderID();
-                        selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()+1);
+                        toDoList.incrementTasksCounter();
+                        //Toast.makeText(context, "counter "+toDoList.getTasksCounter(), Toast.LENGTH_SHORT).show();
+                        //selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()+1);
                         toDoList.addTask(1, task);
                     }
                     notifyDataSetChanged();
@@ -141,8 +156,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         return toDoList.sizeOfList();
     }
 
+
     public class TaskViewHolder extends RecyclerView.ViewHolder
-        implements View.OnCreateContextMenuListener{
+        implements View.OnCreateContextMenuListener /*ItemTouchHelperViewHolder*/ {
 
         int taskIDHolder;
         CardView mCardView;
@@ -152,8 +168,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView taskDate;
         TextView taskHeader;
         ConstraintLayout layoutToHide;
-        ImageView upButton;
-        ImageView downButton;
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v,
@@ -199,7 +213,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         //
                         if(!toDoList.getTask(taskIDHolder).isDone()) {
                             decrementDoneHeaderID();
-                            selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
+                            toDoList.decrementTasksCounter();
+                            //Toast.makeText(context, "counter "+toDoList.getTasksCounter(), Toast.LENGTH_SHORT).show();
+                            //selectedMatura.setTasksCounter(selectedMatura.getTasksCounter()-1);
                         }
 
                         toDoList.deleteTask(toDoList.getTask(taskIDHolder));
@@ -210,7 +226,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                         break;
                     }
                     case 2:{
-                        Toast.makeText(context, "ID " + taskIDHolder, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "ID " + taskIDHolder, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(context, AddTaskActivity.class);
                         intent.putExtra("taskName", taskName.getText().toString());
                         intent.putExtra("taskDate", taskDate.getText().toString());

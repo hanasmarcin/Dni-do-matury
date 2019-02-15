@@ -1,6 +1,5 @@
 package hanas.dnidomatury.maturaListActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -40,14 +38,13 @@ public class MaturaListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        Calendar date=Calendar.getInstance();
-        ListOfMatura.readFromFile(this, true);
+        Calendar date=Calendar.getInstance();;
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
+        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.readFromFile(this, true));
         recyclerView.setAdapter(adapter);
 
         //zaczynamy powiadomienia
@@ -58,13 +55,12 @@ public class MaturaListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        ListOfMatura.readFromFile(this, true);
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
+        MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.readFromFile(this, true));
         recyclerView.setAdapter(adapter);
 
     }
@@ -102,13 +98,11 @@ public class MaturaListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == mainToSelectRequestCode || requestCode == mainToMaturaRequestCode){
             if (resultCode == RESULT_OK){
-                ListOfMatura.readFromFile(this, true);
-
                 RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
-                MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.getListOfMatura());
+                MaturaAdapter adapter = new MaturaAdapter(this, ListOfMatura.readFromFile(this, true));
                 recyclerView.setAdapter(adapter);
             }
         }

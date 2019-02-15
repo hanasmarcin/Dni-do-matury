@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,13 +24,14 @@ import java.util.List;
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.matura.ListOfMatura;
 import hanas.dnidomatury.matura.Matura;
+import hanas.dnidomatury.matura.task.ListOfTasks;
 import hanas.dnidomatury.matura.task.Task;
 import hanas.dnidomatury.maturaListActivity.MaturaAdapter;
 import hanas.dnidomatury.touchHelper.SimpleItemTouchHelperCallback;
 
 public class SelectActivity extends AppCompatActivity {
 
-    private ListOfMatura listOfMatura = new ListOfMatura();
+    private List<Matura> listOfMatura = new ArrayList<>();
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private ItemTouchHelper mItemTouchHelper;
@@ -42,13 +44,13 @@ public class SelectActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_select);
         setSupportActionBar(toolbar);
 
-        ListOfMatura.readFromFile(this, true);
+        listOfMatura = ListOfMatura.readFromFile(this, true);
 
         RecyclerView recyclerView = findViewById(R.id.full_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new SelectMaturaAdapter(this, listOfMatura.getListOfMatura());
+        adapter = new SelectMaturaAdapter(this, listOfMatura);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
@@ -59,7 +61,7 @@ public class SelectActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        ListOfMatura.saveToFile(this);
+        ListOfMatura.saveToFile(this, listOfMatura);
         super.onPause();
     }
 
@@ -78,14 +80,7 @@ public class SelectActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_confirm) {
-            Intent intent = new Intent();
-            ListOfMatura.saveToFile(this);
-            setResult(RESULT_OK, intent);
-            finish();
-            return true;
-        }
-        else if (id == R.id.action_add) {
+        if (id == R.id.action_add) {
             Intent intent = new Intent(this, AddMaturaActivity.class);
             //intent.putExtra("selectedMaturaID", selectedMaturaID);
             startActivityForResult(intent, 5320);
@@ -105,14 +100,21 @@ public class SelectActivity extends AppCompatActivity {
                     String maturaType = bundle.getString("maturaType");
                     String maturaLevel = bundle.getString("maturaLevel");
                     String maturaDateText = bundle.getString("maturaDateText");
-                    Matura newMatura = ListOfMatura.findMatura(maturaName, maturaLevel, maturaType);
-                    if (newMatura != null) ListOfMatura.addMatura(newMatura);
+                    Matura newMatura = ListOfMatura.findMatura(maturaName, maturaLevel, maturaType, SelectActivity.this, false);
+                    if(maturaType.contains("pisemn")) {
+                        if (newMatura != null) {
+                            ListOfTasks lot = new ListOfTasks(maturaName, maturaType, maturaLevel);
+                            lot.readFromFile(this);
+                            //newMatura.setTasksCounter(lot.sizeOfList());
+                            newMatura.setTasksCounter(lot.getTasksCounter());
+                            listOfMatura.add(newMatura);
+                        }
+                    }
                     else {
 
-                        Toast.makeText(this, maturaName+maturaType+maturaLevel+maturaDateText, Toast.LENGTH_SHORT).show();
-
+                        //Toast.makeText(this, maturaName+maturaType+maturaLevel+maturaDateText, Toast.LENGTH_SHORT).show();
                         try {
-                            ListOfMatura.addMatura(new Matura(ListOfMatura.getListOfMatura().size(), maturaName, maturaType, maturaLevel, maturaDateText, "#000000", "#000000"));
+                            listOfMatura.add((new Matura(maturaName, maturaLevel, maturaType, maturaDateText, "Green", "GreenDark")));
 
                         } catch (Exception e) {
                             e.printStackTrace();
