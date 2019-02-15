@@ -35,10 +35,10 @@ public class MaturaListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        Calendar date=Calendar.getInstance();;
+        Calendar date=Calendar.getInstance();
 
         RecyclerView recyclerView = findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);

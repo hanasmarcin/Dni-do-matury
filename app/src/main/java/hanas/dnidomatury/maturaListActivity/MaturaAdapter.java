@@ -82,7 +82,7 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
         LinearLayout darkColorField;
         LinearLayout primaryColorField;
         TextView daysTextView;
-        TextView minutesTextView;
+        //TextView minutesTextView;
         TextView hoursTextVIew;
         TextView maturaNameTextView;
         TextView maturaLevelTypeTextView;
@@ -109,7 +109,7 @@ public class MaturaAdapter extends RecyclerView.Adapter<MaturaAdapter.MaturaView
             darkColorField = itemView.findViewById(R.id.dark_color_field);
             primaryColorField = itemView.findViewById(R.id.primary_color_field);
             daysTextView = itemView.findViewById(R.id.dni_counter_list);
-            minutesTextView = itemView.findViewById(R.id.minuty_list);
+            //minutesTextView = itemView.findViewById(R.id.minuty_list);
             hoursTextVIew = itemView.findViewById(R.id.godziny_list);
             maturaNameTextView = itemView.findViewById(R.id.matura_list);
             maturaLevelTypeTextView = itemView.findViewById(R.id.poziom_typ_list);

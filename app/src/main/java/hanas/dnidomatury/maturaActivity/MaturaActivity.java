@@ -43,7 +43,7 @@ public class MaturaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matura);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_matura);
+        Toolbar toolbar = findViewById(R.id.toolbar_matura);
         nested = findViewById(R.id.nested);
         setSupportActionBar(toolbar);
 

@@ -151,7 +151,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public enum Frequency {NEVER, DAILY, WEEKLY, MONTHLY};
+    public enum Frequency {NEVER, DAILY, WEEKLY, MONTHLY}
+
     public static long minimumLatency(Frequency frequency) {
         switch(frequency) {
             case DAILY: return 300000;

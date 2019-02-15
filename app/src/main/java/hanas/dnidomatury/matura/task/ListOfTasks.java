@@ -83,7 +83,7 @@ public class ListOfTasks {
         listInString = GithubTypeConvertersTask.someObjectListToString(listOfTasks);
 
         try {
-            FileOutputStream fOut = context.openFileOutput(fileTitle, context.MODE_PRIVATE);
+            FileOutputStream fOut = context.openFileOutput(fileTitle, Context.MODE_PRIVATE);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
             osw.write(listInString);
             osw.close();
@@ -96,10 +96,7 @@ public class ListOfTasks {
 
     private static boolean fileExists(Context context, String filename) {
         File file = context.getFileStreamPath(filename);
-        if(file == null || !file.exists()) {
-            return false;
-        }
-        return true;
+        return file != null && file.exists();
     }
 
 

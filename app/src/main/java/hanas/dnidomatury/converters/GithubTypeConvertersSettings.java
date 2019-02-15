@@ -25,6 +25,6 @@ public class GithubTypeConvertersSettings {
     }
 
     public static String someObjectListToString(SettingsData someObject) {
-        return gson.toJson((SettingsData)someObject);
+        return gson.toJson(someObject);
     }
 }

@@ -24,6 +24,6 @@ public class  GithubTypeConverters {
     }
 
     public static String someObjectListToString(List<Matura> someObjects) {
-        return gson.toJson((List<Matura>)someObjects);
+        return gson.toJson(someObjects);
     }
 }

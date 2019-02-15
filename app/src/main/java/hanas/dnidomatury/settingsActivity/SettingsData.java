@@ -44,7 +44,7 @@ public  class SettingsData {
         String dataInString = GithubTypeConvertersSettings.someObjectListToString(this);
 
         try {
-            FileOutputStream fOut = context.openFileOutput("settings", context.MODE_PRIVATE);
+            FileOutputStream fOut = context.openFileOutput("settings", Context.MODE_PRIVATE);
             OutputStreamWriter osw = new OutputStreamWriter(fOut);
             osw.write(dataInString);
             osw.close();
@@ -56,10 +56,7 @@ public  class SettingsData {
 
     private static boolean fileExists(Context context, String filename) {
         File file = context.getFileStreamPath("settings");
-        if(file == null || !file.exists()) {
-            return false;
-        }
-        return true;
+        return file != null && file.exists();
     }
 
 
