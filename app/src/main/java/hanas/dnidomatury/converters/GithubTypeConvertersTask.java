@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
-import hanas.dnidomatury.matura.task.Task;
+import hanas.dnidomatury.model.task.Task;
 
 public class GithubTypeConvertersTask {
 

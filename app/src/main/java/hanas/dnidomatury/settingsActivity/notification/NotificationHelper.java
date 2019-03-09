@@ -9,10 +9,11 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.RequiresApi;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.maturaListActivity.MaturaListActivity;
+import hanas.dnidomatury.examListActivity.ExamListActivity;
 
 public class NotificationHelper extends ContextWrapper {
 
@@ -20,12 +21,13 @@ public class NotificationHelper extends ContextWrapper {
     private static final String NOTIF_CHANNEL_NAME = "powiadomienia aplikacji \"Dni do matury\"";
     private NotificationManager manager;
 
+
     public NotificationHelper(Context base) {
         super(base);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannels();
     }
 
-    @RequiresApi (api = Build.VERSION_CODES.O)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createChannels() {
 
         NotificationChannel dnidomaturyChannel = new NotificationChannel(NOTIF_CHANNEL_ID, NOTIF_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
@@ -34,7 +36,8 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationManager getManager() {
-        if (manager==null) manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null)
+            manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         return manager;
     }
 
@@ -42,7 +45,7 @@ public class NotificationHelper extends ContextWrapper {
 
         // Get the layouts to use in the custom notification
         //RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
-        Intent notifIntent = new Intent(this, MaturaListActivity.class);
+        Intent notifIntent = new Intent(this, ExamListActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifIntent, 0);
 
 
@@ -53,8 +56,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setStyle(inboxNotifStyle)
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_notification);
-        }
-        else {
+        } else {
             return new Notification.Builder(getApplicationContext())
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)

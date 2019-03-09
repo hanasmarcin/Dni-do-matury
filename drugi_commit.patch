@@ -129,7 +129,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  import android.view.MenuItem;
  
 @@ -47,7 +49,33 @@
-         MaturaAdapter adapter = new MaturaAdapter(this, listOfMatura.getListOfMatura());
+         ExamAdapter adapter = new ExamAdapter(this, listOfExam.getListOfExam());
          recyclerView.setAdapter(adapter);
  
 +        //zaczynamy powiadomienia
@@ -234,7 +234,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 --- app/src/main/java/hanas/dnidomatury/SelectActivity.java	(revision 7332953f153c5c921c6b97532e8141a8e14b3ad5)
 +++ app/src/main/java/hanas/dnidomatury/SelectActivity.java	(date 1535487073070)
 @@ -46,7 +46,7 @@
-         FullListMaturaAdapter adapter = new FullListMaturaAdapter(this, listOfMatura.getListOfMatura());
+         FullListExamAdapter adapter = new FullListExamAdapter(this, listOfExam.getListOfExam());
          recyclerView.setAdapter(adapter);
  
 -        //ustawianie alarmu

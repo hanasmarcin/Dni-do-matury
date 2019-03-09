@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#616161</color>
     <color name="colorPrimaryDark">#373737</color>
     <color name="colorPrimaryLight">#8e8e8e</color>
     <color name="veryLightGrey">#eeeeee</color>
     <color name="colorAccent">#FF4081</color>
 
+    <array name="exam_colors">
+        <item>@color/Blue</item>
+        <item>@color/Green</item>
+        <item>@color/Red</item>
+        <item>@color/Amber</item>
+        <item>@color/Orange</item>
+        <item>@color/DeepOrange</item>
+        <item>@color/Cyan</item>
+        <item>@color/Purple</item>
+        <item>@color/Indigo</item>
+        <item>@color/Pink</item>
+        <item>@color/Lime</item>
+        <item>@color/Teal</item>
+        <item>@color/LightGreen</item>
+        <item>@color/DeepPurple</item>
+    </array>
     <color name="Blue">#1976d2</color>
     <color name="BlueDark">#004ba0</color>
     <color name="BlueLight">#63a4ff</color>

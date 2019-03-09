@@ -3,39 +3,36 @@ package hanas.dnidomatury.selectActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.matura.ListOfMatura;
-import hanas.dnidomatury.matura.Matura;
-import hanas.dnidomatury.matura.task.ListOfTasks;
-import hanas.dnidomatury.matura.task.Task;
-import hanas.dnidomatury.maturaListActivity.MaturaAdapter;
+import hanas.dnidomatury.model.ExamsFileList;
+import hanas.dnidomatury.model.matura.Exam;
+import hanas.dnidomatury.model.matura.ExamsList;
+import hanas.dnidomatury.model.matura.SelectedExamsList;
 import hanas.dnidomatury.touchHelper.SimpleItemTouchHelperCallback;
 
 public class SelectActivity extends AppCompatActivity {
 
-    private List<Matura> listOfMatura = new ArrayList<>();
+    private ExamsFileList mListOfExam;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private ItemTouchHelper mItemTouchHelper;
-    SelectMaturaAdapter adapter;
+    private SelectExamAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +41,14 @@ public class SelectActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar_select);
         setSupportActionBar(toolbar);
 
-        listOfMatura = ListOfMatura.readFromFile(this, true);
+        mListOfExam = SelectedExamsList.getInstance(this);
 
-        RecyclerView recyclerView = findViewById(R.id.full_recycle_view);
+        final CoordinatorLayout coordinator = findViewById(R.id.full_coordinator);
+        final RecyclerView recyclerView = findViewById(R.id.full_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new SelectMaturaAdapter(this, listOfMatura);
+        adapter = new SelectExamAdapter(this, mListOfExam, false, coordinator);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
@@ -61,7 +59,7 @@ public class SelectActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        ListOfMatura.saveToFile(this, listOfMatura);
+        mListOfExam.toFile(this, true);
         super.onPause();
     }
 
@@ -81,8 +79,8 @@ public class SelectActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, AddMaturaActivity.class);
-            //intent.putExtra("selectedMaturaID", selectedMaturaID);
+            Intent intent = new Intent(this, AddExamActivity.class);
+            //intent.putExtra("selectedExamID", selectedExamID);
             startActivityForResult(intent, 5320);
             return true;
         }
@@ -92,32 +90,51 @@ public class SelectActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 5320){
-            if (resultCode == RESULT_OK){
+        if (requestCode == 5320) {
+            if (resultCode == RESULT_OK) {
                 Bundle bundle = data.getExtras();
-                if (bundle!=null) {
-                    String maturaName = bundle.getString("maturaName");
-                    String maturaType = bundle.getString("maturaType");
-                    String maturaLevel = bundle.getString("maturaLevel");
-                    String maturaDateText = bundle.getString("maturaDateText");
-                    Matura newMatura = ListOfMatura.findMatura(maturaName, maturaLevel, maturaType, SelectActivity.this, false);
-                    if(maturaType.contains("pisemn")) {
-                        if (newMatura != null) {
-                            ListOfTasks lot = new ListOfTasks(maturaName, maturaType, maturaLevel);
-                            lot.readFromFile(this);
-                            //newMatura.setTasksCounter(lot.sizeOfList());
-                            newMatura.setTasksCounter(lot.getTasksCounter());
-                            listOfMatura.add(newMatura);
+                if (bundle != null) {
+                    String examName = bundle.getString("examName");
+                    String examType = bundle.getString("examType");
+                    String examLevel = bundle.getString("examLevel");
+                    String examDateText = bundle.getString("examDateText");
+                    String examColor = bundle.getString("examColor");
+                    boolean isNew = bundle.getBoolean("isNew");
+                    Toast.makeText(this, isNew + "", Toast.LENGTH_SHORT).show();
+
+                    if (!isNew) {
+                        Toast.makeText(this, "Nie jest nowa!", Toast.LENGTH_SHORT).show();
+                        Exam oldExam = mListOfExam.findExam(examName, examLevel, examType);
+                        if (examColor != null && oldExam != null) {
+                            oldExam.setColorScheme(examColor);
                         }
-                    }
-                    else {
+                        if (examDateText != null && oldExam != null) {
+                            oldExam.setDate(examDateText);
+                        }
+                    } else {
+                        Exam newExam = ExamsList.fromFile(false, this).findExam(examName, examLevel, examType);
+                        if (examColor != null && newExam != null) {
+                            newExam.setColorScheme(examColor);
+                        }
+                        if (examType.contains("pisemn")) {
+                            if (newExam != null) {
+                                //TasksList lot = new TasksList(examName, examType, examLevel, this);
+                                //lot.readFromFile(this);
+                                //newExam.setTasksCounter(lot.getTasksCounter());
+                                mListOfExam.add(newExam);
+                            }
+                        } else {
 
-                        //Toast.makeText(this, maturaName+maturaType+maturaLevel+maturaDateText, Toast.LENGTH_SHORT).show();
-                        try {
-                            listOfMatura.add((new Matura(maturaName, maturaLevel, maturaType, maturaDateText, "Green", "GreenDark")));
+                            //Toast.makeText(this, examName+examType+examLevel+examDateText, Toast.LENGTH_SHORT).show();
+                            try {
+                                if (examColor == null)
+                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, "Green", "GreenDark")));
+                                else
+                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, examColor, examColor + "Dark")));
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     adapter.notifyDataSetChanged();

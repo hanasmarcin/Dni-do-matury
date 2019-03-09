@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="hanas.dnidomatury">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -7,14 +8,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".maturaListActivity.MaturaListActivity"
+            android:name=".examListActivity.ExamListActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,19 +28,24 @@
             android:label="@string/select_activity_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".maturaActivity.MaturaActivity"
-            android:theme="@style/AppTheme.NoActionBar.Matura" />
+            android:name=".examActivity.ExamActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".maturaActivity.AddTaskActivity"
+            android:name=".examActivity.TaskList.AddTaskActivity"
             android:label="@string/activity_add_task_name"
             android:theme="@style/AppTheme.UserDialog" />
         <activity
-            android:name=".settingsActivity.SettingsActivity"
-            android:label="Ustawienia powiadomień"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".selectActivity.AddExamActivity"
+            android:label="Dodaj maturę"
+            android:theme="@style/AppTheme.UserDialog" />
         <activity
-            android:name=".selectActivity.AddMaturaActivity"
-            android:label="Dodaj maturę ustną"
+            android:name=".examActivity.SheetList.AddSheetActivity"
+            android:label="Dodaj arkusz"
+            android:theme="@style/AppTheme.UserDialog" />
+        <activity
+            android:name=".examActivity.ExamInfo.AddExamInfoActivity"
+            android:label="Dodaj inforacje"
             android:theme="@style/AppTheme.UserDialog" />
 
         <service
@@ -48,6 +53,7 @@
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <activity android:name=".settingsActivity.Settings2Activity"/>
     </application>
 
 </manifest>

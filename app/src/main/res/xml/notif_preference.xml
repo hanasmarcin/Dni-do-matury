@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="Powiadomienia" >
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notif_preference"
+            android:title="Pokazuj powiadomienia" />
+        <ListPreference
+            android:defaultValue="Codziennie"
+            android:entries="@array/czestotliwosc_powiadomien"
+            android:entryValues="@array/czestotliwosc_powiadomien"
+            android:key="frequency_preference"
+            android:title="Częstotliowść" />
+        <MultiSelectListPreference
+            android:key="notif_days_of_week"
+            android:title="Dni tygodnia" />
+
+        <hanas.dnidomatury.settingsActivity.NumberPicker.NumberPickerPreference
+            android:defaultValue="1"
+            android:key="day_of_month"
+            android:title="Dzień miesiąca" />
+
+        <hanas.dnidomatury.settingsActivity.NumberPicker.TimePreference
+            android:defaultValue="8:00"
+            android:key="notif_hour"
+            android:title="Godzina" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Inne">
+
+    </PreferenceCategory>
+</PreferenceScreen>
