@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Collections;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -21,6 +24,7 @@ import hanas.dnidomatury.examActivity.ExamSpecificAdapterContextMenuListener;
 import hanas.dnidomatury.model.ExamSpecificList;
 import hanas.dnidomatury.model.task.Task;
 
+import static hanas.dnidomatury.examActivity.TaskList.TaskListFragment.EDIT_TASK_REQUEST_CODE;
 import static hanas.dnidomatury.model.task.Task.TaskHeader.DONE;
 import static hanas.dnidomatury.model.task.Task.TaskHeader.TODO;
 
@@ -37,7 +41,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.context = fragment.getActivity();
         this.tasksList = tasks;
         this.darkColorID = darkColorID;
-        tasks.sort();
+        //tasks.sort();
     }
 
     @NonNull
@@ -53,6 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull final TaskViewHolder taskViewHolder, final int adapterId) {
         final Task task = tasksList.get(adapterId);
+        System.out.println(taskViewHolder.mCardView.getVisibility() + " " + taskViewHolder.layoutToHide.getVisibility());
         // If task is a header and not a proper task
         if (task.getHeader().equals(TODO) || task.getHeader().equals(DONE)) {
             // Set card property for headers
@@ -64,9 +69,35 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
             //Set listener for the card
             taskViewHolder.mCardView.setOnClickListener(view -> {
-                task.setDone(!task.isDone());
-                tasksList.sort();
-                notifyDataSetChanged();
+
+                new AsyncTask<Void, Void, int[]>() {
+
+                    @Override
+                    protected int[] doInBackground(Void... voids) {
+                        int oldPosition = taskViewHolder.getAdapterPosition();
+                        task.setDone(!task.isDone());
+                        int newPosition = tasksList.moveAndSort(taskViewHolder.getAdapterPosition(), task.isDone());
+                        final int[] positions = {oldPosition, newPosition};
+                        return positions;
+                    }
+
+                    @Override
+                    protected void onPostExecute(int[] positions) {
+                        //notifyDataSetChanged();
+                        System.out.println("positions " + positions[0] + positions[1]);
+                        System.out.println(task.getTaskName());
+                        notifyItemMoved(positions[0], positions[1]);
+                        System.out.println(task.getTaskName());
+                        notifyItemChanged(positions[1]);
+
+
+                    }
+                }.execute();
+            });
+
+            taskViewHolder.mCardView.setOnLongClickListener(view -> {
+                taskViewHolder.onMenuEditClick(taskViewHolder.getAdapterPosition());
+                return true;
             });
 
 
@@ -108,14 +139,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             itemView.setOnCreateContextMenuListener(this);
         }
 
+
         @Override
         public boolean onMenuEditClick(int viewHolderID) {
-            Intent intent = new Intent(context, AddTaskActivity.class);
-            intent.putExtra("taskName", taskName.getText().toString());
-            intent.putExtra("taskDate", taskDate.getText().toString());
-            intent.putExtra("taskID", viewHolderID);
-
-            fragment.startActivityForResult(intent, 5636);
+            AddTaskFragment addTaskDialog = AddTaskFragment.newInstanceEdit(getAdapterPosition(), taskName.getText().toString(), taskDate.getText().toString());
+            addTaskDialog.setTargetFragment(fragment, EDIT_TASK_REQUEST_CODE);
+            addTaskDialog.show(fragment.getFragmentManager(), "WTF2");
 
             return true;
         }
@@ -124,11 +153,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public boolean onMenuDeleteClick(int viewHolderID) {
             tasksList.remove(viewHolderID);
             notifyItemRemoved(viewHolderID);
-            notifyDataSetChanged();
+
+            //notifyDataSetChanged();
             return true;
         }
 
         private void setCardPropertiesForHeader(int adapterId) {
+            System.out.println("WLAZLEM");
             layoutToHide.setVisibility(View.GONE);
             mCardView.setCardBackgroundColor(View.INVISIBLE);
             mCardView.setCardElevation(0);
@@ -138,7 +169,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         private void setCardPropertiesForTask(Task task) {
+            System.out.println("WLAZLEM");
             taskHeader.setVisibility(View.GONE);
+            layoutToHide.setVisibility(View.VISIBLE);
+            mCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_surface));
+            mCardView.setCardElevation(5.25F);
+            mCardView.setEnabled(true);
             stateImage.setImageResource(task.isDone() ? R.drawable.ic_clear : R.drawable.ic_confirm);
             taskName.setText(task.getTaskName());
             taskDate.setText(task.getTaskDateText());

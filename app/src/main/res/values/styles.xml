@@ -16,18 +16,18 @@
     <style name="Blue"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/BlueDark</item>
-        <item name="colorPrimary">@color/BlueDark</item>
-        <item name="colorPrimaryDark">@color/Blue</item>
-        <item name="android:colorAccent">@color/BlueLight</item>
+        <item name="colorPrimary">@color/Blue</item>
+        <item name="colorPrimaryDark">@color/BlueDark</item>
+        <item name="colorAccent">@color/Blue</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
     <style name="Purple"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/PurpleDark</item>
-        <item name="colorPrimary">@color/PurpleDark</item>
-        <item name="colorPrimaryDark">@color/Purple</item>
-        <item name="android:colorAccent">@color/PurpleLight</item>
+        <item name="colorPrimary">@color/Purple</item>
+        <item name="colorPrimaryDark">@color/PurpleDark</item>
+        <item name="colorAccent">@color/Purple</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -35,9 +35,9 @@
     <style name="Green"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/GreenDark</item>
-        <item name="colorPrimary">@color/GreenDark</item>
-        <item name="colorPrimaryDark">@color/Green</item>
-        <item name="android:colorAccent">@color/GreenLight</item>
+        <item name="colorPrimary">@color/Green</item>
+        <item name="colorPrimaryDark">@color/GreenDark</item>
+        <item name="colorAccent">@color/Green</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -45,9 +45,9 @@
     <style name="Red"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/RedDark</item>
-        <item name="colorPrimary">@color/RedDark</item>
-        <item name="colorPrimaryDark">@color/Red</item>
-        <item name="android:colorAccent">@color/RedLight</item>
+        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimaryDark">@color/RedDark</item>
+        <item name="colorAccent">@color/Red</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -55,9 +55,9 @@
     <style name="Amber"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/AmberDark</item>
-        <item name="colorPrimary">@color/AmberDark</item>
-        <item name="colorPrimaryDark">@color/Amber</item>
-        <item name="android:colorAccent">@color/AmberLight</item>
+        <item name="colorPrimary">@color/Amber</item>
+        <item name="colorPrimaryDark">@color/AmberDark</item>
+        <item name="colorAccent">@color/Amber</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -65,9 +65,9 @@
     <style name="Orange"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/OrangeDark</item>
-        <item name="colorPrimary">@color/OrangeDark</item>
-        <item name="colorPrimaryDark">@color/Orange</item>
-        <item name="android:colorAccent">@color/OrangeLight</item>
+        <item name="colorPrimary">@color/Orange</item>
+        <item name="colorPrimaryDark">@color/OrangeDark</item>
+        <item name="colorAccent">@color/Orange</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -75,9 +75,9 @@
     <style name="DeepOrange"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/DeepOrangeDark</item>
-        <item name="colorPrimary">@color/DeepOrangeDark</item>
-        <item name="colorPrimaryDark">@color/DeepOrange</item>
-        <item name="android:colorAccent">@color/DeepOrangeLight</item>
+        <item name="colorPrimary">@color/DeepOrange</item>
+        <item name="colorPrimaryDark">@color/DeepOrangeDark</item>
+        <item name="colorAccent">@color/DeepOrange</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -85,9 +85,9 @@
     <style name="Cyan"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/CyanDark</item>
-        <item name="colorPrimary">@color/CyanDark</item>
-        <item name="colorPrimaryDark">@color/Cyan</item>
-        <item name="android:colorAccent">@color/CyanLight</item>
+        <item name="colorPrimary">@color/Cyan</item>
+        <item name="colorPrimaryDark">@color/CyanDark</item>
+        <item name="colorAccent">@color/Cyan</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -95,9 +95,9 @@
     <style name="Indigo"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/IndigoDark</item>
-        <item name="colorPrimary">@color/IndigoDark</item>
-        <item name="colorPrimaryDark">@color/Indigo</item>
-        <item name="android:colorAccent">@color/IndigoLight</item>
+        <item name="colorPrimary">@color/Indigo</item>
+        <item name="colorPrimaryDark">@color/IndigoDark</item>
+        <item name="colorAccent">@color/Indigo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -105,9 +105,9 @@
     <style name="Pink"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/PinkDark</item>
-        <item name="colorPrimary">@color/PinkDark</item>
-        <item name="colorPrimaryDark">@color/Pink</item>
-        <item name="android:colorAccent">@color/PinkLight</item>
+        <item name="colorPrimary">@color/Pink</item>
+        <item name="colorPrimaryDark">@color/PinkDark</item>
+        <item name="colorAccent">@color/Pink</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -115,9 +115,9 @@
     <style name="Lime"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/LimeDark</item>
-        <item name="colorPrimary">@color/LimeDark</item>
-        <item name="colorPrimaryDark">@color/Lime</item>
-        <item name="android:colorAccent">@color/LimeLight</item>
+        <item name="colorPrimary">@color/Lime</item>
+        <item name="colorPrimaryDark">@color/LimeDark</item>
+        <item name="colorAccent">@color/Lime</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -125,9 +125,9 @@
     <style name="Teal"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/TealDark</item>
-        <item name="colorPrimary">@color/TealDark</item>
-        <item name="colorPrimaryDark">@color/Teal</item>
-        <item name="android:colorAccent">@color/TealLight</item>
+        <item name="colorPrimary">@color/Teal</item>
+        <item name="colorPrimaryDark">@color/TealDark</item>
+        <item name="colorAccent">@color/Teal</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -135,9 +135,9 @@
     <style name="LightGreen"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/LightGreenDark</item>
-        <item name="colorPrimary">@color/LightGreenDark</item>
-        <item name="colorPrimaryDark">@color/LightGreen</item>
-        <item name="android:colorAccent">@color/LightGreenLight</item>
+        <item name="colorPrimary">@color/LightGreen</item>
+        <item name="colorPrimaryDark">@color/LightGreenDark</item>
+        <item name="colorAccent">@color/LightGreen</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -145,9 +145,9 @@
     <style name="DeepPurple"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/DeepPurpleDark</item>
-        <item name="colorPrimary">@color/DeepPurpleDark</item>
-        <item name="colorPrimaryDark">@color/DeepPurple</item>
-        <item name="android:colorAccent">@color/DeepPurpleLight</item>
+        <item name="colorPrimary">@color/DeepPurple</item>
+        <item name="colorPrimaryDark">@color/DeepPurpleDark</item>
+        <item name="android:colorAccent">@color/DeepPurple</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -163,7 +163,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.UserDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+    <style name="AppTheme.UserDialog" parent="Base.Theme.AppCompat.Dialog">
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

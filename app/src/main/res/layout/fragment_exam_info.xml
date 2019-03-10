@@ -22,7 +22,7 @@
             android:id="@+id/img_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?colorPrimaryDark">
+            android:background="?colorPrimary">
 
             <ImageView
                 android:id="@+id/img"
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/exam_foreground"
-                android:tint="?colorPrimary" />
+                android:tint="?colorPrimaryDark" />
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
@@ -59,7 +59,7 @@
                 android:id="@+id/info_month"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?colorPrimary"
+                android:background="?colorPrimaryDark"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
@@ -319,10 +319,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:progress="52"
-            android:progressTint="?colorPrimary"
+            android:progressTint="?colorPrimaryDark"
             android:scaleY="20"
             android:secondaryProgress="100"
-            android:secondaryProgressTint="?colorPrimaryDark"
+            android:secondaryProgressTint="?colorPrimary"
             android:secondaryProgressTintMode="src_over" />
     </androidx.cardview.widget.CardView>
 

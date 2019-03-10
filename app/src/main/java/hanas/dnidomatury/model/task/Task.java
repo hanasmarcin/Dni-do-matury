@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Observable;
 
-import androidx.annotation.NonNull;
-
 import static hanas.dnidomatury.model.task.Task.TaskHeader.DONE;
 import static hanas.dnidomatury.model.task.Task.TaskHeader.TODO;
 
@@ -19,17 +17,23 @@ public class Task extends Observable implements Comparable<Task>, Serializable {
     private boolean isDone;
     private TaskHeader header;
 
+    public void update(String taskName, String taskDateText) {
+        this.taskName = taskName;
+        this.taskDateText = taskDateText;
+        this.taskDate = taskDateTextToDate(taskDateText);
+    }
+
     public enum TaskHeader {NOT, TODO, DONE}
 
     public Task(String taskName, String taskDateText, TaskHeader header) {
         this.taskName = taskName;
-        this.taskDate = TaskDateTextToDate(taskDateText);
+        this.taskDate = taskDateTextToDate(taskDateText);
         this.taskDateText = taskDateText;
         this.isDone = false;
         this.header = header;
     }
 
-    public static Calendar TaskDateTextToDate(String taskDateText) {
+    public static Calendar taskDateTextToDate(String taskDateText) {
         SimpleDateFormat formatter = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
         try {
             Calendar cal = Calendar.getInstance();

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import hanas.dnidomatury.R;
+import hanas.dnidomatury.examActivity.DataViewModel;
 import hanas.dnidomatury.model.ExamSpecificList;
 import hanas.dnidomatury.model.ExamsFileList;
 import hanas.dnidomatury.model.matura.Exam;
@@ -68,8 +70,12 @@ public class SheetListFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             selectedExamPOS = bundle.getInt("selectedExamPOS");
-            sheetList = SheetsList.fromFile(getActivity(), ExamsList.fromFile(true, getActivity()).get(selectedExamPOS));
+            mSelectedExam = ExamsList.fromFile(true, getActivity()).get(selectedExamPOS);
+            //sheetList = SheetsList.fromFile(getActivity(), ExamsList.fromFile(true, getActivity()).get(selectedExamPOS));
         }
+        DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+        sheetList = data.getSheets();
+
 //            mListOfExam = SelectedExamsList.getInstance(getActivity());
 //            mSelectedExam = mListOfExam.get(selectedExamPOS);
 //            primaryColorID = mSelectedExam.getPrimaryColorID(getActivity());
@@ -117,8 +123,9 @@ public class SheetListFragment extends Fragment {
 
     @Override
     public void onPause() {
+        //System.out.println("ROZMIAR SZIETLISTY "+sheetList.size());
         super.onPause();
-        sheetList.toFile(getActivity(), mSelectedExam);
+        //sheetList.toFile(getActivity(), mSelectedExam);
         //mListOfExam = ListOfExam.readFromFile(getActivity(),true);
         //saveData();
     }
@@ -195,7 +202,7 @@ public class SheetListFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.add_task) {
             Intent intent = new Intent(getActivity(), AddSheetActivity.class);
-            getActivity().startActivityForResult(intent, 55);
+            startActivityForResult(intent, 55);
         }
         return super.onOptionsItemSelected(item);
     }

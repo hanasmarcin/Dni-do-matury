@@ -1,5 +1,7 @@
 package hanas.dnidomatury.examActivity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -17,9 +19,16 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.ContactsContract;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examActivity.SheetList.SheetListFragment;
@@ -41,14 +50,16 @@ public class ExamActivity extends AppCompatActivity {
     Exam mSelectedExam;
     int selectedExamPOS;
     ExamsFileList mListOfExam;
+    ConstraintLayout preDataLayout;
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    //private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener viewPagerListener;
     //private TaskListFragment mTaskListFragment;
     //private ExamInfoFragment mExamInfoFragment;
     //private SheetListFragment mSheetListFragment;
     private Toolbar toolbar;
+    DataViewModel data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +83,34 @@ public class ExamActivity extends AppCompatActivity {
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);
+        //SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), false);
 
         // Set up the ViewPager with the sections adapter.
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager.setCurrentItem(1);
+        //mViewPager.getAdapter().notifyDataSetChanged();
         mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(1);
-        mViewPager.getAdapter().notifyDataSetChanged();
-
         TextView daysTimer = findViewById(R.id.days_timer_exam_activity);
         TextView hmsTimer = findViewById(R.id.hms_timer_exam_activity);
+
+        preDataLayout = findViewById(R.id.pre_data_view);
+        TextView monthView = findViewById(R.id.info_month_pre_data);
+        TextView dayView = findViewById(R.id.into_day_pre_data);
+        TextView dayOfWeekView = findViewById(R.id.info_day_of_week_pre_data);
+        TextView hourView = findViewById(R.id.info_hour_pre_data);
+
+        SimpleDateFormat monthFormat = new SimpleDateFormat("LLLL", Locale.getDefault());
+        SimpleDateFormat dayOfWeekFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+        SimpleDateFormat hourFormat = new SimpleDateFormat("H:mm", Locale.getDefault());
+        String month = monthFormat.format(mSelectedExam.getDate().getTime());
+        String dayOfWeek = dayOfWeekFormat.format(mSelectedExam.getDate().getTime());
+        String hour = hourFormat.format(mSelectedExam.getDate().getTime());
+        monthView.setText(month);
+        //monthView.setBackgroundColor(ContextCompat.getColor(getActivity(), darkColorID));
+        dayView.setText(Integer.toString(mSelectedExam.getDate().get(Calendar.DAY_OF_MONTH)));
+        dayOfWeekView.setText(dayOfWeek);
+        hourView.setText(hour);
+
         new ExamTimer().startExamTimer(this, mSelectedExam, daysTimer, hmsTimer);
     }
 
@@ -91,20 +120,65 @@ public class ExamActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        data = ViewModelProviders.of(this).get(DataViewModel.class);
+        Context context = this;
+
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                data.setFromFile(context, mSelectedExam);
+                System.out.print("Odczytano dane");
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                //super.onPostExecute(aVoid);
+                System.out.println("Nowy adapter");
+                preDataLayout.setVisibility(View.GONE);
+                SectionsPagerAdapter newAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), true);
+                mViewPager.setAdapter(newAdapter);
+                mViewPager.setCurrentItem(1);
+
+            }
+        }.execute();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        final Context context = this;
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                data.toFile(context, mSelectedExam);
+                return null;
+            }
+        }.execute();
+    }
+
     // Custom FragmentPagerAdapter that returns a fragment corresponding to one of the tabs
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private FragmentActivity activity;
+        boolean isDataLoaded;
 
-        public SectionsPagerAdapter(FragmentManager fm, FragmentActivity activity) {
+        public SectionsPagerAdapter(FragmentManager fm, boolean isDataLoaded) {
             super(fm);
-            this.activity = activity;
+            this.isDataLoaded = isDataLoaded;
         }
 
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            System.out.println(position);
+            if (!isDataLoaded) return ExamInfoFragment.newInstance(selectedExamPOS);
+
             switch (position) {
                 case 0: {
                     return SheetListFragment.newInstance(selectedExamPOS);
@@ -121,7 +195,8 @@ public class ExamActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            System.out.println("GETITEMCOUNT "+isDataLoaded);
+            return isDataLoaded ? 3 : 1;
         }
 
 

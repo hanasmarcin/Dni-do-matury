@@ -76,7 +76,7 @@ public class AddSheetActivity extends AppCompatActivity {
         addDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar c = Task.TaskDateTextToDate((String) sheetDate.getText());
+                final Calendar c = Task.taskDateTextToDate((String) sheetDate.getText());
 
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
