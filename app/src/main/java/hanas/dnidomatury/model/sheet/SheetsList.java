@@ -2,6 +2,8 @@ package hanas.dnidomatury.model.sheet;
 
 import android.content.Context;
 
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +23,11 @@ public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<She
         for (int i = 0; i < 30; i++) {
             this.add(new Sheet("sheet nr. "+i, "Brak daty", i, 50));
         }
+    }
+
+    @Override
+    public String getFileSuffix() {
+        return FILE_SUFFIX;
     }
 
     public static SheetsList fromFile(Context context, Exam exam) {
@@ -59,6 +66,7 @@ public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<She
     public void toFile(Context context, Exam exam) {
         toFile(context, FileSupport.getFileTitle(exam, FILE_SUFFIX));
     }
+
 
     @Override
     public int moveAndSort(int fromPosition, boolean downTheList) {

@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
 import hanas.dnidomatury.R;
@@ -27,8 +30,13 @@ import hanas.dnidomatury.examActivity.DataViewModel;
 import hanas.dnidomatury.model.ExamSpecificList;
 import hanas.dnidomatury.model.matura.Exam;
 import hanas.dnidomatury.model.matura.ExamsList;
+import hanas.dnidomatury.model.sheet.SheetsList;
 import hanas.dnidomatury.model.task.Task;
 import hanas.dnidomatury.model.task.TasksList;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 import static hanas.dnidomatury.model.task.Task.TaskHeader.NOT;
@@ -75,69 +83,123 @@ public class TaskListFragment extends Fragment {
         return rootView;
     }
 
+    View view;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        long start = Calendar.getInstance().getTimeInMillis();
-        System.out.println("ZACZYNAMY SPRAWDZAĆ");
+        this.view = view;
         Bundle bundle = getArguments();
         mSelectedExam = ExamsList.fromFile(true, getActivity()).get(bundle.getInt("selectedExamPOS"));
-        long a = Calendar.getInstance().getTimeInMillis();
-        System.out.println(a - start);
-        DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+        //DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
         darkColorID = mSelectedExam.getDarkColorID(getActivity());
+        DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+        long a = Calendar.getInstance().getTimeInMillis();
         todoList = data.getTasks();
-        long b = Calendar.getInstance().getTimeInMillis();
-        System.out.println(b - a);
+        new ReadData(this, todoList).execute(getActivity());
+//        long b = Calendar.getInstance().getTimeInMillis();
+//        System.out.println("ZACZYBNAMYYYFRAG" + (b - a));
+//        long c = Calendar.getInstance().getTimeInMillis();
+//        System.out.println(c - b);
+//        RecyclerView recyclerView = view.findViewById(R.id.tasks_recycler_view);
+//        recyclerView.setLayoutManager(layoutManager);
+//        long d = Calendar.getInstance().getTimeInMillis();
+//        System.out.println(d - c);
+//        adapter = new TaskAdapter(this, todoList, darkColorID);
+//        long e = Calendar.getInstance().getTimeInMillis();
+//        System.out.println(e - d);
+//        recyclerView.setAdapter(adapter);
+//        long f = Calendar.getInstance().getTimeInMillis();
+//        System.out.println(f - e);
+//                    recyclerView.setAdapter(adapter);
+        CompositeDisposable mDisposable = new CompositeDisposable();
+//        mDisposable.add(Observable.fromCallable(() -> {
+//            Context ctx = getActivity();
+//            ExamSpecificList<Task> list = null;
+//            if (ctx != null)
+//                list = TasksList.fromFile(getActivity(), mSelectedExam);
+//            //data.setFromFile(context, mSelectedExam);
+//            return list;
+//        })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe((list) -> {
+//                    RecyclerView recyclerView = view.findViewById(R.id.tasks_recycler_view);
+//                    recyclerView.setHasFixedSize(true);
+//                    CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
+//                    recyclerView.setLayoutManager(layoutManager);
+//                    adapter = new TaskAdapter(this, list, darkColorID);
+//                    todoList = list;
+//                    recyclerView.setAdapter(adapter);
+//                }));
 
+        //todoList = TasksList.fromFile(getActivity(), mSelectedExam);
 
-        long c = Calendar.getInstance().getTimeInMillis();
-        System.out.println(c - b);//new ReadData(bundle, this).execute();
-        //nested = rootView.findViewById(R.id.nested);
-        //int selectedExamPOS;
-        recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-        long d = Calendar.getInstance().getTimeInMillis();
-        System.out.println(d - c);
-        recyclerView.setLayoutManager(layoutManager);
-        long e = Calendar.getInstance().getTimeInMillis();
-        System.out.println(e - d);
-        adapter = new TaskAdapter(this, todoList, darkColorID);
-        recyclerView.setAdapter(adapter);
-        long f = Calendar.getInstance().getTimeInMillis();
-        System.out.println(f - e);
+//        recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
+//        recyclerView.setHasFixedSize(true);
+//        CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
+//        recyclerView.setLayoutManager(layoutManager);
+//        adapter = new TaskAdapter(this, todoList, darkColorID);
+//        recyclerView.setAdapter(adapter);
     }
 
-    private class ReadData extends AsyncTask<Void, Void, Void> {
+//    private class ReadData extends AsyncTask<Void, Void, Void> {
+//
+//        Bundle bundle;
+//        Fragment fragment;
+//
+//        ReadData(Bundle bundle, Fragment fragment) {
+//            this.bundle = bundle;
+//            this.fragment = fragment;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            if (bundle != null) {
+//                mSelectedExam = ExamsList.fromFile(true, getActivity()).get(bundle.getInt("selectedExamPOS"));
+//                darkColorID = mSelectedExam.getDarkColorID(getActivity());
+//                todoList = TasksList.fromFile(getActivity(), mSelectedExam);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            //nested = rootView.findViewById(R.id.nested);
+//            //int selectedExamPOS;
+//            recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
+//            recyclerView.setHasFixedSize(true);
+//            CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
+//            recyclerView.setLayoutManager(layoutManager);
+//            adapter = new TaskAdapter(fragment, todoList, darkColorID);
+//            recyclerView.setAdapter(adapter);
+//        }
+//    }
 
-        Bundle bundle;
-        Fragment fragment;
+    private class ReadData extends AsyncTask<Context, Void, CustomLayoutManager> {
 
-        ReadData(Bundle bundle, Fragment fragment) {
-            this.bundle = bundle;
-            this.fragment = fragment;
+        WeakReference<TaskListFragment> fragmentReference;
+        ExamSpecificList<Task> tasks;
+        public ReadData(TaskListFragment fragment, ExamSpecificList<Task> tasks) {
+            this.fragmentReference = new WeakReference<>(fragment);
+            this.tasks = tasks;
         }
-
         @Override
-        protected Void doInBackground(Void... voids) {
-            if (bundle != null) {
-                mSelectedExam = ExamsList.fromFile(true, getActivity()).get(bundle.getInt("selectedExamPOS"));
-                darkColorID = mSelectedExam.getDarkColorID(getActivity());
-                todoList = TasksList.fromFile(getActivity(), mSelectedExam);
+        protected CustomLayoutManager doInBackground(Context... contexts) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            return null;
+            return new CustomLayoutManager(contexts[0]);
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            //nested = rootView.findViewById(R.id.nested);
-            //int selectedExamPOS;
-            recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
-            recyclerView.setHasFixedSize(true);
-            CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-            recyclerView.setLayoutManager(layoutManager);
-            adapter = new TaskAdapter(fragment, todoList, darkColorID);
+        protected void onPostExecute(CustomLayoutManager customLayoutManager) {
+            TaskListFragment fragment = fragmentReference.get();
+            if (fragment == null) return;
+            RecyclerView recyclerView = fragment.view.findViewById(R.id.tasks_recycler_view);
+            recyclerView.setLayoutManager(customLayoutManager);
+            TaskAdapter adapter = new TaskAdapter(fragment, tasks);
             recyclerView.setAdapter(adapter);
         }
     }
@@ -181,7 +243,7 @@ public class TaskListFragment extends Fragment {
                     final Task newTask = new Task(taskName, taskDateText, NOT);
                     todoList.add(1, newTask);
                     int newPosition = todoList.moveAndSort(1, true);
-                    adapter.notifyItemInserted(newPosition);
+                    if (adapter != null) adapter.notifyItemInserted(newPosition);
                 }
 
             }
@@ -196,13 +258,13 @@ public class TaskListFragment extends Fragment {
                     boolean dateChanged = false;
                     if (!editedTask.getTaskDateText().equals(taskDateText)) dateChanged = true;
                     editedTask.update(taskName, taskDateText);
-                    adapter.notifyItemChanged(taskID);
+                    if (adapter != null) adapter.notifyItemChanged(taskID);
 
                     if (dateChanged) {
                         int newTaskPos = todoList.moveAndSort(taskID, false);
                         if (newTaskPos == taskID)
                             newTaskPos = todoList.moveAndSort(taskID, true);
-                        adapter.notifyItemMoved(taskID, newTaskPos);
+                        if (adapter != null) adapter.notifyItemMoved(taskID, newTaskPos);
                     }
                     //todoList.sort();
                     //nested.scrollTo(0, 0);

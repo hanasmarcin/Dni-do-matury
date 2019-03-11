@@ -2,6 +2,7 @@ package hanas.dnidomatury.model.task;
 
 import android.content.Context;
 
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +30,11 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
             this.add(new Task("task nr. " + i, "Brak daty", NOT));
         }
         this.add(new Task("", "", DONE));
+    }
+
+    @Override
+    public String getFileSuffix() {
+        return FILE_SUFFIX;
     }
 
     public static TasksList fromFile(Context context, Exam exam) {
@@ -110,6 +116,8 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
     public void toFile(Context context, Exam exam) {
         toFile(context, FileSupport.getFileTitle(exam, FILE_SUFFIX));
     }
+
+
 }
 
 

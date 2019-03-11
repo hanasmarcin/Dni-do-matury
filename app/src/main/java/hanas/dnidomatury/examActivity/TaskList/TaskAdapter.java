@@ -33,14 +33,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     private Fragment fragment;
     private Context context;
     private ExamSpecificList<Task> tasksList;
-    private final int darkColorID;
+    //private final int darkColorID;
 
 
-    public TaskAdapter(Fragment fragment, ExamSpecificList<Task> tasks, int darkColorID) {
+    public TaskAdapter(Fragment fragment, ExamSpecificList<Task> tasks) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.tasksList = tasks;
-        this.darkColorID = darkColorID;
+        //this.darkColorID = darkColorID;
         //tasks.sort();
     }
 
@@ -57,7 +57,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     public void onBindViewHolder(@NonNull final TaskViewHolder taskViewHolder, final int adapterId) {
         final Task task = tasksList.get(adapterId);
-        System.out.println(taskViewHolder.mCardView.getVisibility() + " " + taskViewHolder.layoutToHide.getVisibility());
         // If task is a header and not a proper task
         if (task.getHeader().equals(TODO) || task.getHeader().equals(DONE)) {
             // Set card property for headers
@@ -95,10 +94,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 }.execute();
             });
 
-            taskViewHolder.mCardView.setOnLongClickListener(view -> {
-                taskViewHolder.onMenuEditClick(taskViewHolder.getAdapterPosition());
-                return true;
-            });
+//            taskViewHolder.mCardView.setOnLongClickListener(view -> {
+//                taskViewHolder.onMenuEditClick(taskViewHolder.getAdapterPosition());
+//                return true;
+//            });
 
 
         }
@@ -159,7 +158,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         private void setCardPropertiesForHeader(int adapterId) {
-            System.out.println("WLAZLEM");
             layoutToHide.setVisibility(View.GONE);
             mCardView.setCardBackgroundColor(View.INVISIBLE);
             mCardView.setCardElevation(0);
@@ -169,7 +167,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         private void setCardPropertiesForTask(Task task) {
-            System.out.println("WLAZLEM");
             taskHeader.setVisibility(View.GONE);
             layoutToHide.setVisibility(View.VISIBLE);
             mCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_surface));
@@ -185,7 +182,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 taskName.setPaintFlags(taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 // Set card properties for task that isn't done
-                stateImage.setColorFilter(ContextCompat.getColor(context, darkColorID));
+                //stateImage.setColorFilter(ContextCompat.getColor(context, darkColorID));
                 taskName.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
                 taskName.setPaintFlags(taskName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
             }

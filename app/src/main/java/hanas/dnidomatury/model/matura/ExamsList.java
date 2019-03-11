@@ -54,4 +54,8 @@ public class ExamsList extends ArrayList<Exam> implements ExamsFileList {
     }
 
 
+    @Override
+    public String getFileSuffix() {
+        return "";
+    }
 }

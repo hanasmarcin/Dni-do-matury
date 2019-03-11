@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 import hanas.dnidomatury.model.matura.Exam;
 
-public interface FileSupport <T>{
+public interface FileSupport<T> {
 
     static boolean fileExists(final Context context, String fileTitle) {
         File file = context.getFileStreamPath(fileTitle);
@@ -22,7 +22,8 @@ public interface FileSupport <T>{
     }
 
     static String getFileTitle(Exam exam, String file_suffix) {
-        if (exam != null) return exam.getName()+"_"+exam.getLevel()+"_"+exam.getType()+file_suffix;
+        if (exam != null)
+            return exam.getName() + "_" + exam.getLevel() + "_" + exam.getType() + file_suffix;
         else return file_suffix;
     }
 
@@ -69,6 +70,7 @@ public interface FileSupport <T>{
         return fileReader.getValue();
     }
 
+
     default void toFile(final Context context, final String fileTitle) {
         new Thread(() -> {
             try {
@@ -80,6 +82,27 @@ public interface FileSupport <T>{
                 ex.printStackTrace();
             }
         }).run();
+    }
+
+    String getFileSuffix();
+
+    default FileOutputStream getOutputStream(final Context context, final Exam exam) {
+        try {
+            return context.openFileOutput(getFileTitle(exam, getFileSuffix()), Context.MODE_PRIVATE);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    default void toFile(final FileOutputStream fileOut) {
+            try {
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(this);
+            objectOut.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

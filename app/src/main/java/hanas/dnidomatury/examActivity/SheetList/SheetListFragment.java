@@ -1,6 +1,7 @@
 package hanas.dnidomatury.examActivity.SheetList;
 
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.content.Context;
@@ -24,12 +25,19 @@ import android.view.ViewGroup;
 
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examActivity.DataViewModel;
+import hanas.dnidomatury.examActivity.TaskList.TaskAdapter;
+import hanas.dnidomatury.examActivity.TaskList.TaskListFragment;
 import hanas.dnidomatury.model.ExamSpecificList;
 import hanas.dnidomatury.model.ExamsFileList;
 import hanas.dnidomatury.model.matura.Exam;
 import hanas.dnidomatury.model.matura.ExamsList;
 import hanas.dnidomatury.model.sheet.Sheet;
 import hanas.dnidomatury.model.sheet.SheetsList;
+import hanas.dnidomatury.model.task.TasksList;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -71,10 +79,10 @@ public class SheetListFragment extends Fragment {
         if (bundle != null) {
             selectedExamPOS = bundle.getInt("selectedExamPOS");
             mSelectedExam = ExamsList.fromFile(true, getActivity()).get(selectedExamPOS);
-            //sheetList = SheetsList.fromFile(getActivity(), ExamsList.fromFile(true, getActivity()).get(selectedExamPOS));
+            sheetList = SheetsList.fromFile(getActivity(), ExamsList.fromFile(true, getActivity()).get(selectedExamPOS));
         }
-        DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
-        sheetList = data.getSheets();
+        //DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+        //sheetList = data.getSheets();
 
 //            mListOfExam = SelectedExamsList.getInstance(getActivity());
 //            mSelectedExam = mListOfExam.get(selectedExamPOS);
@@ -94,19 +102,47 @@ public class SheetListFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_sheet_list, container, false);
 
         nested = rootView.findViewById(R.id.nested_sheet);
-        recyclerView = rootView.findViewById(R.id.sheets_recycler_view);
-        examCoordinator = rootView.findViewById(R.id.sheet_list_coordinator);
-        recyclerView.setHasFixedSize(true);
-        CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new SheetAdapter(this, sheetList, examCoordinator);
-        adapter.setHasStableIds(true);
-        recyclerView.setAdapter(adapter);
+//        recyclerView = rootView.findViewById(R.id.sheets_recycler_view);
+//        examCoordinator = rootView.findViewById(R.id.sheet_list_coordinator);
+//        recyclerView.setHasFixedSize(true);
+//        CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
+//        recyclerView.setLayoutManager(layoutManager);
+//        adapter = new SheetAdapter(this, sheetList, examCoordinator);
+//        adapter.setHasStableIds(true);
+//        recyclerView.setAdapter(adapter);
 
 
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        CompositeDisposable mDisposable = new CompositeDisposable();
+        mDisposable.add(Observable.fromCallable(() -> {
+            //Thread.sleep(3000);
+            Context ctx = getActivity();
+            if (ctx != null)
+                sheetList = SheetsList.fromFile(getActivity(), mSelectedExam);
+            System.out.println("konczymy czytac");
+            //data.setFromFile(context, mSelectedExam);
+            return sheetList;
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((sheetList) -> {
+                    System.out.println("zaczynamy ustawiac");
+                    RecyclerView recyclerView = view.findViewById(R.id.sheets_recycler_view);
+                    recyclerView.setHasFixedSize(true);
+                    CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
+                    recyclerView.setLayoutManager(layoutManager);
+                    CoordinatorLayout examCoordinator = view.findViewById(R.id.sheet_list_coordinator);
+                    adapter = new SheetAdapter(this, sheetList, examCoordinator);
+                    recyclerView.setAdapter(adapter);
+                    System.out.println("konczymy ustawiac");
+                }));
+
+    }
 
     public double getSheetsAverage() {
         if (sheetList.size() == 0) return -1;
