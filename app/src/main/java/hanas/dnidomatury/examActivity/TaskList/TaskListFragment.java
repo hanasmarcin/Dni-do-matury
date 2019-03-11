@@ -48,10 +48,7 @@ public class TaskListFragment extends Fragment {
 
     private ExamSpecificList<Task> todoList;
     private Exam mSelectedExam;
-    private int darkColorID;
-    RecyclerView recyclerView;
     TaskAdapter adapter;
-    //private NestedScrollView nested;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -84,112 +81,54 @@ public class TaskListFragment extends Fragment {
     }
 
     View view;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
         Bundle bundle = getArguments();
         mSelectedExam = ExamsList.fromFile(true, getActivity()).get(bundle.getInt("selectedExamPOS"));
-        //DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
-        darkColorID = mSelectedExam.getDarkColorID(getActivity());
         DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
-        long a = Calendar.getInstance().getTimeInMillis();
+        //darkColorID = mSelectedExam.getDarkColorID(getActivity());
+        //DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+
+        RecyclerView recyclerView = view.findViewById(R.id.tasks_recycler_view);
+//        adapter = new TaskAdapter(this, new TasksList());
+//        adapter.setHasStableIds(true);
+//        new ReadData(this, mSelectedExam, todoList).execute();
+//
+//        CustomLayoutManager clm = new CustomLayoutManager(getActivity());
+//        recyclerView.setAdapter(adapter);
+        //recyclerView.setLayoutManager(clm);
         todoList = data.getTasks();
-        new ReadData(this, todoList).execute(getActivity());
-//        long b = Calendar.getInstance().getTimeInMillis();
-//        System.out.println("ZACZYBNAMYYYFRAG" + (b - a));
-//        long c = Calendar.getInstance().getTimeInMillis();
-//        System.out.println(c - b);
+        System.out.println("rozmiar todolistyyy"+todoList.size());
+
+
+
 //        RecyclerView recyclerView = view.findViewById(R.id.tasks_recycler_view);
-//        recyclerView.setLayoutManager(layoutManager);
-//        long d = Calendar.getInstance().getTimeInMillis();
-//        System.out.println(d - c);
-//        adapter = new TaskAdapter(this, todoList, darkColorID);
-//        long e = Calendar.getInstance().getTimeInMillis();
-//        System.out.println(e - d);
-//        recyclerView.setAdapter(adapter);
-//        long f = Calendar.getInstance().getTimeInMillis();
-//        System.out.println(f - e);
-//                    recyclerView.setAdapter(adapter);
-        CompositeDisposable mDisposable = new CompositeDisposable();
-//        mDisposable.add(Observable.fromCallable(() -> {
-//            Context ctx = getActivity();
-//            ExamSpecificList<Task> list = null;
-//            if (ctx != null)
-//                list = TasksList.fromFile(getActivity(), mSelectedExam);
-//            //data.setFromFile(context, mSelectedExam);
-//            return list;
-//        })
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe((list) -> {
-//                    RecyclerView recyclerView = view.findViewById(R.id.tasks_recycler_view);
-//                    recyclerView.setHasFixedSize(true);
-//                    CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-//                    recyclerView.setLayoutManager(layoutManager);
-//                    adapter = new TaskAdapter(this, list, darkColorID);
-//                    todoList = list;
-//                    recyclerView.setAdapter(adapter);
-//                }));
-
-        //todoList = TasksList.fromFile(getActivity(), mSelectedExam);
-
-//        recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
-//        recyclerView.setHasFixedSize(true);
-//        CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-//        recyclerView.setLayoutManager(layoutManager);
-//        adapter = new TaskAdapter(this, todoList, darkColorID);
-//        recyclerView.setAdapter(adapter);
+//        //CustomLayoutManager customLayoutManager = new CustomLayoutManager(getActivity());
+//        //TaskAdapter adapter = new TaskAdapter(this, todoList);
+//        System.out.println("przed setadapter");
+        recyclerView.setVisibility(View.GONE);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        System.out.println("po setadapter");
+        new ReadData(this, todoList).execute(getActivity());
     }
 
-//    private class ReadData extends AsyncTask<Void, Void, Void> {
-//
-//        Bundle bundle;
-//        Fragment fragment;
-//
-//        ReadData(Bundle bundle, Fragment fragment) {
-//            this.bundle = bundle;
-//            this.fragment = fragment;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            if (bundle != null) {
-//                mSelectedExam = ExamsList.fromFile(true, getActivity()).get(bundle.getInt("selectedExamPOS"));
-//                darkColorID = mSelectedExam.getDarkColorID(getActivity());
-//                todoList = TasksList.fromFile(getActivity(), mSelectedExam);
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            //nested = rootView.findViewById(R.id.nested);
-//            //int selectedExamPOS;
-//            recyclerView = rootView.findViewById(R.id.tasks_recycler_view);
-//            recyclerView.setHasFixedSize(true);
-//            CustomLayoutManager layoutManager = new CustomLayoutManager(getActivity());
-//            recyclerView.setLayoutManager(layoutManager);
-//            adapter = new TaskAdapter(fragment, todoList, darkColorID);
-//            recyclerView.setAdapter(adapter);
-//        }
-//    }
 
-    private class ReadData extends AsyncTask<Context, Void, CustomLayoutManager> {
+    private static class ReadData extends AsyncTask<Context, Void, CustomLayoutManager> {
 
         WeakReference<TaskListFragment> fragmentReference;
         ExamSpecificList<Task> tasks;
+
         public ReadData(TaskListFragment fragment, ExamSpecificList<Task> tasks) {
             this.fragmentReference = new WeakReference<>(fragment);
             this.tasks = tasks;
         }
+
         @Override
         protected CustomLayoutManager doInBackground(Context... contexts) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             return new CustomLayoutManager(contexts[0]);
         }
 
@@ -198,9 +137,10 @@ public class TaskListFragment extends Fragment {
             TaskListFragment fragment = fragmentReference.get();
             if (fragment == null) return;
             RecyclerView recyclerView = fragment.view.findViewById(R.id.tasks_recycler_view);
-            recyclerView.setLayoutManager(customLayoutManager);
+            recyclerView.setVisibility(View.VISIBLE);
             TaskAdapter adapter = new TaskAdapter(fragment, tasks);
             recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(customLayoutManager);
         }
     }
 
@@ -212,7 +152,7 @@ public class TaskListFragment extends Fragment {
     }
 
     // TODO: 09.03.2019 IDENTYCZNY CLM, ZROBIĆ TYLKO JEDEN
-    public class CustomLayoutManager extends LinearLayoutManager {
+    public static class CustomLayoutManager extends LinearLayoutManager {
 
         public CustomLayoutManager(Context context) {
             super(context);

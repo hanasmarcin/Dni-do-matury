@@ -12,6 +12,7 @@ import hanas.dnidomatury.model.matura.Exam;
 public interface ExamSpecificList<T extends Comparable<T>>
         extends FileSupportedList<T> {
 
+    void readFromFile(Context context, final Exam exam);
     void toFile(final Context context, final Exam exam);
     //FileOutputStream getOutputStream(final Context context, final Exam exam);
     //void toFile(final FileOutputStream fileOut);

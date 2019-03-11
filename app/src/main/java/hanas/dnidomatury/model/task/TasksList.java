@@ -23,13 +23,34 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
     private final static String FILE_SUFFIX = "taskslist";
     private transient TasksCounter counter;
 
-    private TasksList() {
+    public TasksList() {
         this.add(new Task("", "", TODO));
         for (int i = 0; i < 30; i++) {
             System.out.println(i + " wtf");
             this.add(new Task("task nr. " + i, "Brak daty", NOT));
         }
         this.add(new Task("", "", DONE));
+    }
+
+
+    public void readFromFile(Context context, Exam exam) {
+        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
+        TasksList list = FileSupport.fromFile(context, fileTitle);
+        if (list == null) //list = new TasksList();
+        {
+            this.add(new Task("", "", TODO));
+            for (int i = 0; i < 30; i++) {
+                this.add(new Task("task nr. " + i, "Brak daty", NOT));
+            }
+            this.add(new Task("", "", DONE));
+            this.sort();
+        } else {
+            this.clear();
+            this.addAll(list);
+        }
+        this.counter = exam.getTasksCounter();
+        for (Task task : this)
+            task.addObserver((observable, isDone) -> this.counter.updateCounter((boolean) isDone));
     }
 
     @Override

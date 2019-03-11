@@ -63,6 +63,16 @@ public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<She
     }
 
     @Override
+    public void readFromFile(Context context, Exam exam) {
+        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
+        SheetsList list = FileSupport.fromFile(context, fileTitle);
+        if (list != null) {
+            this.clear();
+            this.addAll(list);
+        }
+    }
+
+    @Override
     public void toFile(Context context, Exam exam) {
         toFile(context, FileSupport.getFileTitle(exam, FILE_SUFFIX));
     }
