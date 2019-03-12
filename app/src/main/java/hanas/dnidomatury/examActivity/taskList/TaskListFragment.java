@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examActivity.DataViewModel;
-import hanas.dnidomatury.examActivity.recyclerViews.CustomLayoutManager;
+import hanas.dnidomatury.examActivity.CustomLayoutManager;
 import hanas.dnidomatury.model.examSpecific.ExamItemsList;
 import hanas.dnidomatury.model.examSpecific.task.Task;
 

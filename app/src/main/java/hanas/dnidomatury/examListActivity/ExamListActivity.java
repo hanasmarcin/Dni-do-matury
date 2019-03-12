@@ -32,7 +32,7 @@ public class ExamListActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) findViewById(R.id.exam_list_container);
+        ViewPager viewPager = findViewById(R.id.exam_list_container);
         viewPager.setAdapter(sectionsPagerAdapter);
     }
 
@@ -71,7 +71,7 @@ public class ExamListActivity extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

@@ -3,7 +3,6 @@ package hanas.dnidomatury.model.exam;
 import android.content.Context;
 
 import hanas.dnidomatury.model.fileSupport.FileSupportedList;
-import hanas.dnidomatury.model.exam.Exam;
 
 public interface ExamsList extends FileSupportedList<Exam> {
 

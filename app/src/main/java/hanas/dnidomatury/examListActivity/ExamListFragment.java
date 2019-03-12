@@ -23,15 +23,14 @@ import hanas.dnidomatury.model.exam.SelectedExamsList;
 public class ExamListFragment extends Fragment {
 
 
-    RecyclerView recyclerView;
-    ExamAdapter adapter;
-    ExamsList selectedExams;
+    private ExamAdapter adapter;
+    private ExamsList selectedExams;
 
     public ExamListFragment() {
         // Required empty public constructor
     }
 
-    public static ExamListFragment newInstance() {
+    static ExamListFragment newInstance() {
         // Create new Fragment, needed properties may be added via intent
         return new ExamListFragment();
     }
@@ -46,7 +45,7 @@ public class ExamListFragment extends Fragment {
         // Get the selected exams list
         selectedExams = SelectedExamsList.getInstance(getActivity());
         // Set the recyclerView
-        recyclerView = rootView.findViewById(R.id.selected_recycle_view);
+        RecyclerView recyclerView = rootView.findViewById(R.id.selected_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new ExamAdapter(getActivity(), selectedExams);

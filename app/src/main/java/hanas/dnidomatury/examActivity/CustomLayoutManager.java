@@ -1,4 +1,4 @@
-package hanas.dnidomatury.examActivity.recyclerViews;
+package hanas.dnidomatury.examActivity;
 
 import android.content.Context;
 

@@ -20,11 +20,10 @@ public class ExamsFileSupportedList extends ArrayList<Exam> implements ExamsList
             if (list != null) return list;
         }
         System.out.println("lista byla null");
-        ExamsFileSupportedList list = RawFileSupported.fromRawFile(context, fileTitle, ExamsFileSupportedList.class);
-        return list;
+        return RawFileSupported.fromRawFile(context, fileTitle, ExamsFileSupportedList.class);
     }
 
-    public static String getFileTitle (boolean areSelected) {
+    private static String getFileTitle(boolean areSelected) {
         return areSelected ? "examlist" : "everyexam";
     }
 

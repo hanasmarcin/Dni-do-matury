@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import hanas.dnidomatury.model.examSpecific.sheet.SheetsAverage;
 import hanas.dnidomatury.model.examSpecific.task.TasksCounter;
 
 public class Exam implements Comparable<Exam>, Serializable {
@@ -18,45 +20,33 @@ public class Exam implements Comparable<Exam>, Serializable {
     private String type;
     private Calendar date;
     private String primaryColor;
-    private String darkColor;
-    private TasksCounter tasksCounter = new TasksCounter();
-    private double sheetsAverage;
+    private TasksCounter tasksCounter;
+    private SheetsAverage sheetsAverage;
     private transient static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
 
-    public void setTasksCounter(long x) {
-        this.tasksCounter = new TasksCounter();
-        tasksCounter.setCounter(x);
-    }
 
     public TasksCounter getTasksCounter() {
         return tasksCounter;
     }
 
-//    public void setTasksCounter(long tasksCounter) {
-//        this.tasksCounter = tasksCounter;
-//    }
-
-    public double getSheetsAverage() {
+    public SheetsAverage getSheetsAverage() {
         return sheetsAverage;
-    }
-
-    public void setSheetsAverage(double sheetsAverage) {
-        this.sheetsAverage = sheetsAverage;
     }
 
     public Exam(String name, String level, String type, String dateText, String primaryColor, String darkColor) {
         this.name = name;
         this.level = level;
         this.type = type;
+        this.primaryColor = primaryColor;
+        this.tasksCounter = new TasksCounter();
+        this.sheetsAverage = new SheetsAverage();
         try {
             Date date = sdf.parse(dateText);
             this.date = Calendar.getInstance();
             this.date.setTime(date);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
+            this.date = Calendar.getInstance();
         }
-        this.primaryColor = primaryColor;
-        //this.darkColor = darkColor;
     }
 
     public int getPrimaryColorID(Context context) {
@@ -65,12 +55,10 @@ public class Exam implements Comparable<Exam>, Serializable {
 
     public int getDarkColorID(Context context) {
         return context.getResources().getIdentifier(this.primaryColor + "Dark", "color", context.getPackageName());
-        //return context.getResources().getIdentifier(this.darkColor, "color", context.getPackageName());
     }
 
     public void setColorScheme(String color) {
         this.primaryColor = color;
-        //this.darkColor = color + "Dark";
     }
 
     public String getName() {
@@ -107,7 +95,7 @@ public class Exam implements Comparable<Exam>, Serializable {
 
 
     @Override
-    public int compareTo(Exam exam) {
+    public int compareTo(@NonNull Exam exam) {
         return this.getDate().compareTo(exam.getDate());
     }
 }

@@ -42,7 +42,7 @@ public class CalendarFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CalendarFragment newInstance() {
+    static CalendarFragment newInstance() {
 
         return new CalendarFragment();
     }

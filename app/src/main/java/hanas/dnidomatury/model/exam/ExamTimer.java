@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 final public class ExamTimer {
@@ -24,7 +25,7 @@ final public class ExamTimer {
     }
 
 
-    public void startExamTimer(final Context context, final Exam exam, final TextView daysTimer, final TextView hmsTimer){
+    public void startExamTimer(final Exam exam, final TextView daysTimer, final TextView hmsTimer){
 
         final long millisDiff = getMillisDiff(Calendar.getInstance(), exam.getDate());
         timer = new CountDownTimer(millisDiff, 1000) {
@@ -37,8 +38,8 @@ final public class ExamTimer {
                 difMinutes = TimeUnit.MILLISECONDS.toMinutes(timeUntilFinished)%60;
                 difHours = TimeUnit.MILLISECONDS.toHours(timeUntilFinished)%24;
                 difDays = TimeUnit.MILLISECONDS.toDays(timeUntilFinished);
-                if(!daysTimer.getText().equals(""+difDays)) daysTimer.setText("" + difDays);
-                hmsTimer.setText(difHours + "h " + difMinutes + "min " + difSeconds + "s");
+                if(!daysTimer.getText().equals(""+difDays)) daysTimer.setText(String.format(Locale.getDefault(), "%d", difDays));
+                hmsTimer.setText(String.format(Locale.getDefault(), "%dh %dmin %ds", difHours, difMinutes, difSeconds));
 
                 //zmiana wartosci pol teksowych
             }

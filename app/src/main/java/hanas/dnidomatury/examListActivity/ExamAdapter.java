@@ -28,7 +28,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
     private Context context;
     private ExamsList mExamList;
 
-    public ExamAdapter(Context context, ExamsList selectedExamsList) {
+    ExamAdapter(Context context, ExamsList selectedExamsList) {
         this.context = context;
         this.mExamList = selectedExamsList;
     }
@@ -45,16 +45,15 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
     public void onBindViewHolder(@NonNull final ExamViewHolder examViewHolder, final int i) {
 
         // Find the corresponding exam
-        Exam exam = mExamList.get(i);
-        final Exam mExam = exam;
+        final Exam exam = mExamList.get(i);
 
         // Set card properties
-        setCardProperties(examViewHolder, mExam);
+        setCardProperties(examViewHolder, exam);
 
         // If the timer for this card was set previously, reset it
         if (examViewHolder.examTimer.getTimer() != null)
             examViewHolder.examTimer.getTimer().cancel();
-        examViewHolder.examTimer.startExamTimer(context, mExam, examViewHolder.daysTextView, examViewHolder.hoursTextVIew);
+        examViewHolder.examTimer.startExamTimer(context, exam, examViewHolder.daysTextView, examViewHolder.hoursTextVIew);
 
 
         examViewHolder.mCardView.setOnClickListener(view -> {
@@ -73,7 +72,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
 
         // Set card properties
         viewHolder.examNameTextView.setText(exam.getName());
-        viewHolder.examLevelTypeTextView.setText(exam.getLevel() + " " + exam.getType());
+        viewHolder.examLevelTypeTextView.setText(String.format("%s %s", exam.getLevel(), exam.getType()));
         viewHolder.tasksCounter.setText(String.format(Locale.getDefault(), "%d", exam.getTasksCounter().getCounter()));
         viewHolder.darkColorField.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
         viewHolder.mCardView.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
@@ -87,7 +86,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
     }
 
 
-    public class ExamViewHolder extends RecyclerView.ViewHolder {
+    class ExamViewHolder extends RecyclerView.ViewHolder {
 
         private final CardView mCardView;
         private final LinearLayout darkColorField;
@@ -99,7 +98,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         private final TextView tasksCounter;
         private final ExamTimer examTimer;
 
-        public ExamViewHolder(@NonNull View itemView) {
+        ExamViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Create card's view

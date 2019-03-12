@@ -8,7 +8,7 @@ public class SelectedExamsList implements Serializable {
 
     private volatile static ExamsList list;
 
-    private SelectedExamsList(Context context) {}
+    private SelectedExamsList() {}
 
     public static synchronized ExamsList getInstance(Context context) {
         if (list == null) {
