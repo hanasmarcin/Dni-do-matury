@@ -20,10 +20,10 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
 import hanas.dnidomatury.examActivity.ExamActivity;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.touchHelper.ItemTouchHelperAdapter;
 import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
 
@@ -31,11 +31,11 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
         implements ItemTouchHelperAdapter {
 
     private Context context;
-    private ExamsFileList mFullExamList;
+    private ExamsList mFullExamList;
     private boolean isClickable;
     private CoordinatorLayout coordinator;
 
-    public SelectExamAdapter(Context context, ExamsFileList fullExamList, boolean isClickable, CoordinatorLayout coordinator) {
+    public SelectExamAdapter(Context context, ExamsList fullExamList, boolean isClickable, CoordinatorLayout coordinator) {
         this.context = context;
         this.mFullExamList = fullExamList;
         this.isClickable = isClickable;
@@ -68,7 +68,7 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
             public void onClick(View view) {
                 Intent intent = isClickable ? new Intent(context, ExamActivity.class) : new Intent(context, AddExamActivity.class);
                 int examPos = 0;
-                ExamsFileList everyExam = SelectedExamsList.getInstance(context);
+                ExamsList everyExam = SelectedExamsList.getInstance(context);
                 for (int i = 0; i < everyExam.size(); i++) {
                     Exam exam = everyExam.get(i);
                     if (mExam.getName().equals(exam.getName()) && mExam.getLevel().equals(exam.getLevel()) && mExam.getType().equals(exam.getType())) {

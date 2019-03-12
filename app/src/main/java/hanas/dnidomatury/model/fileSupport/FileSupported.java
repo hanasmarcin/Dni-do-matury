@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import hanas.dnidomatury.model.matura.Exam;
+import hanas.dnidomatury.model.exam.Exam;
 
-public interface FileSupport<T> {
+public interface FileSupported<T> {
 
     static boolean fileExists(final Context context, String fileTitle) {
         File file = context.getFileStreamPath(fileTitle);

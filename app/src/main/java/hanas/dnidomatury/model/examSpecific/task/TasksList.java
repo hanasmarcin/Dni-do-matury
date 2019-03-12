@@ -1,56 +1,31 @@
-package hanas.dnidomatury.model.task;
+package hanas.dnidomatury.model.examSpecific.task;
 
 import android.content.Context;
 
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Observable;
-import java.util.Observer;
 
-import hanas.dnidomatury.model.ExamSpecificList;
-import hanas.dnidomatury.model.fileSupport.FileSupport;
-import hanas.dnidomatury.model.matura.Exam;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.fileSupport.FileSupported;
+import hanas.dnidomatury.model.exam.Exam;
 
-import static hanas.dnidomatury.model.task.Task.TaskHeader.DONE;
-import static hanas.dnidomatury.model.task.Task.TaskHeader.NOT;
-import static hanas.dnidomatury.model.task.Task.TaskHeader.TODO;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.NOT;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
-public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>, Serializable {
+public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, Serializable {
 
     private final static String FILE_SUFFIX = "taskslist";
     private transient TasksCounter counter;
 
-    public TasksList() {
+    private TasksList() {
         this.add(new Task("", "", TODO));
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 100; i++) {
             System.out.println(i + " wtf");
             this.add(new Task("task nr. " + i, "Brak daty", NOT));
         }
         this.add(new Task("", "", DONE));
-    }
-
-
-    public void readFromFile(Context context, Exam exam) {
-        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
-        TasksList list = FileSupport.fromFile(context, fileTitle);
-        if (list == null) //list = new TasksList();
-        {
-            this.add(new Task("", "", TODO));
-            for (int i = 0; i < 30; i++) {
-                this.add(new Task("task nr. " + i, "Brak daty", NOT));
-            }
-            this.add(new Task("", "", DONE));
-            this.sort();
-        } else {
-            this.clear();
-            this.addAll(list);
-        }
-        this.counter = exam.getTasksCounter();
-        for (Task task : this)
-            task.addObserver((observable, isDone) -> this.counter.updateCounter((boolean) isDone));
     }
 
     @Override
@@ -58,9 +33,9 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
         return FILE_SUFFIX;
     }
 
-    public static TasksList fromFile(Context context, Exam exam) {
-        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
-        TasksList tmpList = FileSupport.fromFile(context, fileTitle);
+    public static ExamItemsList<Task> fromFile(Context context, Exam exam) {
+        String fileTitle = FileSupported.getFileTitle(exam, FILE_SUFFIX);
+        TasksList tmpList = FileSupported.fromFile(context, fileTitle);
         if (tmpList == null) tmpList = new TasksList();
         final TasksList list = tmpList;
         list.counter = exam.getTasksCounter();
@@ -68,7 +43,6 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
             task.addObserver((observable, isDone) -> list.counter.updateCounter((boolean) isDone));
         return list;
     }
-
 
     @Override
     public void sort() {
@@ -135,7 +109,7 @@ public class TasksList extends ArrayList<Task> implements ExamSpecificList<Task>
 
     @Override
     public void toFile(Context context, Exam exam) {
-        toFile(context, FileSupport.getFileTitle(exam, FILE_SUFFIX));
+        toFile(context, FileSupported.getFileTitle(exam, FILE_SUFFIX));
     }
 
 

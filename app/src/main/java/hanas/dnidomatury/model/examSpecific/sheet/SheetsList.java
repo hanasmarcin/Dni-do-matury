@@ -1,25 +1,20 @@
-package hanas.dnidomatury.model.sheet;
+package hanas.dnidomatury.model.examSpecific.sheet;
 
 import android.content.Context;
 
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import hanas.dnidomatury.model.ExamSpecificList;
-import hanas.dnidomatury.model.fileSupport.FileSupport;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.task.Task;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.fileSupport.FileSupported;
+import hanas.dnidomatury.model.exam.Exam;
 
-import static hanas.dnidomatury.model.task.Task.TaskHeader.NOT;
-
-public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<Sheet>, Serializable {
+public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>, Serializable {
 
     private static final String FILE_SUFFIX = "sheets";
 
-    public SheetsList() {
+    private SheetsList() {
         for (int i = 0; i < 30; i++) {
             this.add(new Sheet("sheet nr. "+i, "Brak daty", i, 50));
         }
@@ -30,9 +25,9 @@ public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<She
         return FILE_SUFFIX;
     }
 
-    public static SheetsList fromFile(Context context, Exam exam) {
-        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
-        SheetsList list = FileSupport.fromFile(context, fileTitle);
+    public static ExamItemsList<Sheet> fromFile(Context context, Exam exam) {
+        String fileTitle = FileSupported.getFileTitle(exam, FILE_SUFFIX);
+        SheetsList list = FileSupported.fromFile(context, fileTitle);
         if (list != null) return list;
         else return new SheetsList();
     }
@@ -63,18 +58,8 @@ public class SheetsList extends ArrayList<Sheet> implements ExamSpecificList<She
     }
 
     @Override
-    public void readFromFile(Context context, Exam exam) {
-        String fileTitle = FileSupport.getFileTitle(exam, FILE_SUFFIX);
-        SheetsList list = FileSupport.fromFile(context, fileTitle);
-        if (list != null) {
-            this.clear();
-            this.addAll(list);
-        }
-    }
-
-    @Override
     public void toFile(Context context, Exam exam) {
-        toFile(context, FileSupport.getFileTitle(exam, FILE_SUFFIX));
+        toFile(context, FileSupported.getFileTitle(exam, FILE_SUFFIX));
     }
 
 

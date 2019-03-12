@@ -2,44 +2,54 @@ package hanas.dnidomatury.examActivity;
 
 import android.content.Context;
 
-import java.util.Calendar;
+import java.util.Observable;
 
 import androidx.lifecycle.ViewModel;
-import hanas.dnidomatury.model.ExamSpecificList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.sheet.Sheet;
-import hanas.dnidomatury.model.sheet.SheetsList;
-import hanas.dnidomatury.model.task.Task;
-import hanas.dnidomatury.model.task.TasksList;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.examSpecific.sheet.Sheet;
+import hanas.dnidomatury.model.examSpecific.sheet.SheetsList;
+import hanas.dnidomatury.model.examSpecific.task.Task;
+import hanas.dnidomatury.model.examSpecific.task.TasksList;
 
 public class DataViewModel extends ViewModel {
 
-    ExamSpecificList<Task> tasks;
-    ExamSpecificList<Sheet> sheets;
+    private ExamItemsList<Task> tasks;
+    private ExamItemsList<Sheet> sheets;
+    public ViewPagerLoadingState loadingState = new ViewPagerLoadingState();
 
-    public ExamSpecificList<Task> getTasks() {
+    public static class ViewPagerLoadingState extends Observable {
+        boolean isTaskListFragmentLoaded = false;
+        boolean isSheetListFragmentLoaded = false;
+
+        public void setTaskListFragmentLoaded(boolean taskListFragmentLoaded) {
+            isTaskListFragmentLoaded = taskListFragmentLoaded;
+            boolean isViewPagerLoaded = isTaskListFragmentLoaded && isSheetListFragmentLoaded;
+            setChanged();
+            System.out.println("task zaladowany)");
+            notifyObservers(isViewPagerLoaded);
+        }
+
+        public void setSheetListFragmentLoaded(boolean sheetListFragmentLoaded) {
+            isSheetListFragmentLoaded = sheetListFragmentLoaded;
+            boolean isViewPagerLoaded = isTaskListFragmentLoaded && isSheetListFragmentLoaded;
+            setChanged();
+            System.out.println("sheet zaladowany)");
+            notifyObservers(isViewPagerLoaded);
+        }
+
+    }
+
+    public ExamItemsList<Task> getTasks() {
         return tasks;
     }
 
-    public ExamSpecificList<Sheet> getSheets() {
+    public ExamItemsList<Sheet> getSheets() {
         return sheets;
     }
 
-    public void setTasksFromFile(Context context, Exam exam) {
-        this.tasks = TasksList.fromFile(context, exam);
-    }
-
-    public void setSheetsFromFile(Context context, Exam exam) {
-        this.sheets = SheetsList.fromFile(context, exam);
-    }
-
-    public void setFromFile(Context context, Exam exam) {
+    void setFromFile(Context context, Exam exam) {
         this.tasks = TasksList.fromFile(context, exam);
         this.sheets = SheetsList.fromFile(context, exam);
-    }
-
-    public void toFile(Context context, Exam exam) {
-        this.tasks.toFile(context, exam);
-        this.sheets.toFile(context, exam);
     }
 }

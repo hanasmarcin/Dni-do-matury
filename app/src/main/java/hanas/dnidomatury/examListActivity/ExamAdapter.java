@@ -18,17 +18,17 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import hanas.dnidomatury.examActivity.ExamActivity;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.matura.ExamTimer;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.exam.ExamTimer;
 import hanas.dnidomatury.R;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder> {
 
     private Context context;
-    private ExamsFileList mExamList;
+    private ExamsList mExamList;
 
-    public ExamAdapter(Context context, ExamsFileList selectedExamsList) {
+    public ExamAdapter(Context context, ExamsList selectedExamsList) {
         this.context = context;
         this.mExamList = selectedExamsList;
     }

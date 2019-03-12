@@ -29,10 +29,10 @@ import java.util.Locale;
 
 import androidx.core.content.ContextCompat;
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.matura.ExamsList;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.exam.ExamsFileSupportedList;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 
 public class AddExamActivity extends AppCompatActivity {
 
@@ -76,8 +76,8 @@ public class AddExamActivity extends AppCompatActivity {
 
         final int[] examColors = getResources().getIntArray(R.array.exam_colors);
         final String[] colorNames = getResources().getStringArray(R.array.exam_color_names);
-        final ExamsFileList allExamsList = ExamsList.fromFile(false, this);
-        final ExamsFileList selectedExamsList = SelectedExamsList.getInstance(this);
+        final ExamsList allExamsList = ExamsFileSupportedList.fromFile(false, this);
+        final ExamsList selectedExamsList = SelectedExamsList.getInstance(this);
 
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -85,7 +85,7 @@ public class AddExamActivity extends AppCompatActivity {
             addExamButton.setText("Zatwierdź");
             setTitle("Edytuj maturę");
             int selectedExamPOS = bundle.getInt("selectedExamPOS");
-            ExamsFileList listOfExam = SelectedExamsList.getInstance(this);
+            ExamsList listOfExam = SelectedExamsList.getInstance(this);
             Exam selectedExam = listOfExam.get(selectedExamPOS);
             spinnerType.setSelection(getIndex(spinnerType, selectedExam.getType().substring(0, selectedExam.getType().length() - 1) + "a"));
             spinnerType.setEnabled(false);
@@ -178,7 +178,7 @@ public class AddExamActivity extends AppCompatActivity {
                 Exam exam;
                 if (bundle != null) {
                     int selectedExamPOS = bundle.getInt("selectedExamPOS");
-                    ExamsFileList listOfExam = SelectedExamsList.getInstance(AddExamActivity.this);
+                    ExamsList listOfExam = SelectedExamsList.getInstance(AddExamActivity.this);
                     exam = listOfExam.get(selectedExamPOS);
                 } else {
                     exam = allExamsList.findExam(spinnerName.getSelectedItem().toString(),

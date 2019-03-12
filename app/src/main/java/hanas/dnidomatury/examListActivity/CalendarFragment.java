@@ -20,10 +20,10 @@ import java.util.Date;
 import java.util.List;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.matura.ExamsList;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.ExamsFileSupportedList;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.selectActivity.SelectExamAdapter;
 
 /**
@@ -33,8 +33,8 @@ public class CalendarFragment extends Fragment {
 
     private CompactCalendarView calendarView;
     private SelectExamAdapter adapter;
-    private ExamsFileList selectedExams;
-    private ExamsFileList choosedDateExams = new ExamsList();
+    private ExamsList selectedExams;
+    private ExamsList choosedDateExams = ExamsFileSupportedList.newObject();
     private Calendar chosenDate = Calendar.getInstance();
 
 

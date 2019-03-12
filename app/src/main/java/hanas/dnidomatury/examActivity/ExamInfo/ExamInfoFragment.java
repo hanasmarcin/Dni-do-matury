@@ -2,7 +2,6 @@ package hanas.dnidomatury.examActivity.ExamInfo;
 
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -26,10 +25,10 @@ import java.util.Locale;
 
 import androidx.fragment.app.Fragment;
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.matura.ExamInfoData;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.exam.ExamAdditionalInfo;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -51,7 +50,7 @@ public class ExamInfoFragment extends Fragment {
     TextView percentage;
     TextView tasksCounter;
     ProgressBar mProgressBar;
-    ExamInfoData examInfo;
+    ExamAdditionalInfo mExamAdditionalInfo;
     int primaryColorID;
     int darkColorID;
 
@@ -83,12 +82,12 @@ public class ExamInfoFragment extends Fragment {
             selectedExamPOS = bundle.getInt("selectedExamPOS");
             System.out.println(selectedExamPOS+" selectedexamPOS");
             //mSelectedExam = bundle.getParcelable("exam");
-            ExamsFileList listOfExam = SelectedExamsList.getInstance(getActivity());
+            ExamsList listOfExam = SelectedExamsList.getInstance(getActivity());
             mSelectedExam = listOfExam.get(selectedExamPOS);
-            examInfo = new ExamInfoData(mSelectedExam.getName(), mSelectedExam.getType(), mSelectedExam.getLevel());
+            mExamAdditionalInfo = new ExamAdditionalInfo(mSelectedExam.getName(), mSelectedExam.getType(), mSelectedExam.getLevel());
             primaryColorID = mSelectedExam.getPrimaryColorID(getActivity());
             darkColorID = mSelectedExam.getDarkColorID(getActivity());
-            examInfo = examInfo.readFromFile(getActivity());
+            mExamAdditionalInfo = mExamAdditionalInfo.readFromFile(getActivity());
             mSelectedExam.getTasksCounter().addObserver((observable, counter) -> {
                 if (tasksCounter != null) tasksCounter.setText(counter.toString());
             });
@@ -185,30 +184,30 @@ public class ExamInfoFragment extends Fragment {
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
 
-                    examInfo.set(bundle.getString("infoTime"), bundle.getString("infoRoom"), bundle.getString("infoPerson"), bundle.getString("infoExtra"));
+                    mExamAdditionalInfo.set(bundle.getString("infoTime"), bundle.getString("infoRoom"), bundle.getString("infoPerson"), bundle.getString("infoExtra"));
                     setInfo();
-                    examInfo.saveToFile(getActivity());
+                    mExamAdditionalInfo.saveToFile(getActivity());
                 }
             }
         }
     }
 
     private void setInfo() {
-        timeInfo.setText(examInfo.getTime());
-        roomInfo.setText(examInfo.getRoom());
-        personInfo.setText(examInfo.getPerson());
-        extraInfo.setText(examInfo.getExtra());
+        timeInfo.setText(mExamAdditionalInfo.getTime());
+        roomInfo.setText(mExamAdditionalInfo.getRoom());
+        personInfo.setText(mExamAdditionalInfo.getPerson());
+        extraInfo.setText(mExamAdditionalInfo.getExtra());
 
-        if (examInfo.getTime() != null && !examInfo.getTime().isEmpty()) {
+        if (mExamAdditionalInfo.getTime() != null && !mExamAdditionalInfo.getTime().isEmpty()) {
             timeInfo.setVisibility(View.VISIBLE);
         } else timeInfo.setVisibility(View.GONE);
-        if (examInfo.getRoom() != null && !examInfo.getRoom().isEmpty()) {
+        if (mExamAdditionalInfo.getRoom() != null && !mExamAdditionalInfo.getRoom().isEmpty()) {
             roomInfo.setVisibility(View.VISIBLE);
         } else roomInfo.setVisibility(View.GONE);
-        if (examInfo.getPerson() != null && !examInfo.getPerson().isEmpty()) {
+        if (mExamAdditionalInfo.getPerson() != null && !mExamAdditionalInfo.getPerson().isEmpty()) {
             personInfo.setVisibility(View.VISIBLE);
         } else personInfo.setVisibility(View.GONE);
-        if (examInfo.getExtra() != null && !examInfo.getExtra().isEmpty()) {
+        if (mExamAdditionalInfo.getExtra() != null && !mExamAdditionalInfo.getExtra().isEmpty()) {
             extraInfo.setVisibility(View.VISIBLE);
         } else extraInfo.setVisibility(View.GONE);
     }

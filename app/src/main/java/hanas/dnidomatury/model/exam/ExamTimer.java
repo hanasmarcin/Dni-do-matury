@@ -1,11 +1,10 @@
-package hanas.dnidomatury.model.matura;
+package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 final public class ExamTimer {

@@ -1,32 +1,35 @@
-package hanas.dnidomatury.model.matura;
+package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import hanas.dnidomatury.model.fileSupport.FileSupport;
-import hanas.dnidomatury.model.fileSupport.RawFileSupport;
-import hanas.dnidomatury.model.ExamsFileList;
+import hanas.dnidomatury.model.fileSupport.FileSupported;
+import hanas.dnidomatury.model.fileSupport.RawFileSupported;
 
-public class ExamsList extends ArrayList<Exam> implements ExamsFileList {
+public class ExamsFileSupportedList extends ArrayList<Exam> implements ExamsList {
 
-    public ExamsList() {}
+    private ExamsFileSupportedList() {}
 
-    public static ExamsList fromFile(boolean areSelected, Context context) {
+    public static ExamsFileSupportedList fromFile(boolean areSelected, Context context) {
         String fileTitle = getFileTitle(areSelected);
         System.out.println(fileTitle);
         if (areSelected) {
-            ExamsList list = FileSupport.fromFile(context, fileTitle);
+            ExamsFileSupportedList list = FileSupported.fromFile(context, fileTitle);
             if (list != null) return list;
         }
         System.out.println("lista byla null");
-        ExamsList list = RawFileSupport.fromRawFile(context, fileTitle, ExamsList.class);
+        ExamsFileSupportedList list = RawFileSupported.fromRawFile(context, fileTitle, ExamsFileSupportedList.class);
         return list;
     }
 
     public static String getFileTitle (boolean areSelected) {
         return areSelected ? "examlist" : "everyexam";
+    }
+
+    public static ExamsList newObject() {
+        return new ExamsFileSupportedList();
     }
 
     @Override

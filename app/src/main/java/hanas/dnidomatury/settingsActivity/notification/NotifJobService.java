@@ -27,10 +27,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import androidx.collection.ArraySet;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.ExamTimer;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.ExamTimer;
 import hanas.dnidomatury.examListActivity.ExamListActivity;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.settingsActivity.SettingsFragment.Frequency;
 
 import static android.app.PendingIntent.FLAG_ONE_SHOT;
@@ -128,7 +128,7 @@ public class NotifJobService extends JobService {
 
     private void inboxStyleNotification(String tytul) {
         int NOTIFICATION_ID = 1;
-        ExamsFileList listOfExam = SelectedExamsList.getInstance(this);
+        ExamsList listOfExam = SelectedExamsList.getInstance(this);
         Notification.InboxStyle inboxNotifStyle = new Notification.InboxStyle();
         long daysInMillisToFirstExam = new ExamTimer().getMillisDiff(Calendar.getInstance(), listOfExam.get(0).getDate());
         long daysToFirstExam = TimeUnit.MILLISECONDS.toDays(daysInMillisToFirstExam);

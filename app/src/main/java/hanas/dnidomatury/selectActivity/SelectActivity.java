@@ -20,15 +20,15 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.matura.ExamsList;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.ExamsFileSupportedList;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.Exam;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.touchHelper.SimpleItemTouchHelperCallback;
 
 public class SelectActivity extends AppCompatActivity {
 
-    private ExamsFileList mListOfExam;
+    private ExamsList mListOfExam;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
     private ItemTouchHelper mItemTouchHelper;
@@ -112,7 +112,7 @@ public class SelectActivity extends AppCompatActivity {
                             oldExam.setDate(examDateText);
                         }
                     } else {
-                        Exam newExam = ExamsList.fromFile(false, this).findExam(examName, examLevel, examType);
+                        Exam newExam = ExamsFileSupportedList.fromFile(false, this).findExam(examName, examLevel, examType);
                         if (examColor != null && newExam != null) {
                             newExam.setColorScheme(examColor);
                         }

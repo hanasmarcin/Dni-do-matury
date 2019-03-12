@@ -1,10 +1,10 @@
-package hanas.dnidomatury.model.task;
+package hanas.dnidomatury.model.examSpecific.task;
 
 
 import java.io.Serializable;
 import java.util.Observable;
 
-import static hanas.dnidomatury.model.task.Task.TaskHeader.*;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.*;
 
 public class TasksCounter extends Observable implements Serializable {
     private long counter = 0;

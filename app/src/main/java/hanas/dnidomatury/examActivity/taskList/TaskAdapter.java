@@ -1,7 +1,6 @@
-package hanas.dnidomatury.examActivity.TaskList;
+package hanas.dnidomatury.examActivity.taskList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Collections;
+import java.lang.ref.WeakReference;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -21,22 +20,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examActivity.ExamSpecificAdapterContextMenuListener;
-import hanas.dnidomatury.model.ExamSpecificList;
-import hanas.dnidomatury.model.task.Task;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.examSpecific.task.Task;
+import hanas.dnidomatury.model.examSpecific.task.TasksList;
 
-import static hanas.dnidomatury.examActivity.TaskList.TaskListFragment.EDIT_TASK_REQUEST_CODE;
-import static hanas.dnidomatury.model.task.Task.TaskHeader.DONE;
-import static hanas.dnidomatury.model.task.Task.TaskHeader.TODO;
+import static hanas.dnidomatury.examActivity.taskList.TaskListFragment.EDIT_TASK_REQUEST_CODE;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private Fragment fragment;
     private Context context;
-    private ExamSpecificList<Task> tasksList;
+    private ExamItemsList<Task> tasksList;
     //private final int darkColorID;
 
 
-    public TaskAdapter(Fragment fragment, ExamSpecificList<Task> tasks) {
+    public TaskAdapter(Fragment fragment, ExamItemsList<Task> tasks) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.tasksList = tasks;
@@ -67,39 +67,37 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.setCardPropertiesForTask(task);
 
             //Set listener for the card
-            taskViewHolder.mCardView.setOnClickListener(view -> {
+            taskViewHolder.mCardView.setOnClickListener(view ->
+                    new MyAsync(this, taskViewHolder.getAdapterPosition(), task).execute((TasksList) tasksList));
+        }
+    }
 
-                new AsyncTask<Void, Void, int[]>() {
+    static class MyAsync extends AsyncTask<TasksList, Void, int[]> {
 
-                    @Override
-                    protected int[] doInBackground(Void... voids) {
-                        int oldPosition = taskViewHolder.getAdapterPosition();
-                        task.setDone(!task.isDone());
-                        int newPosition = tasksList.moveAndSort(taskViewHolder.getAdapterPosition(), task.isDone());
-                        final int[] positions = {oldPosition, newPosition};
-                        return positions;
-                    }
+        WeakReference<TaskAdapter> adapterReference;
+        int adapterPosition;
+        Task task;
 
-                    @Override
-                    protected void onPostExecute(int[] positions) {
-                        //notifyDataSetChanged();
-                        System.out.println("positions " + positions[0] + positions[1]);
-                        System.out.println(task.getTaskName());
-                        notifyItemMoved(positions[0], positions[1]);
-                        System.out.println(task.getTaskName());
-                        notifyItemChanged(positions[1]);
+        MyAsync(TaskAdapter adapter, int adapterPosition, Task task) {
+            this.adapterReference = new WeakReference<>(adapter);
+            this.adapterPosition = adapterPosition;
+            this.task = task;
+        }
 
+        @Override
+        protected int[] doInBackground(TasksList... lists) {
+            int oldPosition = adapterPosition;
+            task.setDone(!task.isDone());
+            int newPosition = lists[0].moveAndSort(adapterPosition, task.isDone());
+            return new int[]{oldPosition, newPosition};
+        }
 
-                    }
-                }.execute();
-            });
-
-//            taskViewHolder.mCardView.setOnLongClickListener(view -> {
-//                taskViewHolder.onMenuEditClick(taskViewHolder.getAdapterPosition());
-//                return true;
-//            });
-
-
+        @Override
+        protected void onPostExecute(int[] positions) {
+            TaskAdapter adapter = adapterReference.get();
+            if (adapter == null) return;
+            adapter.notifyItemMoved(positions[0], positions[1]);
+            adapter.notifyItemChanged(positions[1]);
         }
     }
 
@@ -125,7 +123,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         private ConstraintLayout layoutToHide;
 
 
-        public TaskViewHolder(@NonNull View itemView) {
+        TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mCardView = itemView.findViewById(R.id.to_do_card_view);
@@ -141,7 +139,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         @Override
         public boolean onMenuEditClick(int viewHolderID) {
-            AddTaskFragment addTaskDialog = AddTaskFragment.newInstanceEdit(getAdapterPosition(), taskName.getText().toString(), taskDate.getText().toString());
+            // Create new dialogFragment responsible for editing task and show it
+            AddTaskFragment addTaskDialog = AddTaskFragment.forEdit(getAdapterPosition(), taskName.getText().toString(), taskDate.getText().toString());
             addTaskDialog.setTargetFragment(fragment, EDIT_TASK_REQUEST_CODE);
             addTaskDialog.show(fragment.getFragmentManager(), "WTF2");
 

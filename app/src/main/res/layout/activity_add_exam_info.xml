@@ -181,7 +181,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".examActivity.TaskList.AddTaskActivity">
+        tools:context=".examActivity.taskList.AddTaskActivity">
 
 
         <Button

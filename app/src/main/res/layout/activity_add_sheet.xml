@@ -53,7 +53,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ponts"
+            android:id="@+id/points"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -83,14 +83,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:hint="Maksymalna liczba punktów"
-            android:inputType="text|numberDecimal"
+            android:inputType="numberDecimal"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".examActivity.TaskList.AddTaskActivity">
+    tools:context=".examActivity.taskList.AddTaskActivity">
 
 
         <Button

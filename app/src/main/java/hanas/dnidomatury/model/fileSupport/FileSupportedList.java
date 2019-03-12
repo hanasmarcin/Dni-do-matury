@@ -1,8 +1,6 @@
 package hanas.dnidomatury.model.fileSupport;
 
-import java.util.List;
-
-public interface FileSupportedList<T> extends FileSupport<FileSupportedList<T>>, Iterable<T>{
+public interface FileSupportedList<T> extends FileSupported<FileSupportedList<T>>, Iterable<T>{
 
     int size();
     boolean isEmpty();

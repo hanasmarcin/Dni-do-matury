@@ -1,4 +1,4 @@
-package hanas.dnidomatury.model.matura;
+package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 
@@ -9,8 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import hanas.dnidomatury.model.task.TasksCounter;
+import hanas.dnidomatury.model.examSpecific.task.TasksCounter;
 
 public class Exam implements Comparable<Exam>, Serializable {
 

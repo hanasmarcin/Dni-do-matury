@@ -11,14 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.model.ExamsFileList;
-import hanas.dnidomatury.model.matura.SelectedExamsList;
+import hanas.dnidomatury.model.exam.ExamsList;
+import hanas.dnidomatury.model.exam.SelectedExamsList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +25,7 @@ public class ExamListFragment extends Fragment {
 
     RecyclerView recyclerView;
     ExamAdapter adapter;
-    ExamsFileList selectedExams;
+    ExamsList selectedExams;
 
     public ExamListFragment() {
         // Required empty public constructor

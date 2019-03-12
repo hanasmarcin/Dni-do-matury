@@ -1,16 +1,18 @@
-package hanas.dnidomatury.model.task;
+package hanas.dnidomatury.model.examSpecific.task;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Observable;
 
-import static hanas.dnidomatury.model.task.Task.TaskHeader.DONE;
-import static hanas.dnidomatury.model.task.Task.TaskHeader.TODO;
+import androidx.annotation.NonNull;
+import hanas.dnidomatury.model.examSpecific.ExamItem;
 
-public class Task extends Observable implements Comparable<Task>, Serializable {
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
+
+public class Task extends Observable implements ExamItem {
     private String taskName;
     private Calendar taskDate;
     private String taskDateText;
@@ -44,14 +46,6 @@ public class Task extends Observable implements Comparable<Task>, Serializable {
         }
     }
 
-    //public void setTaskID(int taskID) {
-    //    this.taskID = taskID;
-    //}
-
-    //public int getTaskID() {
-    //    return taskID;
-    //}
-
     public String getTaskName() {
         return taskName;
     }
@@ -71,8 +65,8 @@ public class Task extends Observable implements Comparable<Task>, Serializable {
     public String getTaskDateText() { return taskDateText; }
 
     @Override
-    public int compareTo(Task task) {
-        //if (this.taskID==0) return -1;
+    public int compareTo(@NonNull Object obj) {
+        Task task = (Task) obj;
         if (this.header == TODO) return -1;
         else if (task.header == TODO) return 1;
         else if (this.isDone && !task.isDone) return 1;

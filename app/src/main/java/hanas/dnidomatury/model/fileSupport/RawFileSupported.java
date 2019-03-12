@@ -9,13 +9,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-public interface RawFileSupport {
+public interface RawFileSupported {
 
     static int getRawFileId(String fileTitle, Context context) {
         return context.getResources().getIdentifier(fileTitle, "raw", context.getPackageName());
     }
 
-    class RawFileReader<T> implements Runnable {
+       class RawFileReader<T> implements Runnable {
         private volatile T listFromFile;
         private final Context context;
         private final String fileTitle;

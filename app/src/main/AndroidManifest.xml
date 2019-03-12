@@ -32,7 +32,7 @@
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".examActivity.TaskList.AddTaskActivity"
+            android:name=".examActivity.taskList.AddTaskActivity"
             android:label="@string/activity_add_task_name"
             android:theme="@style/AppTheme.UserDialog" />
         <activity
@@ -40,7 +40,7 @@
             android:label="Dodaj maturę"
             android:theme="@style/AppTheme.UserDialog" />
         <activity
-            android:name=".examActivity.SheetList.AddSheetActivity"
+            android:name=".examActivity.oldSheetList.AddSheetActivity"
             android:label="Dodaj arkusz"
             android:theme="@style/AppTheme.UserDialog" />
         <activity

@@ -1,14 +1,14 @@
-package hanas.dnidomatury.model.sheet;
+package hanas.dnidomatury.model.examSpecific.sheet;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import hanas.dnidomatury.model.examSpecific.ExamItem;
 
-public class Sheet implements Comparable<Sheet>, Serializable {
+public class Sheet implements ExamItem {
     //private int taskID;
     private String sheetName;
     private Calendar sheetDate;
@@ -55,7 +55,16 @@ public class Sheet implements Comparable<Sheet>, Serializable {
     }
 
     @Override
-    public int compareTo(@NonNull Sheet sheet) {
+    public int compareTo(@NonNull Object obj) {
+        Sheet sheet = (Sheet) obj;
         return (-1)*this.sheetDate.compareTo(sheet.sheetDate);
+    }
+
+    public void update(String sheetName, String sheetDateText, double points, double maxPoints) {
+        this.sheetName = sheetName;
+        this.sheetDateText = sheetDateText;
+        this.sheetDate = dateTextToDate(sheetDateText);
+        this.points = points;
+        this.maxPoints = maxPoints;
     }
 }

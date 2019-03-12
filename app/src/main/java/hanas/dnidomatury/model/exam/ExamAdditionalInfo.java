@@ -1,4 +1,4 @@
-package hanas.dnidomatury.model.matura;
+package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 
@@ -10,14 +10,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-public class ExamInfoData implements Serializable {
+public class ExamAdditionalInfo implements Serializable {
     private String time;
     private String room;
     private String person;
     private String extra;
     private String fileTitle;
 
-    public ExamInfoData(String maturaName, String maturaType, String maturaLevel) {
+    public ExamAdditionalInfo(String maturaName, String maturaType, String maturaLevel) {
         this.fileTitle = new String(maturaName +"_"+ maturaLevel +"_"+ maturaType + "_info");
     }
 
@@ -28,7 +28,7 @@ public class ExamInfoData implements Serializable {
         this.extra = extra;
     }
 
-    private ExamInfoData(String fileTitle) {
+    private ExamAdditionalInfo(String fileTitle) {
         this.fileTitle = fileTitle;
     }
     public String getTime() {
@@ -66,24 +66,24 @@ public class ExamInfoData implements Serializable {
     }
 
 
-    public ExamInfoData readFromFile(Context context) {
+    public ExamAdditionalInfo readFromFile(Context context) {
         try {
             if (fileExists(context, fileTitle)) {
                 FileInputStream fileIn = context.openFileInput(fileTitle);
                 ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
-                ExamInfoData obj = (ExamInfoData) objectIn.readObject();
+                ExamAdditionalInfo obj = (ExamAdditionalInfo) objectIn.readObject();
                 objectIn.close();
                 return obj;
             }
             else {
-                return new ExamInfoData(fileTitle);
+                return new ExamAdditionalInfo(fileTitle);
             }
 
         }
         catch(Exception ex){
             ex.printStackTrace();
         }
-        return new ExamInfoData(fileTitle);
+        return new ExamAdditionalInfo(fileTitle);
     }
 }

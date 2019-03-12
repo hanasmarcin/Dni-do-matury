@@ -1,7 +1,6 @@
-package hanas.dnidomatury.examActivity.SheetList;
+package hanas.dnidomatury.examActivity.sheetList;
 
 import android.content.Context;
-import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -23,11 +22,10 @@ import java.text.DecimalFormat;
 
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examActivity.ExamSpecificAdapterContextMenuListener;
-import hanas.dnidomatury.examActivity.TaskList.TaskAdapter;
-import hanas.dnidomatury.model.ExamSpecificList;
-import hanas.dnidomatury.model.matura.Exam;
-import hanas.dnidomatury.model.sheet.Sheet;
-import hanas.dnidomatury.model.task.Task;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.examSpecific.sheet.Sheet;
+
+import static hanas.dnidomatury.examActivity.sheetList.SheetListFragment.EDIT_SHEET_REQUEST_CODE;
 
 public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHolder> {
 
@@ -35,10 +33,10 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
 
     private Fragment fragment;
     private Context context;
-    private ExamSpecificList<Sheet> sheetsList;
+    private ExamItemsList<Sheet> sheetsList;
     private CoordinatorLayout examCoordinator;
 
-    public SheetAdapter(Fragment fragment, ExamSpecificList<Sheet> sheets, CoordinatorLayout examCoordinator) {
+    public SheetAdapter(Fragment fragment, ExamItemsList<Sheet> sheets, CoordinatorLayout examCoordinator) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.sheetsList = sheets;
@@ -95,10 +93,9 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
         private TextView percentage;
         private CircularProgressBar progressBar;
 
-
-        public SheetViewHolder(@NonNull View itemView) {
+        SheetViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            System.out.println(getAdapterPosition());
             mCardView = itemView.findViewById(R.id.sheet_card_view);
             sheetName = itemView.findViewById(R.id.sheet_name);
             sheetDate = itemView.findViewById(R.id.sheet_date);
@@ -118,14 +115,12 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
 
         @Override
         public boolean onMenuEditClick(int adapterPosition) {
-            Intent intent = new Intent(context, AddSheetActivity.class);
-            intent.putExtra("sheetName", sheetName.getText().toString());
-            intent.putExtra("sheetDate", sheetDate.getText().toString());
-            intent.putExtra("points", sheetsList.get(adapterPosition).getPoints());
-            intent.putExtra("maxPoints", sheetsList.get(adapterPosition).getMaxPoints());
-            intent.putExtra("sheetID", adapterPosition);
+            // Create new dialogFragment responsible for editing sheet and show it
+            Sheet sheet = sheetsList.get(adapterPosition);
+            AddSheetFragment addTaskDialog = AddSheetFragment.forEdit(adapterPosition, sheet.getSheetName(), sheet.getSheetDateText(), sheet.getPoints(), sheet.getMaxPoints());
+            addTaskDialog.setTargetFragment(fragment, EDIT_SHEET_REQUEST_CODE);
+            addTaskDialog.show(fragment.getFragmentManager(), "WTF3");
 
-            fragment.startActivityForResult(intent, 5439);
             return true;
         }
 
@@ -135,7 +130,7 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
             sheetName.setText(sheet.getSheetName());
             sheetDate.setText(sheet.getSheetDateText());
             percentage.setText(scoreString);
-            progressBar.setProgressWithAnimation(percentScore);
+            progressBar.setProgress(percentScore);
         }
     }
 }
