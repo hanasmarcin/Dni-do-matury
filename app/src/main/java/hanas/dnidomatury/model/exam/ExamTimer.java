@@ -1,6 +1,5 @@
 package hanas.dnidomatury.model.exam;
 
-import android.content.Context;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 

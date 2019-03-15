@@ -69,7 +69,7 @@ public class AddSheetFragment extends DialogFragment implements AddDate {
         isNew = getArguments().getBoolean("isNew");
         getDialog().setTitle(isNew ? "Dodaj zadanie" : "Edytuj zadanie");
 
-        return inflater.inflate(R.layout.activity_add_sheet, view);
+        return inflater.inflate(R.layout.dialog_fragment_add_sheet, view);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class AddSheetFragment extends DialogFragment implements AddDate {
         try {
             double points = Double.parseDouble(pointsTextView.getText().toString());
             double maxPoints = Double.parseDouble(maxPointsTextView.getText().toString());
-            if (points <= 0 && maxPoints <= 0) throw new NumberFormatException();
+            if (points < 0 || maxPoints <= 0) throw new NumberFormatException();
 
             Intent intent = new Intent();
             intent.putExtra("sheetName", nameTextView.getText().toString());

@@ -13,6 +13,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DialogWithTitle" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
     <style name="Blue"
         parent="Theme.AppCompat.Light.DarkActionBar" >
         <item name="android:statusBarColor">@color/BlueDark</item>
@@ -20,7 +27,7 @@
         <item name="colorPrimaryDark">@color/BlueDark</item>
         <item name="colorAccent">@color/Blue</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
     <style name="Purple"
         parent="Theme.AppCompat.Light.DarkActionBar" >
@@ -29,7 +36,7 @@
         <item name="colorPrimaryDark">@color/PurpleDark</item>
         <item name="colorAccent">@color/Purple</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Green"
@@ -39,7 +46,7 @@
         <item name="colorPrimaryDark">@color/GreenDark</item>
         <item name="colorAccent">@color/Green</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Red"
@@ -49,7 +56,7 @@
         <item name="colorPrimaryDark">@color/RedDark</item>
         <item name="colorAccent">@color/Red</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Amber"
@@ -59,7 +66,7 @@
         <item name="colorPrimaryDark">@color/AmberDark</item>
         <item name="colorAccent">@color/Amber</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Orange"
@@ -69,7 +76,7 @@
         <item name="colorPrimaryDark">@color/OrangeDark</item>
         <item name="colorAccent">@color/Orange</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="DeepOrange"
@@ -79,7 +86,7 @@
         <item name="colorPrimaryDark">@color/DeepOrangeDark</item>
         <item name="colorAccent">@color/DeepOrange</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Cyan"
@@ -89,7 +96,7 @@
         <item name="colorPrimaryDark">@color/CyanDark</item>
         <item name="colorAccent">@color/Cyan</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Indigo"
@@ -99,7 +106,7 @@
         <item name="colorPrimaryDark">@color/IndigoDark</item>
         <item name="colorAccent">@color/Indigo</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Pink"
@@ -109,7 +116,7 @@
         <item name="colorPrimaryDark">@color/PinkDark</item>
         <item name="colorAccent">@color/Pink</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Lime"
@@ -119,7 +126,7 @@
         <item name="colorPrimaryDark">@color/LimeDark</item>
         <item name="colorAccent">@color/Lime</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Teal"
@@ -129,7 +136,7 @@
         <item name="colorPrimaryDark">@color/TealDark</item>
         <item name="colorAccent">@color/Teal</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="LightGreen"
@@ -139,7 +146,7 @@
         <item name="colorPrimaryDark">@color/LightGreenDark</item>
         <item name="colorAccent">@color/LightGreen</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="DeepPurple"
@@ -147,9 +154,9 @@
         <item name="android:statusBarColor">@color/DeepPurpleDark</item>
         <item name="colorPrimary">@color/DeepPurple</item>
         <item name="colorPrimaryDark">@color/DeepPurpleDark</item>
-        <item name="android:colorAccent">@color/DeepPurple</item>
+        <item name="colorAccent">@color/DeepPurple</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
 
@@ -160,13 +167,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.UserDialog" parent="Base.Theme.AppCompat.Dialog">
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="AppTheme.NoActionBar.Exam">

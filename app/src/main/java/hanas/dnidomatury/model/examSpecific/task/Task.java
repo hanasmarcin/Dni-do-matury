@@ -1,9 +1,6 @@
 package hanas.dnidomatury.model.examSpecific.task;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Observable;
 
 import androidx.annotation.NonNull;
@@ -22,29 +19,19 @@ public class Task extends Observable implements ExamItem {
     public void update(String taskName, String taskDateText) {
         this.taskName = taskName;
         this.taskDateText = taskDateText;
-        this.taskDate = taskDateTextToDate(taskDateText);
+        this.taskDate = ExamItem.dateTextToDate(taskDateText);
     }
 
     public enum TaskHeader {NOT, TODO, DONE}
 
     public Task(String taskName, String taskDateText, TaskHeader header) {
         this.taskName = taskName;
-        this.taskDate = taskDateTextToDate(taskDateText);
+        this.taskDate = ExamItem.dateTextToDate(taskDateText);
         this.taskDateText = taskDateText;
         this.isDone = false;
         this.header = header;
     }
 
-    public static Calendar taskDateTextToDate(String taskDateText) {
-        SimpleDateFormat formatter = new SimpleDateFormat("d.MM.yyyy", Locale.ENGLISH);
-        try {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(formatter.parse(taskDateText));
-            return cal;
-        } catch (ParseException e) {
-            return Calendar.getInstance();
-        }
-    }
 
     public String getTaskName() {
         return taskName;

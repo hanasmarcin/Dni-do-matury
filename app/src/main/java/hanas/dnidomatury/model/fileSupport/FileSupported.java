@@ -21,10 +21,17 @@ public interface FileSupported<T> {
         return true;
     }
 
-    static String getFileTitle(Exam exam, String file_suffix) {
+    static String getFileTitle(Exam exam, String fileSuffix) {
         if (exam != null)
-            return exam.getName() + "_" + exam.getLevel() + "_" + exam.getType() + file_suffix;
-        else return file_suffix;
+            return exam.getName() + "_" + exam.getLevel() + "_" + exam.getType() + fileSuffix;
+        else return fileSuffix;
+    }
+
+    static boolean deleteFile(Context context, Exam exam, String fileSuffix) {
+        File file = context.getFileStreamPath(getFileTitle(exam, fileSuffix));
+        if (file != null && file.exists()) {
+            return file.delete();
+        } else return false;
     }
 
     class FileReader<T> implements Runnable {

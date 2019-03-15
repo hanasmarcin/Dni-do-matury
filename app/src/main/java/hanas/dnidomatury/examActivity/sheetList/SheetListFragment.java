@@ -37,11 +37,10 @@ public class SheetListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SheetListFragment newInstance(int selectedExamPOS) {
+    public static SheetListFragment newInstance() {
         // Create new fragment with variables passed via bundle
         System.out.println(111);
         Bundle args = new Bundle();
-        args.putInt("selectedMaturaPOS", selectedExamPOS);
         SheetListFragment fragment = new SheetListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -92,7 +91,7 @@ public class SheetListFragment extends Fragment {
         final Sheet newSheet = new Sheet(sheetName, sheetDateText, points, maxPoints);
         sheetsList.add(0, newSheet);
 
-        // Move sheet to the right position on the list and get this position
+        // Move sheet to the correct position on the list and get this position
         int newPosition = 0; //sheetsList.moveAndSort(1, true);
         recyclerView.scrollToPosition(newPosition);
         if (adapter != null) adapter.notifyItemInserted(newPosition);

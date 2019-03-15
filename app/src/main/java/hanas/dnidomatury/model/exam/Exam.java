@@ -33,7 +33,7 @@ public class Exam implements Comparable<Exam>, Serializable {
         return sheetsAverage;
     }
 
-    public Exam(String name, String level, String type, String dateText, String primaryColor, String darkColor) {
+    public Exam(String name, String level, String type, String dateText, String primaryColor) {
         this.name = name;
         this.level = level;
         this.type = type;
@@ -98,4 +98,14 @@ public class Exam implements Comparable<Exam>, Serializable {
     public int compareTo(@NonNull Exam exam) {
         return this.getDate().compareTo(exam.getDate());
     }
+
+
+    public void setNewTasksCounter() {
+        this.tasksCounter = new TasksCounter();
+    }
+
+    public void setNewSheetsAverage() {
+        this.sheetsAverage = new SheetsAverage();
+    }
+
 }

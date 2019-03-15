@@ -1,11 +1,7 @@
-package hanas.dnidomatury.settingsActivity.NumberPicker;
+package hanas.dnidomatury.settingsActivity.customPreferences;
 
-import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Color;
-import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,7 +12,6 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;

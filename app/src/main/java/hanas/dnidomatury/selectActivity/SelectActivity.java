@@ -20,14 +20,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import hanas.dnidomatury.R;
+import hanas.dnidomatury.examActivity.sheetList.AddSheetFragment;
 import hanas.dnidomatury.model.exam.ExamsFileSupportedList;
 import hanas.dnidomatury.model.exam.ExamsList;
 import hanas.dnidomatury.model.exam.Exam;
 import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.touchHelper.SimpleItemTouchHelperCallback;
 
-public class SelectActivity extends AppCompatActivity {
+public class SelectActivity extends AppCompatActivity implements AddExamFragment.ExamDialogListener {
 
+    private static final int ADD_EXAM_REQUEST_CODE = 4364;
     private ExamsList mListOfExam;
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
@@ -48,7 +50,7 @@ public class SelectActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new SelectExamAdapter(this, mListOfExam, false, coordinator);
+        adapter = new SelectExamAdapter(this, mListOfExam, false);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
@@ -79,90 +81,127 @@ public class SelectActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            Intent intent = new Intent(this, AddExamActivity.class);
-            //intent.putExtra("selectedExamID", selectedExamID);
-            startActivityForResult(intent, 5320);
+            AddExamFragment addExamDialog = AddExamFragment.forAdd();
+            addExamDialog.show(getSupportFragmentManager(), "WTF4");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        if (requestCode == 5320) {
+//            if (resultCode == RESULT_OK) {
+//                Bundle bundle = data.getExtras();
+//                if (bundle != null) {
+//                    String examName = bundle.getString("examName");
+//                    String examType = bundle.getString("examType");
+//                    String examLevel = bundle.getString("examLevel");
+//                    String examDateText = bundle.getString("examDateText");
+//                    String examColor = bundle.getString("examColor");
+//                    boolean isNew = bundle.getBoolean("isNew");
+//                    Toast.makeText(this, isNew + "", Toast.LENGTH_SHORT).show();
+//
+//                    if (!isNew) {
+//                        Toast.makeText(this, "Nie jest nowa!", Toast.LENGTH_SHORT).show();
+//                        Exam oldExam = mListOfExam.findExam(examName, examLevel, examType);
+//                        if (examColor != null && oldExam != null) {
+//                            oldExam.setColorScheme(examColor);
+//                        }
+//                        if (examDateText != null && oldExam != null) {
+//                            oldExam.setDate(examDateText);
+//                        }
+//                    } else {
+//                        Exam newExam = ExamsFileSupportedList.fromFile(false, this).findExam(examName, examLevel, examType);
+//                        if (examColor != null && newExam != null) {
+//                            newExam.setColorScheme(examColor);
+//                        }
+//                        if (examType.contains("pisemn")) {
+//                            if (newExam != null) {
+//                                newExam.setNewTasksCounter();
+//                                newExam.setNewSheetsAverage();
+//                                mListOfExam.add(newExam);
+//                            }
+//                        } else {
+//
+//                            try {
+//                                if (examColor == null)
+//                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, "Green")));
+//                                else
+//                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, examColor)));
+//
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                    adapter.notifyDataSetChanged();
+//
+//                }
+//            }
+//        }
+//        /*else if (requestCode == 5636){
+//            if (resultCode == RESULT_OK){
+//                Bundle bundle = data.getExtras();
+//                if (bundle!=null) {
+//                    String taskName = bundle.getString("taskName");
+//                    String taskDateText = bundle.getString("taskDateText");
+//                    int taskID = bundle.getInt("taskID");
+//                    Toast.makeText(this, taskName, Toast.LENGTH_SHORT).show();
+//                    //final Task newTask = new Task(taskID, taskName, taskDateText, false);
+//                    final Task newTask = new Task(taskName, taskDateText, false, false);
+//                    newTask.setDone(todoList.getTask(taskID).isDone());
+//                    todoList.deleteTask(todoList.getTask(taskID));
+//                    todoList.addTask(taskID, newTask);
+//                    adapter.notifyItemInserted(taskID);
+//                    adapter.notifyDataSetChanged();
+//                    todoList.sort();
+//                    nested.scrollTo(0, 0);
+//
+//                }
+//            }
+//        }*/
+//    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 5320) {
-            if (resultCode == RESULT_OK) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    String examName = bundle.getString("examName");
-                    String examType = bundle.getString("examType");
-                    String examLevel = bundle.getString("examLevel");
-                    String examDateText = bundle.getString("examDateText");
-                    String examColor = bundle.getString("examColor");
-                    boolean isNew = bundle.getBoolean("isNew");
-                    Toast.makeText(this, isNew + "", Toast.LENGTH_SHORT).show();
+    public void addExam(String name, String type, String level, String color, String examDateText) {
+        Exam newExam = ExamsFileSupportedList.fromFile(false, this).findExam(name, level, type);
+        if (color != null && newExam != null) {
+            newExam.setColorScheme(color);
+        }
+        if (type.contains("pisemn")) {
+            if (newExam != null) {
+                newExam.setNewTasksCounter();
+                newExam.setNewSheetsAverage();
+                mListOfExam.add(newExam);
+            }
+        } else {
 
-                    if (!isNew) {
-                        Toast.makeText(this, "Nie jest nowa!", Toast.LENGTH_SHORT).show();
-                        Exam oldExam = mListOfExam.findExam(examName, examLevel, examType);
-                        if (examColor != null && oldExam != null) {
-                            oldExam.setColorScheme(examColor);
-                        }
-                        if (examDateText != null && oldExam != null) {
-                            oldExam.setDate(examDateText);
-                        }
-                    } else {
-                        Exam newExam = ExamsFileSupportedList.fromFile(false, this).findExam(examName, examLevel, examType);
-                        if (examColor != null && newExam != null) {
-                            newExam.setColorScheme(examColor);
-                        }
-                        if (examType.contains("pisemn")) {
-                            if (newExam != null) {
-                                //TasksList lot = new TasksList(examName, examType, examLevel, this);
-                                //lot.readFromFile(this);
-                                //newExam.setTasksCounter(lot.getTasksCounter());
-                                mListOfExam.add(newExam);
-                            }
-                        } else {
+            try {
+                if (color == null)
+                    color = "Green";
 
-                            //Toast.makeText(this, examName+examType+examLevel+examDateText, Toast.LENGTH_SHORT).show();
-                            try {
-                                if (examColor == null)
-                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, "Green", "GreenDark")));
-                                else
-                                    mListOfExam.add((new Exam(examName, examLevel, examType, examDateText, examColor, examColor + "Dark")));
+                mListOfExam.add((new Exam(name, level, type, examDateText, color)));
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        /*else if (requestCode == 5636){
-            if (resultCode == RESULT_OK){
-                Bundle bundle = data.getExtras();
-                if (bundle!=null) {
-                    String taskName = bundle.getString("taskName");
-                    String taskDateText = bundle.getString("taskDateText");
-                    int taskID = bundle.getInt("taskID");
-                    Toast.makeText(this, taskName, Toast.LENGTH_SHORT).show();
-                    //final Task newTask = new Task(taskID, taskName, taskDateText, false);
-                    final Task newTask = new Task(taskName, taskDateText, false, false);
-                    newTask.setDone(todoList.getTask(taskID).isDone());
-                    todoList.deleteTask(todoList.getTask(taskID));
-                    todoList.addTask(taskID, newTask);
-                    adapter.notifyItemInserted(taskID);
-                    adapter.notifyDataSetChanged();
-                    todoList.sort();
-                    nested.scrollTo(0, 0);
-
-                }
-            }
-        }*/
+        adapter.notifyItemInserted(mListOfExam.size()-1);
+        //adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void editExam(String name, String type, String level, String color, String examDateText, int examPOS) {
+        //Toast.makeText(this, "Nie jest nowa!", Toast.LENGTH_SHORT).show();
+        Exam oldExam = mListOfExam.findExam(name, level, type);
+        if (color != null && oldExam != null) {
+            oldExam.setColorScheme(color);
+        }
+        if (examDateText != null && oldExam != null) {
+            oldExam.setDate(examDateText);
+        }
+        adapter.notifyItemChanged(examPOS);
+    }
 }

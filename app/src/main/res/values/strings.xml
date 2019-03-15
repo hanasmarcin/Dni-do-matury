@@ -197,5 +197,15 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_add_sheet">AddSheetActivity</string>
     <string name="title_activity_settings2">Settings</string>
+    <string name="edit_date">Edytuj datę</string>
+    <string name="submit">Zatwierdź</string>
+    <string name="empty">Brak</string>
+    <string name="no_date">Brak daty</string>
+    <string name="choose_exam_hour">Wybierz godzinę matury</string>
+    <string name="choose_exam_date">Wybierz datę matury</string>
+    <string name="written">pisemna</string>
+    <string name="add_exam">Dodaj maturę</string>
+    <string name="edit_exam">Edytuj maturę</string>
+    <string name="contact_developer_uri">mailto:mahanas@outlook.com</string>
 
 </resources>

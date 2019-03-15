@@ -1,14 +1,16 @@
 package hanas.dnidomatury.selectActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -17,36 +19,36 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import hanas.dnidomatury.R;
+import hanas.dnidomatury.model.exam.ExamAdditionalInfo;
 import hanas.dnidomatury.model.exam.ExamsList;
 import hanas.dnidomatury.model.exam.Exam;
 import hanas.dnidomatury.examActivity.ExamActivity;
 import hanas.dnidomatury.model.exam.SelectedExamsList;
+import hanas.dnidomatury.model.examSpecific.sheet.SheetsList;
+import hanas.dnidomatury.model.examSpecific.task.TasksList;
+import hanas.dnidomatury.model.fileSupport.FileSupported;
 import hanas.dnidomatury.touchHelper.ItemTouchHelperAdapter;
 import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
 
 public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.FullListExamViewHolder>
         implements ItemTouchHelperAdapter {
 
-    private Context context;
+    private FragmentActivity selectActivity;
     private ExamsList mFullExamList;
     private boolean isClickable;
-    private CoordinatorLayout coordinator;
 
-    public SelectExamAdapter(Context context, ExamsList fullExamList, boolean isClickable, CoordinatorLayout coordinator) {
-        this.context = context;
+    public SelectExamAdapter(FragmentActivity selectActivity, ExamsList fullExamList, boolean isClickable) {
+        this.selectActivity = selectActivity;
         this.mFullExamList = fullExamList;
         this.isClickable = isClickable;
-        this.coordinator = coordinator;
 
     }
 
     @NonNull
     @Override
     public FullListExamViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(selectActivity);
         View view = inflater.inflate(R.layout.card_select, viewGroup, false);
         return new FullListExamViewHolder(view);
     }
@@ -54,35 +56,37 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
     @Override
     public void onBindViewHolder(@NonNull final FullListExamViewHolder fullListExamViewHolder, int i) {
         final Exam mExam = mFullExamList.get(i);
-        final int primaryColorID = mExam.getPrimaryColorID(context);
-        final int darkColorID = mExam.getDarkColorID(context);
+        final int primaryColorID = mExam.getPrimaryColorID(selectActivity);
 
         fullListExamViewHolder.everyListTitle.setText(mExam.getName());
-        fullListExamViewHolder.everyListPoziom.setText(mExam.getType() + " " + mExam.getLevel());
+        fullListExamViewHolder.everyListPoziom.setText(String.format("%s %s", mExam.getType(), mExam.getLevel()));
 
         if (primaryColorID != 0)
-            fullListExamViewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(context, primaryColorID));
+            fullListExamViewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(selectActivity, primaryColorID));
 
-        fullListExamViewHolder.everyListCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = isClickable ? new Intent(context, ExamActivity.class) : new Intent(context, AddExamActivity.class);
+        fullListExamViewHolder.everyListCardView.setOnClickListener(view -> {
+            if (isClickable) {
+                Intent intent = new Intent(selectActivity, ExamActivity.class);
                 int examPos = 0;
-                ExamsList everyExam = SelectedExamsList.getInstance(context);
-                for (int i = 0; i < everyExam.size(); i++) {
-                    Exam exam = everyExam.get(i);
+                ExamsList everyExam = SelectedExamsList.getInstance(selectActivity);
+                for (int i1 = 0; i1 < everyExam.size(); i1++) {
+                    Exam exam = everyExam.get(i1);
                     if (mExam.getName().equals(exam.getName()) && mExam.getLevel().equals(exam.getLevel()) && mExam.getType().equals(exam.getType())) {
-                        examPos = i;
+                        examPos = i1;
                         break;
                     }
                 }
                 intent.putExtra("selectedExamPOS", examPos);
                 if (isClickable)
-                    ((Activity) view.getContext()).startActivityForResult(intent, 15);
-                else ((Activity) view.getContext()).startActivityForResult(intent, 5320);
+                    selectActivity.startActivityForResult(intent, 15);
+            } else {
+                AddExamFragment addExamDialog = AddExamFragment.forEdit(fullListExamViewHolder.getAdapterPosition());
+
+                addExamDialog.show(selectActivity.getSupportFragmentManager(), "WTF4");
 
             }
         });
+
     }
 
     @Override
@@ -94,23 +98,24 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
     public void onItemDismiss(final int position) {
         final Exam deletedExam = mFullExamList.remove(position);
         notifyItemRemoved(position);
-        if (coordinator != null) {
-            final Snackbar deletedExamSnackbar = Snackbar.make(coordinator, "Usunięto maturę",
-                    Snackbar.LENGTH_SHORT);
-            deletedExamSnackbar.setAction("Cofnij", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mFullExamList.add(position, deletedExam);
-                    notifyItemInserted(position);
-                }
-            });
-            deletedExamSnackbar.show();
-        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(selectActivity);
+        dialogBuilder.setMessage("Usunięto maturę. Czy usunąć również dane z nią powiązane (listę zadań, arkuszy, dodatkowe informacje");
+        dialogBuilder.setPositiveButton("USUŃ DANE", (dialogInterface, i) -> {
+            FileSupported.deleteFile(selectActivity, deletedExam, TasksList.FILE_SUFFIX);
+            FileSupported.deleteFile(selectActivity, deletedExam, SheetsList.FILE_SUFFIX);
+            FileSupported.deleteFile(selectActivity, deletedExam, ExamAdditionalInfo.FILE_SUFFIX);
+        });
+        dialogBuilder.setNeutralButton("ANULUJ", (dialogInterface, i) -> {});
+        dialogBuilder.setNegativeButton("POZOSTAW DANE", (dialogInterface, i) -> {
+            mFullExamList.add(position, deletedExam);
+            notifyItemInserted(position);
+        });
+        dialogBuilder.create().show();
     }
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-       mFullExamList.swap(fromPosition, toPosition);
+        mFullExamList.swap(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -121,7 +126,7 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
         CardView everyListCardView;
         LinearLayout primaryColorField;
 
-        public FullListExamViewHolder(@NonNull View itemView) {
+        FullListExamViewHolder(@NonNull View itemView) {
             super(itemView);
 
             primaryColorField = itemView.findViewById(R.id.primary_color_full_list);

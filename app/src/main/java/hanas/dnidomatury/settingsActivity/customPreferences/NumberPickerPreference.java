@@ -1,4 +1,4 @@
-package hanas.dnidomatury.settingsActivity.NumberPicker;
+package hanas.dnidomatury.settingsActivity.customPreferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;

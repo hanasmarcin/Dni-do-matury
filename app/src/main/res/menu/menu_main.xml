@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="hanas.dnidomatury.examListActivity.ExamListActivity">
+    tools:selectActivity="hanas.dnidomatury.examListActivity.ExamListActivity">
     <item
         android:id="@+id/action_edit"
         android:enabled="true"
@@ -12,7 +12,7 @@
     <item
         android:id="@+id/action_settings"
         android:enabled="true"
-        android:icon="@drawable/ic_notification_settings"
+        android:icon="@drawable/outline_settings_24"
         android:orderInCategory="100"
         android:title="Ustawienia powiadomień"
         app:showAsAction="always" />

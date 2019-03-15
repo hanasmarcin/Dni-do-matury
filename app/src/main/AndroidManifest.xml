@@ -8,9 +8,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:icon="@mipmap/ic_launcher_icon"
+        android:icon="@mipmap/ic_launcher_icon_2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_icon_round"
+        android:roundIcon="@mipmap/ic_launcher_icon_2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -31,22 +31,6 @@
             android:name=".examActivity.ExamActivity"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".examActivity.taskList.AddTaskActivity"
-            android:label="@string/activity_add_task_name"
-            android:theme="@style/AppTheme.UserDialog" />
-        <activity
-            android:name=".selectActivity.AddExamActivity"
-            android:label="Dodaj maturę"
-            android:theme="@style/AppTheme.UserDialog" />
-        <activity
-            android:name=".examActivity.oldSheetList.AddSheetActivity"
-            android:label="Dodaj arkusz"
-            android:theme="@style/AppTheme.UserDialog" />
-        <activity
-            android:name=".examActivity.ExamInfo.AddExamInfoActivity"
-            android:label="Dodaj inforacje"
-            android:theme="@style/AppTheme.UserDialog" />
 
         <service
             android:name=".settingsActivity.notification.NotifJobService"

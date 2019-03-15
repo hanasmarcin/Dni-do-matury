@@ -12,12 +12,10 @@ import hanas.dnidomatury.model.exam.Exam;
 
 public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>, Serializable {
 
-    private static final String FILE_SUFFIX = "sheets";
+    public static final String FILE_SUFFIX = "sheets";
+    private transient SheetsAverage average;
 
     private SheetsList() {
-        for (int i = 0; i < 30; i++) {
-            this.add(new Sheet("sheet nr. "+i, "Brak daty", i, 50));
-        }
     }
 
     @Override
@@ -27,9 +25,14 @@ public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>
 
     public static ExamItemsList<Sheet> fromFile(Context context, Exam exam) {
         String fileTitle = FileSupported.getFileTitle(exam, FILE_SUFFIX);
-        SheetsList list = FileSupported.fromFile(context, fileTitle);
-        if (list != null) return list;
-        else return new SheetsList();
+        SheetsList tmpList = FileSupported.fromFile(context, fileTitle);
+        if (tmpList == null) tmpList = new SheetsList();
+        tmpList.average = exam.getSheetsAverage();
+
+        final SheetsList list = tmpList;
+        for (Sheet sheet : list)
+            sheet.addObserver((observable, percentages) -> list.average.updateAverage((double[]) percentages));
+        return list;
     }
 
     @Override
@@ -38,18 +41,24 @@ public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>
     }
 
     @Override
-    public boolean add(Sheet sheet) {
-        return super.add(sheet);
+    public boolean remove(Object sheet) {
+        if (super.remove(sheet)) {
+            average.subtract(((Sheet) sheet).getPoints(), ((Sheet) sheet).getMaxPoints());
+            return true;
+        } else return false;
     }
 
     @Override
-    public boolean remove(Object sheet) {
-        return super.remove(sheet);
+    public void add(int index, Sheet sheet) {
+        super.add(index, sheet);
+        sheet.addObserver((observable, percentages) -> this.average.updateAverage((double[]) percentages));
+        average.add(sheet.getPoints(), sheet.getMaxPoints());
     }
 
     @Override
     public void clear() {
         super.clear();
+        average.resetAverage();
     }
 
     @Override
@@ -58,19 +67,13 @@ public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>
     }
 
     @Override
-    public void toFile(Context context, Exam exam) {
-        toFile(context, FileSupported.getFileTitle(exam, FILE_SUFFIX));
-    }
-
-
-    @Override
     public int moveAndSort(int fromPosition, boolean downTheList) {
-        Sheet element = this.remove(fromPosition);
+        Sheet element = super.remove(fromPosition);
         int toPosition;
         for (toPosition = fromPosition; toPosition < size(); toPosition++) {
             if (element.compareTo(get(toPosition)) <= 0) break;
         }
-        add(toPosition, element);
+        super.add(toPosition, element);
         return toPosition;
     }
 }

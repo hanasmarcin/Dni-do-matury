@@ -39,11 +39,10 @@ public class TaskListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TaskListFragment newInstance(int selectedExamPOS) {
+    public static TaskListFragment newInstance() {
         // Create new fragment with variables passed via bundle
         System.out.println(111);
         Bundle args = new Bundle();
-        args.putInt("selectedMaturaPOS", selectedExamPOS);
         TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -69,10 +68,11 @@ public class TaskListFragment extends Fragment {
         // Get the data from ViewModel, which is available for parent fragment and its' fragments
         DataViewModel data = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
         tasksList = data.getTasks();
+        int colorID = data.getColorID();
         recyclerView = view.findViewById(R.id.tasks_recycler_view);
 
         // Set up the recyclerView
-        adapter = new TaskAdapter(this, tasksList);
+        adapter = new TaskAdapter(this, tasksList, colorID);
         CustomLayoutManager customLayoutManager = new CustomLayoutManager(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(customLayoutManager);
@@ -90,7 +90,6 @@ public class TaskListFragment extends Fragment {
         // Create new task and add it to the list
         final Task newTask = new Task(taskName, taskDateText, NOT);
         tasksList.add(1, newTask);
-
         // Move task to the right position on the list and get this position
         int newPosition = tasksList.moveAndSort(1, true);
         recyclerView.scrollToPosition(newPosition);

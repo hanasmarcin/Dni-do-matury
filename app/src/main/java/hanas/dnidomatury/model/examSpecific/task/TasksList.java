@@ -16,15 +16,11 @@ import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, Serializable {
 
-    private final static String FILE_SUFFIX = "taskslist";
+    public final static String FILE_SUFFIX = "taskslist";
     private transient TasksCounter counter;
 
     private TasksList() {
         this.add(new Task("", "", TODO));
-        for (int i = 0; i < 100; i++) {
-            System.out.println(i + " wtf");
-            this.add(new Task("task nr. " + i, "Brak daty", NOT));
-        }
         this.add(new Task("", "", DONE));
     }
 
@@ -37,8 +33,9 @@ public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, S
         String fileTitle = FileSupported.getFileTitle(exam, FILE_SUFFIX);
         TasksList tmpList = FileSupported.fromFile(context, fileTitle);
         if (tmpList == null) tmpList = new TasksList();
+        tmpList.counter = exam.getTasksCounter();
+
         final TasksList list = tmpList;
-        list.counter = exam.getTasksCounter();
         for (Task task : list)
             task.addObserver((observable, isDone) -> list.counter.updateCounter((boolean) isDone));
         return list;
@@ -51,7 +48,7 @@ public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, S
 
     @Override
     public int moveAndSort(int fromPosition, boolean startDownTheList) {
-        Task element = this.remove(fromPosition);
+        Task element = super.remove(fromPosition);
         int toPosition;
         if (startDownTheList) {
             for (toPosition = fromPosition; toPosition < size(); toPosition++)
@@ -75,17 +72,15 @@ public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, S
 
         }
         if (toPosition == 0) toPosition++;
-        add(toPosition, element);
+        super.add(toPosition, element);
         return toPosition;
     }
 
     @Override
-    public boolean add(Task task) {
-        if (super.add(task)) {
-            task.addObserver((observable, isDone) -> this.counter.updateCounter((boolean) isDone));
-            if (!task.isDone() && counter != null) counter.incrementCounter();
-            return true;
-        } else return false;
+    public void add(int index, Task task) {
+        super.add(index, task);
+        task.addObserver((observable, isDone) -> this.counter.updateCounter((boolean) isDone));
+        if (!task.isDone() && counter != null) counter.incrementCounter();
     }
 
     @Override
@@ -106,12 +101,6 @@ public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, S
     public Task get(int i) {
         return super.get(i);
     }
-
-    @Override
-    public void toFile(Context context, Exam exam) {
-        toFile(context, FileSupported.getFileTitle(exam, FILE_SUFFIX));
-    }
-
 
 }
 

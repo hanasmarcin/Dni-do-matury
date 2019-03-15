@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -53,10 +54,10 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         // If the timer for this card was set previously, reset it
         if (examViewHolder.examTimer.getTimer() != null)
             examViewHolder.examTimer.getTimer().cancel();
-        examViewHolder.examTimer.startExamTimer(context, exam, examViewHolder.daysTextView, examViewHolder.hoursTextVIew);
+        examViewHolder.examTimer.startExamTimer(exam, examViewHolder.daysTextView, examViewHolder.hoursTextVIew);
 
 
-        examViewHolder.mCardView.setOnClickListener(view -> {
+        examViewHolder.cardView.setOnClickListener(view -> {
             // Start corresponding ExamActivity and pass exam's position on SelectedExamsList,
             // which is the same as position of this adapter in viewHolder
             Intent intent = new Intent(context, ExamActivity.class);
@@ -75,9 +76,9 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         viewHolder.examLevelTypeTextView.setText(String.format("%s %s", exam.getLevel(), exam.getType()));
         viewHolder.tasksCounter.setText(String.format(Locale.getDefault(), "%d", exam.getTasksCounter().getCounter()));
         viewHolder.darkColorField.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
-        viewHolder.mCardView.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
+        viewHolder.cardView.setBackgroundColor(ContextCompat.getColor(context, darkColorID));
         viewHolder.primaryColorField.setBackgroundColor(ContextCompat.getColor(context, primaryColorID));
-
+        viewHolder.progress.setProgress((int) Math.round(exam.getSheetsAverage().getAverage()));
     }
 
     @Override
@@ -88,7 +89,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
 
     class ExamViewHolder extends RecyclerView.ViewHolder {
 
-        private final CardView mCardView;
+        private final CardView cardView;
         private final LinearLayout darkColorField;
         private final LinearLayout primaryColorField;
         private final TextView daysTextView;
@@ -97,12 +98,13 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
         private final TextView examLevelTypeTextView;
         private final TextView tasksCounter;
         private final ExamTimer examTimer;
+        private final ProgressBar progress;
 
         ExamViewHolder(@NonNull View itemView) {
             super(itemView);
 
             // Create card's view
-            mCardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.cardView);
             darkColorField = itemView.findViewById(R.id.dark_color_field);
             primaryColorField = itemView.findViewById(R.id.primary_color_field);
             daysTextView = itemView.findViewById(R.id.dni_counter_list);
@@ -110,8 +112,9 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
             examNameTextView = itemView.findViewById(R.id.exam_list);
             examLevelTypeTextView = itemView.findViewById(R.id.poziom_typ_list);
             tasksCounter = itemView.findViewById(R.id.exam_task_counter);
-            examTimer = new ExamTimer();
+            progress = itemView.findViewById(R.id.progress_bar_exam_card);
 
+            examTimer = new ExamTimer();
         }
     }
 

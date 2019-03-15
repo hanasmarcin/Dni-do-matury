@@ -4,11 +4,10 @@ public interface FileSupportedList<T> extends FileSupported<FileSupportedList<T>
 
     int size();
     boolean isEmpty();
-    boolean add(T newElement);
     void add(int position, T newElement);
     boolean remove(Object oldElement);
     void sort();
     void clear();
     T get(int element);
-    T remove(int index);
+    //T remove(int index);
 }

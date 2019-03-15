@@ -35,6 +35,7 @@ public class AddTaskFragment extends DialogFragment implements AddDate {
         args.putString("taskName", taskName);
         args.putString("taskDateText", taskDate);
         args.putBoolean("isNew", false);
+
         AddTaskFragment fragment = new AddTaskFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,7 +58,7 @@ public class AddTaskFragment extends DialogFragment implements AddDate {
         isNew = getArguments().getBoolean("isNew");
         getDialog().setTitle(isNew ? "Dodaj zadanie" : "Edytuj zadanie");
 
-        return inflater.inflate(R.layout.activity_add_task, view);
+        return inflater.inflate(R.layout.dialog_fragment_add_task, view);
     }
 
     @Override

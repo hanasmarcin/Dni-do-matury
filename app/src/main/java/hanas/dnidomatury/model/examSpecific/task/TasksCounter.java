@@ -13,19 +13,19 @@ public class TasksCounter extends Observable implements Serializable {
         return counter;
     }
 
-    public void setCounter(long counter) {
+    void setCounter(long counter) {
         this.counter = counter;
         setChanged();
         notifyObservers(counter);
     }
 
-    public void incrementCounter() {
+    void incrementCounter() {
         this.counter++;
         setChanged();
         notifyObservers(counter);
     }
 
-    public void decrementCounter() {
+    void decrementCounter() {
         this.counter--;
         setChanged();
         notifyObservers(counter);

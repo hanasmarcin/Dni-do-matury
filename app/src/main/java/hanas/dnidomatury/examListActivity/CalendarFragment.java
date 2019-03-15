@@ -64,19 +64,11 @@ public class CalendarFragment extends Fragment {
         // Get list of selected exams
         selectedExams = SelectedExamsList.getInstance(getActivity());
 
-//        List<Event> examEvents = new ArrayList<>();
-//        for (Exam exam : selectedExams) {
-//            int primaryColorID = exam.getPrimaryColorID(getActivity());
-//            Event event = new Event(ContextCompat.getColor(getActivity(), primaryColorID), exam.getDate().getTimeInMillis(), exam.getName()+" "+ exam.getType()+" "+ exam.getLevel());
-//            examEvents.add(event);
-//        }
-//        calendarView.addEvents(examEvents);
-
         // Set recyclerView with exams for chosen date
         RecyclerView recyclerView = rootView.findViewById(R.id.calendar_recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new CustomLayoutManager(getActivity()));
-        adapter = new SelectExamAdapter(getActivity(), choosedDateExams, true, null);
+        adapter = new SelectExamAdapter(getActivity(), choosedDateExams, true);
         recyclerView.setAdapter(adapter);
 
         // define a listener for calendarView to receive callbacks when certain events happen.
@@ -134,6 +126,7 @@ public class CalendarFragment extends Fragment {
             if (exam.getDate().get(Calendar.DAY_OF_MONTH) == calClicked.get(Calendar.DAY_OF_MONTH) && exam.getDate().get(Calendar.MONTH) == calClicked.get(Calendar.MONTH))
                 choosedDateExams.add(exam);
         }
+        choosedDateExams.sort();
         adapter.notifyItemRangeInserted(0, choosedDateExams.size());
 
     }

@@ -55,7 +55,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setContentIntent(pendingIntent)
                     .setStyle(inboxNotifStyle)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_notification);
+                    .setSmallIcon(R.drawable.ic_notif);
         } else {
             return new Notification.Builder(getApplicationContext())
                     .setAutoCancel(true)
@@ -63,7 +63,7 @@ public class NotificationHelper extends ContextWrapper {
                     .setContentIntent(pendingIntent)
                     .setStyle(inboxNotifStyle)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_notification)
+                    .setSmallIcon(R.drawable.ic_notif)
                     .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
                     .setContentInfo("Info");
         }

@@ -2,8 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        android:title="Powiadomienia" >
+    <PreferenceCategory android:title="Powiadomienia">
 
         <SwitchPreference
             android:defaultValue="false"
@@ -19,19 +18,38 @@
             android:key="notif_days_of_week"
             android:title="Dni tygodnia" />
 
-        <hanas.dnidomatury.settingsActivity.NumberPicker.NumberPickerPreference
+        <hanas.dnidomatury.settingsActivity.customPreferences.NumberPickerPreference
             android:defaultValue="1"
             android:key="day_of_month"
             android:title="Dzień miesiąca" />
 
-        <hanas.dnidomatury.settingsActivity.NumberPicker.TimePreference
+        <hanas.dnidomatury.settingsActivity.customPreferences.TimePreference
             android:defaultValue="8:00"
             android:key="notif_hour"
             android:title="Godzina" />
 
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Inne">
-
+    <PreferenceCategory android:title="Informacje">
+        <Preference
+            android:key="mnjk"
+            android:title="Dni tygodnia" />
+        <PreferenceScreen
+            android:key="rgthe"
+            android:selectable="false"
+            android:summary="Marcin Hanas"
+            android:title="Informacje o twórcy" />
+        <Preference
+            android:key="contactDevKey"
+            android:summary="Jeśli masz jakieś problemy, sugestie, poinformuj o nich w wiadomości."
+            android:title="Napisz wiadomość">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/contact_developer_uri">
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Opinie o aplikacji &#34;Dni do matury&#34;"/>
+            </intent>
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

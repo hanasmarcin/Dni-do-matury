@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -30,18 +31,17 @@ import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private Fragment fragment;
-    private Context context;
-    private ExamItemsList<Task> tasksList;
-    //private final int darkColorID;
+    private final Fragment fragment;
+    private final Context context;
+    private final ExamItemsList<Task> tasksList;
+    private final int darkColorID;
 
 
-    public TaskAdapter(Fragment fragment, ExamItemsList<Task> tasks) {
+    TaskAdapter(Fragment fragment, ExamItemsList<Task> tasks, @ColorRes int darkColorID) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.tasksList = tasks;
-        //this.darkColorID = darkColorID;
-        //tasks.sort();
+        this.darkColorID = darkColorID;
     }
 
     @NonNull
@@ -67,7 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             taskViewHolder.setCardPropertiesForTask(task);
 
             //Set listener for the card
-            taskViewHolder.mCardView.setOnClickListener(view ->
+            taskViewHolder.cardView.setOnClickListener(view ->
                     new MyAsync(this, taskViewHolder.getAdapterPosition(), task).execute((TasksList) tasksList));
         }
     }
@@ -115,7 +115,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public class TaskViewHolder extends RecyclerView.ViewHolder
             implements ExamSpecificAdapterContextMenuListener {
 
-        private CardView mCardView;
+        private CardView cardView;
         private ImageView stateImage;
         private TextView taskName;
         private TextView taskDate;
@@ -126,7 +126,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TaskViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            mCardView = itemView.findViewById(R.id.to_do_card_view);
+            cardView = itemView.findViewById(R.id.to_do_card_view);
             stateImage = itemView.findViewById(R.id.state_image);
             taskName = itemView.findViewById(R.id.task_name);
             taskDate = itemView.findViewById(R.id.task_date);
@@ -151,26 +151,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public boolean onMenuDeleteClick(int viewHolderID) {
             tasksList.remove(viewHolderID);
             notifyItemRemoved(viewHolderID);
-
-            //notifyDataSetChanged();
             return true;
         }
 
         private void setCardPropertiesForHeader(int adapterId) {
             layoutToHide.setVisibility(View.GONE);
-            mCardView.setCardBackgroundColor(View.INVISIBLE);
-            mCardView.setCardElevation(0);
+            cardView.setCardBackgroundColor(View.INVISIBLE);
+            cardView.setCardElevation(0);
             taskHeader.setVisibility(View.VISIBLE);
             taskHeader.setText(adapterId == 0 ? "Do zrobienia" : "Zrobione");
-            mCardView.setEnabled(false);
+            cardView.setEnabled(false);
         }
 
         private void setCardPropertiesForTask(Task task) {
             taskHeader.setVisibility(View.GONE);
             layoutToHide.setVisibility(View.VISIBLE);
-            mCardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_surface));
-            mCardView.setCardElevation(5.25F);
-            mCardView.setEnabled(true);
+            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_surface));
+            cardView.setCardElevation(5.25F);
+            cardView.setEnabled(true);
             stateImage.setImageResource(task.isDone() ? R.drawable.ic_clear : R.drawable.ic_confirm);
             taskName.setText(task.getTaskName());
             taskDate.setText(task.getTaskDateText());
@@ -181,7 +179,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 taskName.setPaintFlags(taskName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
                 // Set card properties for task that isn't done
-                //stateImage.setColorFilter(ContextCompat.getColor(context, darkColorID));
+                stateImage.setColorFilter(ContextCompat.getColor(context, darkColorID));
                 taskName.setTextColor(context.getResources().getColor(android.R.color.primary_text_light));
                 taskName.setPaintFlags(taskName.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
             }

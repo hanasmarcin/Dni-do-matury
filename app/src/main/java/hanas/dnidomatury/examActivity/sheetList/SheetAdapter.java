@@ -36,7 +36,7 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
     private ExamItemsList<Sheet> sheetsList;
     private CoordinatorLayout examCoordinator;
 
-    public SheetAdapter(Fragment fragment, ExamItemsList<Sheet> sheets, CoordinatorLayout examCoordinator) {
+    SheetAdapter(Fragment fragment, ExamItemsList<Sheet> sheets, CoordinatorLayout examCoordinator) {
         this.fragment = fragment;
         this.context = fragment.getActivity();
         this.sheetsList = sheets;
@@ -109,7 +109,6 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
         public boolean onMenuDeleteClick(int adapterPosition) {
             sheetsList.remove(adapterPosition);
             notifyItemRemoved(adapterPosition);
-            notifyDataSetChanged();
             return true;
         }
 
@@ -130,7 +129,7 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
             sheetName.setText(sheet.getSheetName());
             sheetDate.setText(sheet.getSheetDateText());
             percentage.setText(scoreString);
-            progressBar.setProgress(percentScore);
+            progressBar.setProgressWithAnimation(percentScore);
         }
     }
 }
