@@ -11,11 +11,11 @@ import hanas.dnidomatury.model.fileSupport.FileSupported;
 import hanas.dnidomatury.model.exam.Exam;
 
 import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
-import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.NOT;
 import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, Serializable {
 
+    private static final long serialVersionUID = 42L;
     public final static String FILE_SUFFIX = "taskslist";
     private transient TasksCounter counter;
 
@@ -81,6 +81,13 @@ public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, S
         super.add(index, task);
         task.addObserver((observable, isDone) -> this.counter.updateCounter((boolean) isDone));
         if (!task.isDone() && counter != null) counter.incrementCounter();
+    }
+
+    @Override
+    public Task remove(int index) {
+        Task task = super.remove(index);
+        if (!task.isDone() && counter != null) counter.decrementCounter();
+        return task;
     }
 
     @Override

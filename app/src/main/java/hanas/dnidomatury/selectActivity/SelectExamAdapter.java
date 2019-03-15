@@ -1,13 +1,10 @@
 package hanas.dnidomatury.selectActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
@@ -96,19 +93,20 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
 
     @Override
     public void onItemDismiss(final int position) {
-        final Exam deletedExam = mFullExamList.remove(position);
-        notifyItemRemoved(position);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(selectActivity);
         dialogBuilder.setMessage("Usunięto maturę. Czy usunąć również dane z nią powiązane (listę zadań, arkuszy, dodatkowe informacje");
         dialogBuilder.setPositiveButton("USUŃ DANE", (dialogInterface, i) -> {
+            final Exam deletedExam = mFullExamList.remove(position);
+            notifyItemRemoved(position);
             FileSupported.deleteFile(selectActivity, deletedExam, TasksList.FILE_SUFFIX);
             FileSupported.deleteFile(selectActivity, deletedExam, SheetsList.FILE_SUFFIX);
             FileSupported.deleteFile(selectActivity, deletedExam, ExamAdditionalInfo.FILE_SUFFIX);
         });
-        dialogBuilder.setNeutralButton("ANULUJ", (dialogInterface, i) -> {});
+        dialogBuilder.setNeutralButton("ANULUJ", (dialogInterface, i) -> {
+        });
         dialogBuilder.setNegativeButton("POZOSTAW DANE", (dialogInterface, i) -> {
-            mFullExamList.add(position, deletedExam);
-            notifyItemInserted(position);
+            mFullExamList.remove(position);
+            notifyItemRemoved(position);
         });
         dialogBuilder.create().show();
     }

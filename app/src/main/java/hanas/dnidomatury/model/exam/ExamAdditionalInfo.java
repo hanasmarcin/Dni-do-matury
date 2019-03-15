@@ -22,15 +22,10 @@ public class ExamAdditionalInfo extends Observable implements Serializable, File
     private String room;
     private String person;
     private String extra;
-    private String fileTitle;
 
     @Override
     public String getFileSuffix() {
         return FILE_SUFFIX;
-    }
-
-    public ExamAdditionalInfo(String maturaName, String maturaType, String maturaLevel) {
-        this.fileTitle = String.format("%s_%s_%s_info", maturaName, maturaLevel, maturaType);
     }
 
     public void set(String time, String room, String person, String extra) {
@@ -67,43 +62,4 @@ public class ExamAdditionalInfo extends Observable implements Serializable, File
         return info;
     }
 
-//    public void saveToFile(Context context) {
-//
-//        try {
-//            FileOutputStream fileOut = context.openFileOutput(fileTitle, Context.MODE_PRIVATE);
-//            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-//            objectOut.writeObject(this);
-//            objectOut.close();
-//        }
-//        catch(IOException ex){
-//            ex.printStackTrace();
-//        }
-//    }
-//
-//    private static boolean fileExists(Context context, String filename) {
-//        File file = context.getFileStreamPath(filename);
-//        return file != null && file.exists();
-//    }
-//
-//
-//    public ExamAdditionalInfo readFromFile(Context context) {
-//        try {
-//            if (fileExists(context, fileTitle)) {
-//                FileInputStream fileIn = context.openFileInput(fileTitle);
-//                ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-//
-//                ExamAdditionalInfo obj = (ExamAdditionalInfo) objectIn.readObject();
-//                objectIn.close();
-//                return obj;
-//            }
-//            else {
-//                return new ExamAdditionalInfo(fileTitle);
-//            }
-//
-//        }
-//        catch(Exception ex){
-//            ex.printStackTrace();
-//        }
-//        return new ExamAdditionalInfo(fileTitle);
-//    }
 }

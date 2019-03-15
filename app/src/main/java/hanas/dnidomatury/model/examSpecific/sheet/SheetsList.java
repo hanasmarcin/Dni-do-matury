@@ -41,6 +41,13 @@ public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>
     }
 
     @Override
+    public Sheet remove(int index) {
+        Sheet sheet = super.remove(index);
+        average.subtract(sheet.getPoints(), sheet.getMaxPoints());
+        return sheet;
+    }
+
+    @Override
     public boolean remove(Object sheet) {
         if (super.remove(sheet)) {
             average.subtract(((Sheet) sheet).getPoints(), ((Sheet) sheet).getMaxPoints());

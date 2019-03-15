@@ -4,7 +4,10 @@ package hanas.dnidomatury.model.examSpecific.task;
 import java.io.Serializable;
 import java.util.Observable;
 
-import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.*;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
+import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.NOT;
 
 public class TasksCounter extends Observable implements Serializable {
     private long counter = 0;
@@ -38,9 +41,10 @@ public class TasksCounter extends Observable implements Serializable {
         notifyObservers(counter);
     }
 
-    public void setCounter(TasksList list) {
+    public void setCounter(ExamItemsList<Task> list) {
         counter = 0;
         for (Task task : list) {
+            System.out.println("TASK COUNTER" + counter);
             if (task.getHeader().equals(NOT)) counter++;
             else if (task.getHeader().equals(DONE)) break;
         }

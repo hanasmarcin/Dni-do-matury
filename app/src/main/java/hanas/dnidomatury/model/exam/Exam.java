@@ -10,8 +10,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import hanas.dnidomatury.model.examSpecific.ExamItemsList;
+import hanas.dnidomatury.model.examSpecific.sheet.Sheet;
 import hanas.dnidomatury.model.examSpecific.sheet.SheetsAverage;
+import hanas.dnidomatury.model.examSpecific.sheet.SheetsList;
+import hanas.dnidomatury.model.examSpecific.task.Task;
 import hanas.dnidomatury.model.examSpecific.task.TasksCounter;
+import hanas.dnidomatury.model.examSpecific.task.TasksList;
 
 public class Exam implements Comparable<Exam>, Serializable {
 
@@ -100,12 +105,16 @@ public class Exam implements Comparable<Exam>, Serializable {
     }
 
 
-    public void setNewTasksCounter() {
+    public void setNewTasksCounter(Context context) {
         this.tasksCounter = new TasksCounter();
+        ExamItemsList<Task> tasks = TasksList.fromFile(context, this);
+        tasksCounter.setCounter(tasks);
     }
 
-    public void setNewSheetsAverage() {
+    public void setNewSheetsAverage(Context context) {
         this.sheetsAverage = new SheetsAverage();
+        ExamItemsList<Sheet> sheets = SheetsList.fromFile(context, this);
+        sheetsAverage.setAverage(sheets);
     }
 
 }
