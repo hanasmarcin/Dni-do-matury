@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -20,8 +19,8 @@ public class TimePreference extends DialogPreference {
     //private int lastHour=0;
     //private int lastMinute=0;
     private TimePicker picker = null;
-    private Calendar lastCalendar;
-    private DateFormat sdf = new SimpleDateFormat("H:mm", Locale.getDefault());
+    private final Calendar lastCalendar;
+    private final DateFormat sdf = new SimpleDateFormat("H:mm", Locale.getDefault());
 
     public TimePreference(Context ctxt, AttributeSet attrs) {
         super(ctxt, attrs);
@@ -48,8 +47,6 @@ public class TimePreference extends DialogPreference {
     protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
         picker.setIs24HourView(true);
-        Toast.makeText(getContext(), lastCalendar.toString(), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(getContext(), lastCalendar.get(Calendar.AM_PM)+" wtf", Toast.LENGTH_SHORT).show();
         picker.setCurrentHour(lastCalendar.get(Calendar.HOUR_OF_DAY));
         picker.setCurrentMinute(lastCalendar.get(Calendar.MINUTE));
     }
@@ -61,9 +58,7 @@ public class TimePreference extends DialogPreference {
         if (positiveResult) {
             lastCalendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             lastCalendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-            //lastCalendar.set(Calendar.AM_PM, Calendar.AM);
             String time = sdf.format(lastCalendar.getTime());
-            Toast.makeText(getContext(), time, Toast.LENGTH_SHORT).show();
             if (callChangeListener(time)) {
                 persistString(time);
             }
@@ -84,7 +79,6 @@ public class TimePreference extends DialogPreference {
                 time = getPersistedString("0:00");
             } else {
                 time = getPersistedString(defaultValue.toString());
-                Toast.makeText(getContext(), getPersistedString(defaultValue.toString()) + "eh", Toast.LENGTH_SHORT).show();
             }
         } else {
             time = defaultValue.toString();

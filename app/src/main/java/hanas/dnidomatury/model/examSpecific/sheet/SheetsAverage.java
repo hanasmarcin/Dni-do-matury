@@ -6,6 +6,8 @@ import java.util.Observable;
 import hanas.dnidomatury.model.examSpecific.ExamItemsList;
 
 public class SheetsAverage extends Observable implements Serializable {
+
+    private static final long serialVersionUID = 8912L;
     private double percentageSum;
     private double sheetsCounter;
 
@@ -52,7 +54,6 @@ public class SheetsAverage extends Observable implements Serializable {
         percentageSum = 0;
         sheetsCounter = 0;
         for (Sheet element : sheets) {
-            System.out.println("PERCENTAGE SUM: "+percentageSum);
             percentageSum += element.getPoints() / element.getMaxPoints() * 100;
             sheetsCounter++;
         }

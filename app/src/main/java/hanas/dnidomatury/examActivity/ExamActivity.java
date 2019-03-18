@@ -18,6 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -36,11 +38,10 @@ import hanas.dnidomatury.model.exam.SelectedExamsList;
 
 public class ExamActivity extends AppCompatActivity {
 
-    Exam mSelectedExam;
-    int selectedExamPOS;
-    ExamsList mListOfExam;
+    private Exam mSelectedExam;
+    private int selectedExamPOS;
 
-    DataViewModel data;
+    private DataViewModel data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,8 @@ public class ExamActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             selectedExamPOS = bundle.getInt("selectedExamPOS");
-            mListOfExam = SelectedExamsList.getInstance(this);
-            mSelectedExam = mListOfExam.get(selectedExamPOS);
+            ExamsList listOfExam = SelectedExamsList.getInstance(this);
+            mSelectedExam = listOfExam.get(selectedExamPOS);
         } else return;
 
 
@@ -75,6 +76,7 @@ public class ExamActivity extends AppCompatActivity {
 
     private void setDatesOnView() {
         TextView daysTimer = findViewById(R.id.days_timer_exam_activity);
+        TextView daysTitle = findViewById(R.id.days_title_exam);
         TextView hmsTimer = findViewById(R.id.hms_timer_exam_activity);
         TextView monthView = findViewById(R.id.info_month_pre_data);
         TextView dayView = findViewById(R.id.into_day_pre_data);
@@ -103,8 +105,8 @@ public class ExamActivity extends AppCompatActivity {
     }
 
     static class ReadDataAsyncTask extends AsyncTask<DataViewModel, Void, SectionsPagerAdapter> {
-        private WeakReference<ExamActivity> activityReference;
-        int selectedExamPOS;
+        private final WeakReference<ExamActivity> activityReference;
+        final int selectedExamPOS;
 
         // Only retain a weak reference to the activity
         ReadDataAsyncTask(ExamActivity context, int selectedExamPOS) {
@@ -120,7 +122,6 @@ public class ExamActivity extends AppCompatActivity {
             ConstraintLayout preDataLayout = a.findViewById(R.id.pre_data_view);
             preDataLayout.setVisibility(View.VISIBLE);
             mViewPager.setVisibility(View.INVISIBLE);
-            System.out.println("ustawiono visibility viewpagera");
         }
 
         @Override
@@ -138,9 +139,8 @@ public class ExamActivity extends AppCompatActivity {
                 ConstraintLayout preDataLayout = a.findViewById(R.id.pre_data_view);
                 preDataLayout.setVisibility(View.GONE);
             });
-            return new
-
-                    SectionsPagerAdapter(a.getSupportFragmentManager(), selectedExamPOS);
+            SectionsPagerAdapter newAdapter = new SectionsPagerAdapter(a.getSupportFragmentManager(), selectedExamPOS);
+            return newAdapter;
         }
 
         @Override
@@ -149,6 +149,50 @@ public class ExamActivity extends AppCompatActivity {
             ExamActivity a = activityReference.get();
             if (a == null || a.isFinishing()) return;
             ViewPager mViewPager = a.findViewById(R.id.container);
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    TextView daysTimer = a.findViewById(R.id.days_timer_exam_activity);
+                    TextView daysTitle = a.findViewById(R.id.days_title_exam);
+                    TextView hmsTimer = a.findViewById(R.id.hms_timer_exam_activity);
+                    TextView listHeader = a.findViewById(R.id.list_header_exam);
+                    switch (position) {
+                        case 0 : {
+                            daysTimer.setVisibility(View.GONE);
+                            daysTitle.setVisibility(View.GONE);
+                            hmsTimer.setVisibility(View.GONE);
+                            listHeader.setVisibility(View.VISIBLE);
+                            listHeader.setText("Lista arkuszy");
+                            break;
+                        }
+                        case 1 : {
+                            daysTimer.setVisibility(View.VISIBLE);
+                            daysTitle.setVisibility(View.VISIBLE);
+                            hmsTimer.setVisibility(View.VISIBLE);
+                            listHeader.setVisibility(View.GONE);
+                            break;
+                        }
+                        case 2 : {
+                            daysTimer.setVisibility(View.GONE);
+                            daysTitle.setVisibility(View.GONE);
+                            hmsTimer.setVisibility(View.GONE);
+                            listHeader.setVisibility(View.VISIBLE);
+                            listHeader.setText("Lista zadań");
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
             mViewPager.setOffscreenPageLimit(2);
             mViewPager.setAdapter(newAdapter);
             mViewPager.setCurrentItem(1);
@@ -170,10 +214,10 @@ public class ExamActivity extends AppCompatActivity {
 
     static class SaveDataAsyncTask extends AsyncTask<Integer, Integer, Integer> {
 
-        private WeakReference<ExamActivity> activityReference;
+        private final WeakReference<ExamActivity> activityReference;
         private FileOutputStream[] fileOutputStreams;
         DataViewModel data;
-        private Exam exam;
+        private final Exam exam;
 
         // only retain a weak reference to the activity
         SaveDataAsyncTask(ExamActivity activity, Exam exam) {
@@ -202,9 +246,9 @@ public class ExamActivity extends AppCompatActivity {
     }
 
     // Custom FragmentPagerAdapter that returns a fragment corresponding to one of the tabs
-    public static class SectionsPagerAdapter extends FragmentPagerAdapter {
+    protected static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        int selectedExamPOS;
+        final int selectedExamPOS;
 
         SectionsPagerAdapter(FragmentManager fm, int selectedExamPOS) {
             super(fm);
@@ -215,7 +259,6 @@ public class ExamActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            System.out.println(position);
             switch (position) {
                 case 0: {
                     return SheetListFragment.newInstance();

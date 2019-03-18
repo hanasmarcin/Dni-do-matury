@@ -80,7 +80,7 @@ public class ExamInfoFragment extends Fragment {
                 if (tasksCounter != null) updateSheetData((double) average);
             });
 
-        } else System.out.println("BUNDLENULL");
+        }
     }
 
     @Override

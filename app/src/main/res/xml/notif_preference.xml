@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Powiadomienia">
 
@@ -31,25 +30,26 @@
 
     </PreferenceCategory>
     <PreferenceCategory android:title="Informacje">
-        <Preference
+        <PreferenceScreen
             android:key="mnjk"
+            android:summary="wersja: 1.0"
             android:title="Dni tygodnia" />
         <PreferenceScreen
             android:key="rgthe"
-            android:selectable="false"
             android:summary="Marcin Hanas"
-            android:title="Informacje o twórcy" />
-        <Preference
+            android:title="Twórca aplikacji" />
+        <PreferenceScreen
             android:key="contactDevKey"
             android:summary="Jeśli masz jakieś problemy, sugestie, poinformuj o nich w wiadomości."
             android:title="Napisz wiadomość">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/contact_developer_uri">
+                <!--suppress AndroidElementNotAllowed -->
                 <extra
                     android:name="android.intent.extra.SUBJECT"
-                    android:value="Opinie o aplikacji &#34;Dni do matury&#34;"/>
+                    android:value="Opinie o aplikacji &#34;Dni do matury&#34;" />
             </intent>
-        </Preference>
+        </PreferenceScreen>
     </PreferenceCategory>
 </PreferenceScreen>

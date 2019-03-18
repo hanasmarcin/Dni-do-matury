@@ -8,21 +8,34 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/add_task_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_weight="1"
+        android:text="Dodaj zadanie"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle" />
+
+    <TextView
         android:id="@+id/add_task_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Brak daty" />
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:paddingStart="1dp"
+        android:text="Brak daty"
+        android:textColor="#9b9b9b"
+        android:textSize="12sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="20dp"
         app:boxBackgroundColor="?colorPrimaryDark"
         app:boxStrokeColor="?colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +46,6 @@
             android:id="@+id/add_task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:hint="Nazwa zadania"
             android:inputType="text"
             android:maxLines="1" />
@@ -52,9 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="Dodaj zadanie"
+            android:layout_marginEnd="11dp"
+            android:layout_marginBottom="8dp"
+            android:text="Zatwierdź"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +89,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="11dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"

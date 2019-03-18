@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import hanas.dnidomatury.R;
+
 final public class ExamTimer {
 
     private long difSeconds;
@@ -19,7 +21,7 @@ final public class ExamTimer {
         return timer;
     }
 
-    public long getMillisDiff(Calendar startDate, Calendar endDate){
+    public static long getMillisDiff(Calendar startDate, Calendar endDate){
         return endDate.getTimeInMillis() - startDate.getTimeInMillis();
     }
 
@@ -45,7 +47,8 @@ final public class ExamTimer {
 
             //nadpisywanie funkcji mowiacej, co ma robic program gdy odliczanie sie skonczy
             public void onFinish() {
-                //Toast.makeText(context, "aaa", Toast.LENGTH_SHORT).show();
+                daysTimer.setText("0");
+                hmsTimer.setText(R.string.after_exam_msg);
             }
 
         };

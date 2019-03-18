@@ -7,7 +7,8 @@ import androidx.annotation.NonNull;
 import hanas.dnidomatury.model.examSpecific.ExamItem;
 
 public class Sheet extends Observable implements ExamItem {
-    //private int taskID;
+
+    private static final long serialVersionUID = 2268L;
     private String sheetName;
     private Calendar sheetDate;
     private double points;

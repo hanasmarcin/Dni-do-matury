@@ -31,9 +31,9 @@ import hanas.dnidomatury.touchHelper.ItemTouchHelperViewHolder;
 public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.FullListExamViewHolder>
         implements ItemTouchHelperAdapter {
 
-    private FragmentActivity selectActivity;
-    private ExamsList mFullExamList;
-    private boolean isClickable;
+    private final FragmentActivity selectActivity;
+    private final ExamsList mFullExamList;
+    private final boolean isClickable;
 
     public SelectExamAdapter(FragmentActivity selectActivity, ExamsList fullExamList, boolean isClickable) {
         this.selectActivity = selectActivity;
@@ -94,7 +94,8 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
     @Override
     public void onItemDismiss(final int position) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(selectActivity);
-        dialogBuilder.setMessage("Usunięto maturę. Czy usunąć również dane z nią powiązane (listę zadań, arkuszy, dodatkowe informacje");
+        dialogBuilder.setTitle("Usunięto maturę");
+        dialogBuilder.setMessage("Czy usunąć również dane z nią powiązane (listę zadań, arkuszy, dodatkowe informacje)?");
         dialogBuilder.setPositiveButton("USUŃ DANE", (dialogInterface, i) -> {
             final Exam deletedExam = mFullExamList.remove(position);
             notifyItemRemoved(position);
@@ -103,6 +104,10 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
             FileSupported.deleteFile(selectActivity, deletedExam, ExamAdditionalInfo.FILE_SUFFIX);
         });
         dialogBuilder.setNeutralButton("ANULUJ", (dialogInterface, i) -> {
+            final Exam deletedExam = mFullExamList.remove(position);
+            notifyItemRemoved(position);
+            mFullExamList.add(position, deletedExam);
+            notifyItemInserted(position);
         });
         dialogBuilder.setNegativeButton("POZOSTAW DANE", (dialogInterface, i) -> {
             mFullExamList.remove(position);
@@ -119,10 +124,10 @@ public class SelectExamAdapter extends RecyclerView.Adapter<SelectExamAdapter.Fu
 
     public class FullListExamViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        TextView everyListTitle;
-        TextView everyListPoziom;
-        CardView everyListCardView;
-        LinearLayout primaryColorField;
+        final TextView everyListTitle;
+        final TextView everyListPoziom;
+        final CardView everyListCardView;
+        final LinearLayout primaryColorField;
 
         FullListExamViewHolder(@NonNull View itemView) {
             super(itemView);

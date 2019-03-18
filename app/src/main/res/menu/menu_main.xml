@@ -8,12 +8,12 @@
         android:icon="@drawable/ic_pick"
         android:orderInCategory="100"
         android:title="Wybierz matury"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_settings"
         android:enabled="true"
-        android:icon="@drawable/outline_settings_24"
+        android:icon="@drawable/ic_settings"
         android:orderInCategory="100"
         android:title="Ustawienia powiadomień"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

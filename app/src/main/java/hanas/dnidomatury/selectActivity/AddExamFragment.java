@@ -65,7 +65,6 @@ public class AddExamFragment extends DialogFragment {
         args.putBoolean("isNew", false);
 
         AddExamFragment fragment = new AddExamFragment();
-        fragment.setStyle(STYLE_NORMAL, R.style.DialogWithTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,7 +75,6 @@ public class AddExamFragment extends DialogFragment {
         args.putBoolean("isNew", true);
 
         AddExamFragment fragment = new AddExamFragment();
-        fragment.setStyle(STYLE_NORMAL, R.style.DialogWithTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -109,6 +107,10 @@ public class AddExamFragment extends DialogFragment {
         fabPrimary = view.findViewById(R.id.fab);
         fabDark = view.findViewById(R.id.fab2);
         Button exit = view.findViewById(R.id.button_clear_new_task);
+        TextView title = view.findViewById(R.id.add_exam_title);
+
+        title.setText(isNew ? "Dodaj maturę" : "Edytuj maturę");
+
 
         // Set fields' values, if editedExam is being edited
         if (!isNew) {
@@ -341,6 +343,7 @@ public class AddExamFragment extends DialogFragment {
     private SpectrumDialog getColorDialog() {
         final SpectrumDialog.Builder colorDialogBuilder = new SpectrumDialog.Builder(getActivity())
                 .setColors(R.array.exam_colors)
+                .setTitle("Wybierz kolor matury")
                 .setDismissOnColorSelected(false)
                 .setOnColorSelectedListener((positiveResult, color) -> {
                     if (positiveResult) {

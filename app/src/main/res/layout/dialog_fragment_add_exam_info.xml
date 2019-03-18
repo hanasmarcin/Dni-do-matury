@@ -3,24 +3,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="top"
     android:orientation="vertical">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_marginBottom="8dp"
+        android:text="Dodaj informacje"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_weight="0"
             android:tint="@android:color/darker_gray"
@@ -32,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:minWidth="80000dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +50,6 @@
                 android:id="@+id/edit_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:hint="Godzina przybycia"
                 android:inputType="time"
                 android:maxLines="1" />
@@ -53,14 +60,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_weight="0"
             android:tint="@android:color/darker_gray"
@@ -72,7 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -80,8 +86,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_room"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_height="45dp"
                 android:hint="Sala"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -92,14 +97,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_weight="0"
             android:tint="@android:color/darker_gray"
@@ -111,7 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -120,7 +124,6 @@
                 android:id="@+id/edit_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:hint="Komisja"
                 android:inputType="text"
                 android:maxLines="2" />
@@ -131,14 +134,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_weight="0"
             android:tint="@android:color/darker_gray"
@@ -149,8 +152,6 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -159,8 +160,6 @@
                 android:id="@+id/edit_extra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Dodatkowe informacje"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -179,7 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="11dp"
             android:layout_marginBottom="8dp"
             android:text="Zatwierdź"
             app:layout_constraintBottom_toBottomOf="parent"

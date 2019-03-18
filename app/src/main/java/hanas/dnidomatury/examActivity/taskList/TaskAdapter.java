@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -19,10 +18,8 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import hanas.dnidomatury.R;
-import hanas.dnidomatury.examActivity.DataViewModel;
 import hanas.dnidomatury.examActivity.ExamSpecificAdapterContextMenuListener;
 import hanas.dnidomatury.model.examSpecific.ExamItemsList;
 import hanas.dnidomatury.model.examSpecific.task.Task;
@@ -77,9 +74,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class MyAsync extends AsyncTask<TasksList, Void, int[]> {
 
-        WeakReference<TaskAdapter> adapterReference;
-        int adapterPosition;
-        Task task;
+        final WeakReference<TaskAdapter> adapterReference;
+        final int adapterPosition;
+        final Task task;
 
         MyAsync(TaskAdapter adapter, int adapterPosition, Task task) {
             this.adapterReference = new WeakReference<>(adapter);
@@ -118,12 +115,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public class TaskViewHolder extends RecyclerView.ViewHolder
             implements ExamSpecificAdapterContextMenuListener {
 
-        private CardView cardView;
-        private ImageView stateImage;
-        private TextView taskName;
-        private TextView taskDate;
-        private TextView taskHeader;
-        private ConstraintLayout layoutToHide;
+        private final CardView cardView;
+        private final ImageView stateImage;
+        private final TextView taskName;
+        private final TextView taskDate;
+        private final TextView taskHeader;
+        private final ConstraintLayout layoutToHide;
 
 
         TaskViewHolder(@NonNull View itemView) {
@@ -153,7 +150,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         @Override
         public boolean onMenuDeleteClick(int viewHolderID) {
             tasksList.remove(viewHolderID);
-            Toast.makeText(context, "VHID "+tasksList.size(), Toast.LENGTH_SHORT).show();
             notifyItemRemoved(viewHolderID);
             return true;
         }

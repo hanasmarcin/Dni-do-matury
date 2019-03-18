@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Calendar;
-
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.model.exam.ExamsList;
 import hanas.dnidomatury.model.exam.SelectedExamsList;
@@ -65,9 +63,6 @@ public class ExamListFragment extends Fragment {
 
     @Override
     public void onPause() {
-        //selectedExams.get(0).getDate().setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
-        System.out.println(selectedExams.get(0).getDate());
-        System.out.println(Calendar.getInstance());
         selectedExams.toFile(getActivity(), true);
         super.onPause();
     }

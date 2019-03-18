@@ -20,7 +20,6 @@
         tools:layout_editor_absoluteY="25dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardView4"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -32,19 +31,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <FrameLayout
-                android:id="@+id/img_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?colorPrimary">
 
                 <ImageView
-                    android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/exam_background" />
 
                 <ImageView
-                    android:id="@+id/img_foreground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/exam_foreground"

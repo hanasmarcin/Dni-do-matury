@@ -10,11 +10,13 @@ import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
 import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class Task extends Observable implements ExamItem {
+
+    private static final long serialVersionUID = 2273L;
     private String taskName;
     private Calendar taskDate;
     private String taskDateText;
     private boolean isDone;
-    private TaskHeader header;
+    private final TaskHeader header;
 
     public void update(String taskName, String taskDateText) {
         this.taskName = taskName;

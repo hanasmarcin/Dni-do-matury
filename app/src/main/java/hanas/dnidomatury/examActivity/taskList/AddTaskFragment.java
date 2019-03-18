@@ -71,6 +71,9 @@ public class AddTaskFragment extends DialogFragment implements AddDate {
         Button addTaskButton = view.findViewById(R.id.button_add_task);
         Button addDateButton = view.findViewById(R.id.button_add_date_to_task);
         Button exit = view.findViewById(R.id.button_clear_new_task);
+        TextView title = view.findViewById(R.id.add_task_title);
+
+        title.setText(isNew ? "Dodaj zadanie" : "Edytuj zadanie");
 
         // Set fields' values
         if (!isNew) {

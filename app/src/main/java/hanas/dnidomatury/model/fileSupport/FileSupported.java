@@ -15,10 +15,7 @@ public interface FileSupported<T> {
 
     static boolean fileExists(final Context context, String fileTitle) {
         File file = context.getFileStreamPath(fileTitle);
-        if (file == null || !file.exists()) {
-            return false;
-        }
-        return true;
+        return file != null && file.exists();
     }
 
     static String getFileTitle(Exam exam, String fileSuffix) {
@@ -39,7 +36,7 @@ public interface FileSupported<T> {
         private final Context context;
         private final String fileTitle;
 
-        public FileReader(Context context, String fileTitle) {
+        FileReader(Context context, String fileTitle) {
             this.context = context;
             this.fileTitle = fileTitle;
         }
@@ -59,7 +56,7 @@ public interface FileSupported<T> {
             }
         }
 
-        public T getValue() {
+        T getValue() {
             return listFromFile;
         }
     }

@@ -67,7 +67,6 @@ public class AddSheetFragment extends DialogFragment implements AddDate {
                              Bundle savedInstanceState) {
         //Create fragment's view
         isNew = getArguments().getBoolean("isNew");
-        getDialog().setTitle(isNew ? "Dodaj zadanie" : "Edytuj zadanie");
 
         return inflater.inflate(R.layout.dialog_fragment_add_sheet, view);
     }
@@ -84,6 +83,9 @@ public class AddSheetFragment extends DialogFragment implements AddDate {
         addSheetButton = view.findViewById(R.id.button_add_sheet);
         Button addDateButton = view.findViewById(R.id.button_add_date_to_sheet);
         Button exit = view.findViewById(R.id.button_clear_new_sheet);
+        TextView title = view.findViewById(R.id.add_sheet_title);
+
+        title.setText(isNew ? "Dodaj arkusz" : "Edytuj arkusz");
 
         // Set fields' values
         if (!isNew) {

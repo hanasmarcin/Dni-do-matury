@@ -39,7 +39,6 @@ public class SheetListFragment extends Fragment {
 
     public static SheetListFragment newInstance() {
         // Create new fragment with variables passed via bundle
-        System.out.println(111);
         Bundle args = new Bundle();
         SheetListFragment fragment = new SheetListFragment();
         fragment.setArguments(args);
@@ -104,7 +103,6 @@ public class SheetListFragment extends Fragment {
         double points = bundle.getDouble("points");
         double maxPoints = bundle.getDouble("maxPoints");
         int sheetID = bundle.getInt("sheetID");
-        System.out.println(sheetName+sheetDateText+points+" "+maxPoints+sheetID);
         // Find the sheet, that needs to be edited
         Sheet editedSheet = sheetsList.get(sheetID);
         // Check, if it's date was edited

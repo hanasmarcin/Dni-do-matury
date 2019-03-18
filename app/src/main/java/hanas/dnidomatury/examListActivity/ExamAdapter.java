@@ -26,8 +26,8 @@ import hanas.dnidomatury.R;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder> {
 
-    private Context context;
-    private ExamsList mExamList;
+    private final Context context;
+    private final ExamsList mExamList;
 
     ExamAdapter(Context context, ExamsList selectedExamsList) {
         this.context = context;
@@ -65,6 +65,8 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
             ((Activity) view.getContext()).startActivityForResult(intent, 15);
         });
     }
+
+
 
     private void setCardProperties(ExamViewHolder viewHolder, Exam exam) {
         // Find exam's colors

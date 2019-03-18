@@ -31,10 +31,10 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
 
     private final static DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
-    private Fragment fragment;
-    private Context context;
-    private ExamItemsList<Sheet> sheetsList;
-    private CoordinatorLayout examCoordinator;
+    private final Fragment fragment;
+    private final Context context;
+    private final ExamItemsList<Sheet> sheetsList;
+    private final CoordinatorLayout examCoordinator;
 
     SheetAdapter(Fragment fragment, ExamItemsList<Sheet> sheets, CoordinatorLayout examCoordinator) {
         this.fragment = fragment;
@@ -87,15 +87,14 @@ public class SheetAdapter extends RecyclerView.Adapter<SheetAdapter.SheetViewHol
     public class SheetViewHolder extends RecyclerView.ViewHolder
             implements ExamSpecificAdapterContextMenuListener {
 
-        private CardView mCardView;
-        private TextView sheetName;
-        private TextView sheetDate;
-        private TextView percentage;
-        private CircularProgressBar progressBar;
+        private final CardView mCardView;
+        private final TextView sheetName;
+        private final TextView sheetDate;
+        private final TextView percentage;
+        private final CircularProgressBar progressBar;
 
         SheetViewHolder(@NonNull View itemView) {
             super(itemView);
-            System.out.println(getAdapterPosition());
             mCardView = itemView.findViewById(R.id.sheet_card_view);
             sheetName = itemView.findViewById(R.id.sheet_name);
             sheetDate = itemView.findViewById(R.id.sheet_date);

@@ -1,21 +1,19 @@
 package hanas.dnidomatury.selectActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import hanas.dnidomatury.R;
+import hanas.dnidomatury.model.exam.Exam;
 import hanas.dnidomatury.model.exam.ExamsFileSupportedList;
 import hanas.dnidomatury.model.exam.ExamsList;
-import hanas.dnidomatury.model.exam.Exam;
 import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.touchHelper.SimpleItemTouchHelperCallback;
 
@@ -33,7 +31,6 @@ public class SelectActivity extends AppCompatActivity implements AddExamFragment
 
         mListOfExam = SelectedExamsList.getInstance(this);
 
-        //final CoordinatorLayout coordinator = findViewById(R.id.full_coordinator);
         final RecyclerView recyclerView = findViewById(R.id.full_recycle_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -79,34 +76,33 @@ public class SelectActivity extends AppCompatActivity implements AddExamFragment
 
     @Override
     public void addExam(String name, String type, String level, String color, String examDateText) {
+
+        if (SelectedExamsList.getInstance(this).findExam(name, level, type) != null) {
+            Toast.makeText(this, "Taka matura już istnieje!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Exam newExam = ExamsFileSupportedList.fromFile(false, this).findExam(name, level, type);
-        if (color != null && newExam != null) {
+
+        if (color == null)
+            color = "Green";
+
+        if (newExam != null) {
             newExam.setColorScheme(color);
         }
-        if (type.contains("pisemn")) {
-            if (newExam != null) {
-                newExam.setNewTasksCounter(this);
-                newExam.setNewSheetsAverage(this);
-                mListOfExam.add(newExam);
-            }
-        } else {
 
-            try {
-                if (color == null)
-                    color = "Green";
+        if (newExam == null)
+            newExam = new Exam(name, level, type, examDateText, color);
 
-                mListOfExam.add((new Exam(name, level, type, examDateText, color)));
+        newExam.setNewTasksCounter(this);
+        newExam.setNewSheetsAverage(this);
+        mListOfExam.add(newExam);
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        adapter.notifyItemInserted(mListOfExam.size()-1);
+
+        adapter.notifyItemInserted(mListOfExam.size() - 1);
     }
 
     @Override
     public void editExam(String name, String type, String level, String color, String examDateText, int examPOS) {
-        //Toast.makeText(this, "Nie jest nowa!", Toast.LENGTH_SHORT).show();
         Exam oldExam = mListOfExam.findExam(name, level, type);
         if (color != null && oldExam != null) {
             oldExam.setColorScheme(color);

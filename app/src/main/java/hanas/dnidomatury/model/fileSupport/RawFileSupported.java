@@ -21,7 +21,7 @@ public interface RawFileSupported {
         private final String fileTitle;
         private final Type objType;
 
-        public RawFileReader(Context context, String fileTitle, Type objType) {
+        RawFileReader(Context context, String fileTitle, Type objType) {
             this.context = context;
             this.fileTitle = fileTitle;
             this.objType = objType;
@@ -30,12 +30,10 @@ public interface RawFileSupported {
         @Override
         public void run() {
             try {
-                System.out.println("plik istnieeejeeee");
                 InputStream inputStream = context.getResources().openRawResource(getRawFileId(fileTitle, context));
                 InputStreamReader inputReader = new InputStreamReader(inputStream, "utf-8");
                 BufferedReader reader = new BufferedReader(inputReader);
                 String listInString = reader.readLine();
-                System.out.println(listInString);
                 reader.close();
                 inputReader.close();
                 inputStream.close();
@@ -45,7 +43,7 @@ public interface RawFileSupported {
             }
         }
 
-        public T getValue() {
+        T getValue() {
             return listFromFile;
         }
     }

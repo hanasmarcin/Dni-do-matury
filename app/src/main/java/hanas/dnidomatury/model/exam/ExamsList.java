@@ -2,9 +2,11 @@ package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 
+import java.util.List;
+
 import hanas.dnidomatury.model.fileSupport.FileSupportedList;
 
-public interface ExamsList extends FileSupportedList<Exam> {
+public interface ExamsList extends FileSupportedList<Exam>, List<Exam> {
 
     //Exam remove(int index);
     boolean add(Exam newElement);

@@ -12,6 +12,7 @@ import hanas.dnidomatury.model.exam.Exam;
 
 public class SheetsList extends ArrayList<Sheet> implements ExamItemsList<Sheet>, Serializable {
 
+    private static final long serialVersionUID = 4302L;
     public static final String FILE_SUFFIX = "sheets";
     private transient SheetsAverage average;
 

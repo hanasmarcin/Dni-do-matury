@@ -14,12 +14,10 @@ public class ExamsFileSupportedList extends ArrayList<Exam> implements ExamsList
 
     public static ExamsFileSupportedList fromFile(boolean areSelected, Context context) {
         String fileTitle = getFileTitle(areSelected);
-        System.out.println(fileTitle);
         if (areSelected) {
             ExamsFileSupportedList list = FileSupported.fromFile(context, fileTitle);
             if (list != null) return list;
         }
-        System.out.println("lista byla null");
         return RawFileSupported.fromRawFile(context, fileTitle, ExamsFileSupportedList.class);
     }
 
@@ -43,12 +41,15 @@ public class ExamsFileSupportedList extends ArrayList<Exam> implements ExamsList
 
     @Override
     public Exam findExam(String examName, String examLevel, String examType) {
+        String levelSubstr = examLevel.substring(0, examLevel.length()-1);
+        String typeSubstr = examType.substring(0, examType.length()-1);
         for (Exam exam : this) {
-            if (exam.getName().equals(examName) && exam.getType().equals(examType) && exam.getLevel().equals(examLevel))
+            if (exam.getName().equals(examName) && exam.getType().contains(typeSubstr) && exam.getLevel().contains(levelSubstr))
                 return exam;
         }
         return null;
     }
+
 
     @Override
     public void swap(int fromPosition, int toPosition) {

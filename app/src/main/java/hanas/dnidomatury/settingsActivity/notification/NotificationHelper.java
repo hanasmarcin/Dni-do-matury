@@ -15,7 +15,7 @@ import androidx.annotation.RequiresApi;
 import hanas.dnidomatury.R;
 import hanas.dnidomatury.examListActivity.ExamListActivity;
 
-public class NotificationHelper extends ContextWrapper {
+class NotificationHelper extends ContextWrapper {
 
     private static final String NOTIF_CHANNEL_ID = "hanas.dnidomatury.CHANNEL";
     private static final String NOTIF_CHANNEL_NAME = "powiadomienia aplikacji \"Dni do matury\"";
@@ -35,7 +35,7 @@ public class NotificationHelper extends ContextWrapper {
         getManager().createNotificationChannel(dnidomaturyChannel);
     }
 
-    public NotificationManager getManager() {
+    private NotificationManager getManager() {
         if (manager == null)
             manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         return manager;

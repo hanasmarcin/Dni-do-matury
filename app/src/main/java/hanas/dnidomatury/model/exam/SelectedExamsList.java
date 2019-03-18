@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class SelectedExamsList implements Serializable {
 
+    private static final long serialVersionUID = 4029L;
     private volatile static ExamsList list;
 
     private SelectedExamsList() {}

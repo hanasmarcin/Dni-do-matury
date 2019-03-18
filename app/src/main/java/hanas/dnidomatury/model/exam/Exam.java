@@ -20,14 +20,15 @@ import hanas.dnidomatury.model.examSpecific.task.TasksList;
 
 public class Exam implements Comparable<Exam>, Serializable {
 
-    private String name;
-    private String level;
-    private String type;
+    private static final long serialVersionUID = 9739L;
+    private final String name;
+    private final String level;
+    private final String type;
     private Calendar date;
     private String primaryColor;
     private TasksCounter tasksCounter;
     private SheetsAverage sheetsAverage;
-    private transient static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+    private final transient static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
 
 
     public TasksCounter getTasksCounter() {
@@ -40,8 +41,13 @@ public class Exam implements Comparable<Exam>, Serializable {
 
     public Exam(String name, String level, String type, String dateText, String primaryColor) {
         this.name = name;
-        this.level = level;
-        this.type = type;
+        if (name.contains("Język")) {
+            this.level = level.substring(0, level.length() - 1) + "y";
+            this.type = type.substring(0, type.length() - 1) + "y";
+        } else {
+            this.level = level;
+            this.type = type;
+        }
         this.primaryColor = primaryColor;
         this.tasksCounter = new TasksCounter();
         this.sheetsAverage = new SheetsAverage();

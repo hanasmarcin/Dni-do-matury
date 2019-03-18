@@ -2,21 +2,14 @@ package hanas.dnidomatury.model.exam;
 
 import android.content.Context;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Observable;
 
-import hanas.dnidomatury.model.examSpecific.ExamItemsList;
-import hanas.dnidomatury.model.examSpecific.task.Task;
-import hanas.dnidomatury.model.examSpecific.task.TasksList;
 import hanas.dnidomatury.model.fileSupport.FileSupported;
 
 public class ExamAdditionalInfo extends Observable implements Serializable, FileSupported<ExamAdditionalInfo> {
+
+    private static final long serialVersionUID = 3891L;
     public static final String FILE_SUFFIX = "data";
     private String time;
     private String room;

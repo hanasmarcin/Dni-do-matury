@@ -5,18 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minWidth="360dp"
     android:orientation="vertical"
     android:paddingBottom="8dp">
 
     <TextView
-        android:id="@+id/add_task_date4"
+        android:id="@+id/add_exam_title"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="?dialogPreferredPadding"
+        android:layout_marginTop="?dialogPreferredPadding"
+        android:layout_marginEnd="?dialogPreferredPadding"
+        android:layout_weight="1"
+        android:text="Dodaj maturę"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.DialogWindowTitle" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="?dialogPreferredPadding"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="?dialogPreferredPadding"
-        android:text="Wybierz typ" />
+        android:paddingStart="1dp"
+        android:text="Wybierz typ"
+        android:textColor="#9b9b9b"
+        android:textSize="12sp" />
 
     <Spinner
         android:id="@+id/spinner3"
@@ -32,13 +44,15 @@
         tools:layout_editor_absoluteY="80dp" />
 
     <TextView
-        android:id="@+id/add_task_date2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="?dialogPreferredPadding"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="?dialogPreferredPadding"
-        android:text="Wybierz przedmiot" />
+        android:paddingStart="1dp"
+        android:text="Wybierz przedmiot"
+        android:textColor="#9b9b9b"
+        android:textSize="12sp" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -52,13 +66,15 @@
         tools:layout_editor_absoluteY="80dp" />
 
     <TextView
-        android:id="@+id/add_task_date3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="?dialogPreferredPadding"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="?dialogPreferredPadding"
-        android:text="Wybierz poziom" />
+        android:paddingStart="1dp"
+        android:text="Wybierz poziom"
+        android:textColor="#9b9b9b"
+        android:textSize="12sp" />
 
     <Spinner
         android:id="@+id/spinnerLevel"
@@ -75,7 +91,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,14 +106,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Wybierz datę" />
+                android:paddingStart="1dp"
+                android:text="Wybierz datę"
+                android:textColor="#9b9b9b"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/exam_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="hh"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.TextView.SpinnerItem" />
         </LinearLayout>
 
@@ -110,12 +129,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/add_task_date6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="end"
-                android:text="Wybierz kolorystykę" />
+                android:paddingEnd="1dp"
+                android:text="Wybierz kolorystykę"
+                android:textColor="#9b9b9b"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="152dp"
@@ -132,6 +153,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:longClickable="false"
+                    app:backgroundTint="#e0e0e0"
                     app:elevation="0dp"
                     app:fabSize="normal"
                     tools:layout_editor_absoluteX="16dp"
@@ -147,6 +169,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:longClickable="false"
+                    app:backgroundTint="#cfd0d1"
                     app:elevation="0dp"
                     app:fabSize="normal"
                     tools:layout_editor_absoluteX="16dp"
@@ -170,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="14dp"
+            android:layout_marginEnd="16dp"
             android:text="Zatwierdź"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -193,11 +216,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="Anuluj"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_add_date_to_task"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

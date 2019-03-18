@@ -20,7 +20,7 @@ public class DataViewModel extends ViewModel {
     private ExamItemsList<Task> tasks;
     private ExamItemsList<Sheet> sheets;
     private ExamAdditionalInfo info;
-    public ViewPagerLoadingState loadingState = new ViewPagerLoadingState();
+    public final ViewPagerLoadingState loadingState = new ViewPagerLoadingState();
 
     @ColorRes
     public int getColorID() {
@@ -39,7 +39,6 @@ public class DataViewModel extends ViewModel {
             isTaskListFragmentLoaded = taskListFragmentLoaded;
             boolean isViewPagerLoaded = isTaskListFragmentLoaded && isSheetListFragmentLoaded;
             setChanged();
-            System.out.println("task zaladowany)");
             notifyObservers(isViewPagerLoaded);
         }
 
@@ -47,7 +46,6 @@ public class DataViewModel extends ViewModel {
             isSheetListFragmentLoaded = sheetListFragmentLoaded;
             boolean isViewPagerLoaded = isTaskListFragmentLoaded && isSheetListFragmentLoaded;
             setChanged();
-            System.out.println("sheet zaladowany)");
             notifyObservers(isViewPagerLoaded);
         }
 

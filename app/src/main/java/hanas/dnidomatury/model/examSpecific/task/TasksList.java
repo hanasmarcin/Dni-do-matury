@@ -15,7 +15,7 @@ import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.TODO;
 
 public class TasksList extends ArrayList<Task> implements ExamItemsList<Task>, Serializable {
 
-    private static final long serialVersionUID = 42L;
+    private static final long serialVersionUID = 4201L;
     public final static String FILE_SUFFIX = "taskslist";
     private transient TasksCounter counter;
 

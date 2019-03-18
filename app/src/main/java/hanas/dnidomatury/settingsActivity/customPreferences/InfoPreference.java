@@ -1,16 +1,11 @@
 package hanas.dnidomatury.settingsActivity.customPreferences;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.NumberPicker;
 
-public class InfoPreference extends DialogPreference {
+class InfoPreference extends DialogPreference {
 
 
     public InfoPreference(Context context, AttributeSet attrs) {

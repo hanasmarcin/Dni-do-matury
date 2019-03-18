@@ -2,38 +2,33 @@ package hanas.dnidomatury.settingsActivity.notification;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.RequiresApi;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.RequiresApi;
 import androidx.collection.ArraySet;
-import hanas.dnidomatury.model.exam.ExamsList;
 import hanas.dnidomatury.model.exam.ExamTimer;
-import hanas.dnidomatury.examListActivity.ExamListActivity;
+import hanas.dnidomatury.model.exam.ExamsList;
 import hanas.dnidomatury.model.exam.SelectedExamsList;
 import hanas.dnidomatury.settingsActivity.SettingsFragment.Frequency;
-
-import static android.app.PendingIntent.FLAG_ONE_SHOT;
 
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -62,45 +57,41 @@ public class NotifJobService extends JobService {
                 notifDate.add(Calendar.DAY_OF_MONTH, 1);
 
 
-                switch (Frequency.getFrequency(notifFrequency)) {
-                    case DAILY: {
-                        if (notifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
-                            notifDate.add(Calendar.DAY_OF_MONTH, 1);
-                        break;
-                    }
-                    case WEEKLY: {
-                        Set<String> daysOfWeek = preferences.getStringSet("notif_days_of_week", new ArraySet<String>());
-
-                        if (notifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
-                            notifDate.add(Calendar.DAY_OF_MONTH, 1);
-                        while (!daysOfWeek.contains(dayOfWeekFormat.format(notifDate.getTime())))
-                            notifDate.add(Calendar.DAY_OF_MONTH, 1);
-                        break;
-                    }
-                    case MONTHLY: {
-                        int dayOfMonth = preferences.getInt("day_of_month", 1);
-
-                        if (dayOfMonth == notifDate.get(Calendar.DAY_OF_MONTH))
-                            notifDate.add(Calendar.MONTH, 1);
-                        else {
-                            notifDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                Frequency frequency = Frequency.getFrequency(notifFrequency);
+                if (frequency != null)
+                    switch (frequency) {
+                        case DAILY: {
                             if (notifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
-                                notifDate.add(Calendar.MONTH, 1);
+                                notifDate.add(Calendar.DAY_OF_MONTH, 1);
+                            break;
                         }
-                        break;
+                        case WEEKLY: {
+                            Set<String> daysOfWeek = preferences.getStringSet("notif_days_of_week", new ArraySet<>());
+
+                            if (notifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
+                                notifDate.add(Calendar.DAY_OF_MONTH, 1);
+                            while (!daysOfWeek.contains(dayOfWeekFormat.format(notifDate.getTime())))
+                                notifDate.add(Calendar.DAY_OF_MONTH, 1);
+                            break;
+                        }
+                        case MONTHLY: {
+                            int dayOfMonth = preferences.getInt("day_of_month", 1);
+
+                            if (dayOfMonth == notifDate.get(Calendar.DAY_OF_MONTH))
+                                notifDate.add(Calendar.MONTH, 1);
+                            else {
+                                notifDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                if (notifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
+                                    notifDate.add(Calendar.MONTH, 1);
+                            }
+                            break;
+                        }
                     }
-                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
-        Intent myIntent = new Intent(this, ExamListActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, myIntent, FLAG_ONE_SHOT);
-        /*while (data.firstNotifDate.getTimeInMillis() < Calendar.getInstance().getTimeInMillis())
-            data.firstNotifDate.setTimeInMillis(data.firstNotifDate.getTimeInMillis() + SettingsActivity.minimumLatency(data.notifFrequency));
-
-        data.saveToFile(this);*/
         long minimumLatency = notifDate.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
 
         jobScheduler =
@@ -112,7 +103,7 @@ public class NotifJobService extends JobService {
                 .build());
 
 
-        inboxStyleNotification(notifDate.getTime().toString());
+        inboxStyleNotification();
 
         jobFinished(jobParameters, false);
         return true;
@@ -123,31 +114,35 @@ public class NotifJobService extends JobService {
         return false;
     }
 
-    //private int SUMMARY_ID = 0;
-    //private String GROUP_KEY_MATURA_NOTIF = "hanas.dnidomatury.exam.notif";
 
-    private void inboxStyleNotification(String tytul) {
+    private void inboxStyleNotification() {
         int NOTIFICATION_ID = 1;
         ExamsList listOfExam = SelectedExamsList.getInstance(this);
         Notification.InboxStyle inboxNotifStyle = new Notification.InboxStyle();
-        long daysInMillisToFirstExam = new ExamTimer().getMillisDiff(Calendar.getInstance(), listOfExam.get(0).getDate());
-        long daysToFirstExam = TimeUnit.MILLISECONDS.toDays(daysInMillisToFirstExam);
         for (int i = 0; i < listOfExam.size(); i++) {
-            //if(!listOfExam.getListOfExam().get(i).isSelected()) continue;
-            long daysInMillis = new ExamTimer().getMillisDiff(Calendar.getInstance(), listOfExam.get(i).getDate());
+            long daysInMillis = ExamTimer.getMillisDiff(Calendar.getInstance(), listOfExam.get(i).getDate());
             long days = TimeUnit.MILLISECONDS.toDays(daysInMillis);
             inboxNotifStyle.addLine(listOfExam.get(i).getName() + " " + listOfExam.get(i).getLevel() + " - " + days + " dni");
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, new NotificationHelper(this).getDnidomaturyNotification(inboxNotifStyle)
-                //.setContentTitle("Pierwsza exam już za "+daysToFirstExam+" dni")
-                .setContentTitle(tytul)
-                .build());
+        if (notificationManager != null)
+            notificationManager.notify(NOTIFICATION_ID, new NotificationHelper(this).getDnidomaturyNotification(inboxNotifStyle)
+                    .setContentTitle("Pierwsza matura już za " + getDaysToFirstExam(listOfExam) + " dni")
+                    .build());
 
     }
 
-    private static DayOfWeek getDayOfWeek(String dayOfWeek) {
-        return null;
+    private long getDaysToFirstExam(ExamsList listOfExam) {
+        Long[] daysInMillisToExam = new Long[listOfExam.size()];
+        Calendar currentCal = Calendar.getInstance();
+        for (int i = 0; i < listOfExam.size(); i++) {
+            daysInMillisToExam[i] = ExamTimer.getMillisDiff(currentCal, listOfExam.get(i).getDate());
+        }
+
+
+        long daysInMillisToFirstExam = Collections.min(Arrays.asList(daysInMillisToExam));
+        return TimeUnit.MILLISECONDS.toDays(daysInMillisToFirstExam);
     }
+
 }

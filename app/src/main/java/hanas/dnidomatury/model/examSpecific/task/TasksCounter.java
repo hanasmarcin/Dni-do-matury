@@ -10,6 +10,8 @@ import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.DONE;
 import static hanas.dnidomatury.model.examSpecific.task.Task.TaskHeader.NOT;
 
 public class TasksCounter extends Observable implements Serializable {
+
+    private static final long serialVersionUID = 9811L;
     private long counter = 0;
 
     public long getCounter() {
@@ -44,7 +46,6 @@ public class TasksCounter extends Observable implements Serializable {
     public void setCounter(ExamItemsList<Task> list) {
         counter = 0;
         for (Task task : list) {
-            System.out.println("TASK COUNTER" + counter);
             if (task.getHeader().equals(NOT)) counter++;
             else if (task.getHeader().equals(DONE)) break;
         }

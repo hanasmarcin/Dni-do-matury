@@ -41,7 +41,6 @@ public class TaskListFragment extends Fragment {
 
     public static TaskListFragment newInstance() {
         // Create new fragment with variables passed via bundle
-        System.out.println(111);
         Bundle args = new Bundle();
         TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
