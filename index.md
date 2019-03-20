@@ -1,5 +1,8 @@
-## Welcome to GitHub Pages
-Tutaj mamy opisik wszystkiegooo
+## Poznaj aplikację "Dni do matury"
+Dzięki tej aplikacji, będziesz mógł zarządzać Swoimi przygotowaniami do matury. Umożliwia ona śledzenie, ile czasu pozostało ci do każdej z matur. Dzięki możliwości dodawania zadań oraz wyników rozwiązanych arkuszy do każdej matury, możesz kontrolować własne postępy i mieć do nich podgląd w każdej chwili. Powiadomienia przypomną ci, ile czasu masz jeszcze na przygotowania.
+
+## Zrzuty ekranu
+[Image](/Screenshot_1553041498.png)
 
 You can use the [editor on GitHub](https://github.com/hanas-marcin/Wlasne-Dnidomatury/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
