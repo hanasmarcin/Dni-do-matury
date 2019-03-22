@@ -8,10 +8,12 @@ Na ekranie głównym możesz obejrzeć wszystkie Twoje matury, ile zostało czas
   <img src="https://github.com/hanas-marcin/Dni-do-matury/blob/master/app_1.png?raw=true" alt="app_1" class="inline" height="600" align="middle"/>
 </p>
 ### Karta egzaminu
+Po wybraniu egzaminu na ekranie głównym, zostaniesz przeniesiony do karty egzaminu. W tym miejscu możesz obejrzeć oraz dodać szczegóły dotyczące matury, jak również edytować listy zadań oraz arkuszy - dodawać, usuwać oraz edytować elementy.
 <p align="center">
   <img src="https://github.com/hanas-marcin/Dni-do-matury/blob/master/app_2.png?raw=true" alt="app_2" class="inline" height="600" align="middle"/>
 </p>
 ### Ustawienia
+Na ekranie wyboru matur możesz edytować listę egzaminów - dodawać je, usuwać, edytować, oraz zmieniać ich kolejność. Na ekranie ustawień możliwe jest ustawienie powiadomień - ich częstotliwości oraz godziny.
 <p align="center">
   <img src="https://github.com/hanas-marcin/Dni-do-matury/blob/master/app_3.png?raw=true" alt="app_3" class="inline" height="600" align="middle"/>
 </p>
