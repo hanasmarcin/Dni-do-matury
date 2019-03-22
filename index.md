@@ -3,6 +3,7 @@ Dzięki tej aplikacji, będziesz mógł zarządzać Swoimi przygotowaniami do ma
 
 ## Opis aplikacji
 ### Lista matur
+Na ekranie głównym możesz obejrzeć wszystkie Twoje matury, ile zostało czasu, ile zadań masz do zrobienia oraz jaka jest średnia z napisanych arkuszy dla każdego egzaminu. Możliwe jest również podejrzenie, jak matury rozkładają się w czasie na kalendarzu.
 <p align="center">
   <img src="https://github.com/hanas-marcin/Dni-do-matury/blob/master/app_1.png?raw=true" alt="app_1" class="inline" height="600" align="middle"/>
 </p>
